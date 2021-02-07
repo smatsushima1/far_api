@@ -1,5 +1,3 @@
-#!/bin/bash
-
 PYTHON = python3
 
 init:

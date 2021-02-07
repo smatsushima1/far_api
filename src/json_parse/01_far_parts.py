@@ -3,35 +3,10 @@
 #   citation, but this doesn't seem necessary anymore
 # This will still stay in the file though...
 
-import os
-from os import path
 import json
+from functions import rem_file
 
-###############################################################################
-# FUNCTIONS
-
-# Add commas and convert to json
-def conv_json(file):
-  # Convert all dictionaries to strings, then add commas inbetween each object
-  with open(file, 'r') as jf:
-    contents = jf.read()
-    contents = contents.replace('}{', '},{')
-  # Overwrite old file with new changes as a list of strings
-  with open(file, 'w', encoding = 'utf8') as jf:
-    jf.write(contents)
-  # Finally, reconvert the file back to a json file
-  with open(file, 'r') as jf:
-    contents = json.load(jf)
-  with open(file, 'w', encoding = 'utf8') as jf:
-    json.dump(contents, jf, indent = 2)
-    
-###############################################################################
-# ADD DATA
-
-# Remove all file contents before writing anything, but only if it exists
-jname = os.path.basename(__file__).split('.')[0]
-jname = 'json/' + jname + '.json'
-if path.exists(jname): open(jname, 'w').close()
+jname = rem_file(__file__, 'json')
 
 # https://acqnotes.com/acqnote/careerfields/federal-acquisition-regulation-index
 far = [
@@ -90,48 +65,21 @@ far = [
        'Part 53-Forms'
       ]
 
-# Start writing to file
-with open(jname, 'w', encoding = 'utf8') as jf:
-  # Add open bracket before adding data through loop
-  jf.write('[')
-  # Perform multiple splits to separate the '-' and the spaces
-  for i in far:
-    spl1 = i.split('-')
-    fpart = spl1[0]
-    spl1 = fpart.split(' ')
-    fpart2 = spl1[1]
-    fpart3 = fpart + '-'
-    fname = i.replace(fpart3, '')
-    # Create dictionary to start adding values
-    d = {
-         'part': int(fpart2),
-         'name': str(fname)
-        }
-    json.dump(d, jf, indent = 2)
-  # Add closing brackets after for loop ends
-  jf.write(']')
+# Create empty list to add objects to
+dlist = []
+# Parse out the names
+for i in far:
+  spl = i.split('-')
+  part = spl[0]
+  name = spl[1]
+  fpart = part.split(' ')[1]
+  fname = name.replace(fpart + '-', '')
+  # Error checks
+  if 'RESERVED' in fname: fname = 'RESERVED'
+  # Append each formatted value as a dictionary into our list
+  dlist.append({'part': int(fpart), 'name': str(fname)})
 
-# At this stage, json files are actually lists with strings
-# This turns them into actual json files
-conv_json(jname)
-
+# Dump the contents into the file
+json.dump(dlist, open(jname, 'w', encoding = 'utf8'), indent = 2)  
 print('Finished pushing data to ' + jname)
-
-###############################################################################
-# CLEAN-UP DATA
-
-with open(jname, 'r') as jf:
-  data = json.load(jf)
-  for i in data:
-    # Replace original 'RESERVED' string to just one word
-    if 'RESERVED' in i['name']:
-      i['name'] = 'RESERVED'
-  # Save new data over the old data
-  data = data
-
-# New data overrites old data
-with open(jname, 'w', encoding = 'utf8') as jf:
-  json.dump(data, jf, indent = 2)
-
-print("Fished updating " + jname)
 

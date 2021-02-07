@@ -1,134 +1,134 @@
 [
   {
     "reg": "FAR",
-    "href": "/far"
+    "link": "/far"
   },
   {
     "reg": "Chapter 99 (CAS)",
-    "href": "/chapter_99"
+    "link": "/chapter_99"
   },
   {
     "reg": "DFARS",
-    "href": "/dfars"
+    "link": "/dfars"
   },
   {
     "reg": "DFARSPGI",
-    "href": "/dfarspgi"
+    "link": "/dfarspgi"
   },
   {
     "reg": "AFARS",
-    "href": "/afars"
+    "link": "/afars"
   },
   {
     "reg": "AFFARS",
-    "href": "/affars"
+    "link": "/affars"
   },
   {
     "reg": "DARS",
-    "href": "/dars"
+    "link": "/dars"
   },
   {
     "reg": "DLAD",
-    "href": "/dlad"
+    "link": "/dlad"
   },
   {
     "reg": "NMCARS",
-    "href": "/nmcars"
+    "link": "/nmcars"
   },
   {
     "reg": "SOFARS",
-    "href": "/sofars"
+    "link": "/sofars"
   },
   {
     "reg": "TRANSFARS",
-    "href": "/transfars"
+    "link": "/transfars"
   },
   {
     "reg": "AGAR",
-    "href": "/agar"
+    "link": "/agar"
   },
   {
     "reg": "AIDAR",
-    "href": "/aidar"
+    "link": "/aidar"
   },
   {
     "reg": "CAR",
-    "href": "/car"
+    "link": "/car"
   },
   {
     "reg": "DEAR",
-    "href": "/dears"
+    "link": "/dears"
   },
   {
     "reg": "DIAR",
-    "href": "/diar"
+    "link": "/diar"
   },
   {
     "reg": "DOLAR",
-    "href": "/dolar"
+    "link": "/dolar"
   },
   {
     "reg": "DOSAR",
-    "href": "/dosar"
+    "link": "/dosar"
   },
   {
     "reg": "DTAR",
-    "href": "/dtar"
+    "link": "/dtar"
   },
   {
     "reg": "EDAR",
-    "href": "/edar"
+    "link": "/edar"
   },
   {
     "reg": "EPAAR",
-    "href": "/epaar"
+    "link": "/epaar"
   },
   {
     "reg": "FEHBAR",
-    "href": "/fehbar"
+    "link": "/fehbar"
   },
   {
     "reg": "GSAM/R",
-    "href": "/gsam"
+    "link": "/gsam"
   },
   {
     "reg": "HHSAR",
-    "href": "/hhsar"
+    "link": "/hhsar"
   },
   {
     "reg": "HSAR",
-    "href": "/hsar"
+    "link": "/hsar"
   },
   {
     "reg": "HUDAR",
-    "href": "/hudar"
+    "link": "/hudar"
   },
   {
     "reg": "IAAR",
-    "href": "/iaar"
+    "link": "/iaar"
   },
   {
     "reg": "JAR",
-    "href": "/jar"
+    "link": "/jar"
   },
   {
     "reg": "LIFAR",
-    "href": "/lifar"
+    "link": "/lifar"
   },
   {
     "reg": "NFS",
-    "href": "/nfs"
+    "link": "/nfs"
   },
   {
     "reg": "NRCAR",
-    "href": "/nrcar"
+    "link": "/nrcar"
   },
   {
     "reg": "TAR",
-    "href": "/tar"
+    "link": "/tar"
   },
   {
     "reg": "VAAR",
-    "href": "/vaar"
+    "link": "/vaar"
   }
 ]

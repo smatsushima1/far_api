@@ -1,78 +1,34 @@
-# Start extracting links to the Parts and save href in json file
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Feb  7 12:15:39 2021
 
-import os
-from os import path
-import json
-from bs4 import BeautifulSoup as bsp
-import urllib as ul
-import re
-from functions import rem_file
+@author: smats
+"""
 
-rem_file(__file__, 'json')
-
-# print(__file__)
-
-
-
-
-
-
-
-
-
+lst = ['a', 'b', 1, 'c', 1, 2, 'ii', 'iv', 'xi', 3, 'A']
+for i in lst:
+     while True:
+          try:
+                print(i)
+                print(i.isalpha())
+                print('\n')
+                break
+          except:
+                print(i)
+                print('we got a problem...')
+                print('\n')
+                break
 
 
-
-#   # Add closing bracket to signify the end
-#   jf.write(']')
+# print(chr(ord(char) - 25))
 
 
+#charac = input()
 
+# if charac == "Z": # If Z encountered change to A
+#    print(chr(ord(charac)-25))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-# open the url and save it as an html object
-# resp = ul.request.urlopen(res)
-# html_res = resp.read()
-
-# turn it into html and parse out the content
-# text is always found in the <div id="middlecontent"> area on the webpage
-# soup = bsp(html_res, 'html.parser')
-# reg_txt = soup.find('div', id = 'middlecontent')
-
-# with open(hfile, 'w', encoding = 'utf8') as h:
-#   h.write(reg_txt.prettify())
-#   h.close()
-
-#print(reg_txt.prettify())
-# look into .extrar() for beautiful soup to extract contents in between tags
-# changin the names of tags and attributes
-
-
-
-
-
-# reg
-# part
-# subpart
-# section
-# http_link
-# html
-
-
-
-
-
-
+# else:
+#    change = ord(charac) + 1
+#    print(chr(change))
 

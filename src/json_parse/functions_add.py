@@ -15,7 +15,7 @@ def rem_file(fname, dname):
 
 
 def success_comp(fname):
-     print('Succesfully completed: ' + fname + '\n')
+    print('Succesfully completed: ' + fname + '\n')
      
      
 # Parse-out FAR part and its name
@@ -186,4 +186,74 @@ def add_to_dict(rlist, addr, reg_ind):
         ret_text = {'part': hpart, 'link': hlnk, 'html': 'N/A'}
         dlist.append(ret_text)
     return dlist
+
+
+# Find CSS sheets
+# Only one result found for 'autonumber', but not usable
+def search_css(search_text):
+    # First find CSS sheets
+    html = open('html/css_sheets.html', 'r').read()
+    # Turn it into html and parse out the content
+    soup = bsp(html, 'html.parser')
+    htext = soup.find_all('style')
+    # First add all values in list
+    list1 = []
+    for i in htext:
+        for j in i:
+            list1.append(j)
+    # Add the values of the previous list into another list
+    list2 = []
+    for k in list1:
+        res = k.split(';')
+        for l in res:
+            if l == '': continue
+            list2.append(l)
+    # Parse the html out of each item and save to a new list
+    list3 = []
+    for m in list2:
+        start = m.find('("') + len('("')
+        end = m.find('")')
+        link = m[start:end]
+        if link == '': continue
+        list3.append(link)
+    # Search in each link and print each result if it contains the styles
+    for n in list3:
+        html = ul.request.urlopen(n).read()
+        if search_text in str(html):
+            print('Results found in: ' + n)
+
+
+# Search through each script tag
+# No results found for 'autonumber'
+def search_jscripts(srch_text):
+    html = open('html/css_sheets.html', 'r').read()
+    # Turn it into html and parse out the content
+    soup = bsp(html, 'html.parser')
+    htext = soup.find_all('script')
+    # First add all values in list
+    list4 = []
+    for p in htext:
+        if p.attrs['src'].startswith('//code'): continue
+        list4.append(p.attrs['src'])
+    # Search for string inside each jscript file
+    for q in list4:
+        txt = ul.request.urlopen(q).read()
+        if srch_text in str(txt):
+            print('Results found in: ' + q)
+
+
+# The results of the searches suggest that the tags I'm looking for are
+# embedded somewhere else. If I can't find them anywhere, then the only
+# other way to go about this is to save everything as is and apply my own
+# tags. For obvious reasons, this would be much too impractical. It would
+# invovled:
+# - saving all the text as is, only find non-header tags, check to see if it
+# starts with an open parenthesis then go to the first close parenthesis
+#     - this would leave me to parse-out the paragraph
+#     - depending on what type of paragraph it is, it could require a specific
+#       indent
+#     - we already know the strucutre of the FAR, so this would be a simple test
+#     - they will always go a, 1, i, A, 1, I
+#     - knowing this would mean I can set-up indents based on what value this is
+
 

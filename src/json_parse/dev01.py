@@ -1,31 +1,9 @@
-# -*- coding: utf-8 -*-
-"""
-Spyder Editor
 
-This is a temporary script file.
-"""
+from functions_add import *
 
-import os
-from os import path
-import json
-from bs4 import BeautifulSoup as bsp
-import urllib as ul
-import re
+#search_css('autonumber')
+search_jscripts('autonumber')
 
-hname1 = 'html/04_part_href.html'
-hname2 = 'html/04_part_href2.html'
-#if path.exists(hname2): open(hname2, 'w').close()
-
-with open(hname2, 'r', encoding = 'utf8') as hn1:
-  contents = hn1.read()
-  soup = bsp(contents, 'html.parser')
-  res = soup.find_all('td', class_ = re.compile('.*part-number'))
-  for i in res:
-    hpart = i.get_text()
-    hpart = hpart.strip()
-    href = i.a['href']
-    href = href.strip()
-    print(str(hpart) + ' - ' + str(href))
 
 
 
@@ -47,6 +25,15 @@ with open(hname2, 'r', encoding = 'utf8') as hn1:
 # div class= 'body conbody'
 # *To pull data, get all get_text between two headings
 # *Each subsection gets its own division?
+#
+# Pararaphs
+# FAR will always be in this format per FAR 1.105-2:
+# (a)
+# (1)
+# (i)
+# (A)
+# (1)
+# (I)
 
 
 

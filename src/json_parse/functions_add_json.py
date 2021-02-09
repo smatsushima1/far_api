@@ -248,12 +248,12 @@ def search_jscripts(srch_text):
 # tags. For obvious reasons, this would be much too impractical. It would
 # invovled:
 # - saving all the text as is, only find non-header tags, check to see if it
-# starts with an open parenthesis then go to the first close parenthesis
-#     - this would leave me to parse-out the paragraph
-#     - depending on what type of paragraph it is, it could require a specific
-#       indent
-#     - we already know the strucutre of the FAR, so this would be a simple test
-#     - they will always go a, 1, i, A, 1, I
-#     - knowing this would mean I can set-up indents based on what value this is
+#   starts with an open parenthesis then go to the first close parenthesis
+# - this would leave me to parse-out the paragraph
+# - depending on what type of paragraph it is, it could require a specific
+#   indent
+# - we already know the strucutre of the FAR, so this would be a simple test
+# - they will always go a, 1, i, A, 1, I
+# - knowing this would mean I can set-up indents based on what value this is
 
 

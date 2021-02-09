@@ -1,10 +1,11 @@
 
-from functions_add import *
+from functions_add_json import *
 
 #search_css('autonumber')
-search_jscripts('autonumber')
+#search_jscripts('autonumber')
 
-
+str1 = 'i'
+if str1[0] in 'ivx': print('good')
 
 
 

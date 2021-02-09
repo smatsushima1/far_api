@@ -40,17 +40,86 @@ import re
 # htext = soup.find('div', class_ = 'reg-container clearfix')
 # res = htext.find_all('a')
 
-from dev03 import PCitation
-num = ['a', 'b', 'c', 1, 2, 3, 'd', 'e', 1, 'i', 'f']
-# print(len(num))
-# print(num[11])
-cdev = PCitation(num)
-for x, i in enumerate(num):
-    cdev.get_attributes(x)
+def return_d(citation, next_letter):
+    d = {
+        'citation': citation,
+        'next_letter': next_letter
+        # 'is_rnumeral': is_rom_numeral,
+        # 'prev_val_alpha': prev_is_alpha
+        }
+    print(d)
+    return d
 
-# lnum = 7
-# print(num[:lnum])
 
+
+
+from functions_mod_html import PCitation
+num = ['a', 'b', 1, 2, 'i', 'ii', 'iii', 'c', 1, 2, 'i', 'ii', 'iii', 3, 'd', \
+       'e', 1, 'i', 'ii', 'iii', 2, 'f', 'g', 'h', 1, 'i', 2, 3, 'i', 'j', 'k', 'l']
+
+# cdev = PCitation(num)
+# for x, i in enumerate(num):
+#     dev_attr = cdev.get_attributes(x)
+#     print(dev_attr)
+
+str1 = 'a'
+str2 = 'A'
+print(str2.isupper())
+
+if not str1.isupper() and str2.isupper():
+    print('yay')
+else:
+    print('nope')
+
+# # lnum = 5
+# # print(num[lnum:len(num)])
+# for ugh in range(len(num)):
+#     next_lett_alpha = False
+#     citation = num[ugh]
+#     if (ugh + 1) == len(num):
+#         next_letter = 'N/A'
+#         return_d(citation, next_letter)
+#         break
+#     # Dev testing if next leter is an alpha character
+#     for x, i in enumerate(num[(ugh + 1):len(num)]):
+#         # Last iteration of the loop assumes no alpha character
+#         # if (x + 1) == len(num):
+#         #     next_lett_alpha = False
+#         #     next_letter = 'N/A'
+#         #     continue
+#         # # Break the loop here so that it stop repeating
+#         # elif next_lett_alpha == True:
+#         #     break
+#         while True:
+#             # next_letter will only be saved if it runs true
+#             try:
+#                 i.isalpha()  
+#                 next_lett_alpha = True
+#                 next_letter = i
+#                 break
+#             except:
+#                 next_lett_alpha = False
+#                 next_letter = ''
+#                 break
+#         # print(str(x) + ' - ' + str(i) + ' - ' + str(next_letter) + ' - ' + str(next_lett_alpha))
+#         if next_lett_alpha == True:
+#             return_d(citation, next_letter)            
+#             break
+#         else:
+#             continue
+#         # Save data in a dictionary, and return it
+#         # d = {
+#         #     'citation': citation,
+#         #     'is_alpha': is_alpha,
+#         #     'is_rnumeral': is_rom_numeral,
+#         #     'prev_val_alpha': prev_is_alpha
+#         #     }
+
+
+
+
+
+# Dev testing if previous letter was an alpha character
 # prev_lalpha = False
 # for x, i in reversed(list(enumerate(num[:(lnum - 1)]))):
 #     # First iteration of the loop assumes no alpha character

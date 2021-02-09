@@ -57,19 +57,19 @@ from functions_mod_html import PCitation
 num = ['a', 'b', 1, 2, 'i', 'ii', 'iii', 'c', 1, 2, 'i', 'ii', 'iii', 3, 'd', \
        'e', 1, 'i', 'ii', 'iii', 2, 'f', 'g', 'h', 1, 'i', 2, 3, 'i', 'j', 'k', 'l']
 
-# cdev = PCitation(num)
-# for x, i in enumerate(num):
-#     dev_attr = cdev.get_attributes(x)
-#     print(dev_attr)
+cdev = PCitation(num)
+for x, i in enumerate(num):
+    dev_attr = cdev.get_attributes(x)
+    print(dev_attr)
 
-str1 = 'a'
-str2 = 'A'
-print(str2.isupper())
+# str1 = 'a'
+# str2 = 'A'
+# print(str2.isupper())
 
-if not str1.isupper() and str2.isupper():
-    print('yay')
-else:
-    print('nope')
+# if not str1.isupper() and str2.isupper():
+#     print('yay')
+# else:
+#     print('nope')
 
 # # lnum = 5
 # # print(num[lnum:len(num)])

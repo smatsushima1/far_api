@@ -2,7 +2,11 @@
 import json
 
 
-# Paragraphs
+
+
+
+# Create attributes for the paragraph citations listed
+# Paragraphs will be listed in the following format:
 # (a)
 # (1)
 # (i)
@@ -10,126 +14,59 @@ import json
 # (1)
 # (I)
 
+# Attributes:
+# lst: list of all paragraphs; returns list
+# lnum: list number, starts at 0; returns integer
+# citation: citation is pulled from the list number; returns string
+# is_alpha: checks if it is a letter; returns boolean
+# is_caps: checks if the letter is a capital letter; returns boolean
+# prev_value: previous value in the list; returns string
+# prev_is_alpha: if previous value is a letter; returns boolean
+# prev_letter: previous letter, skips over numbers; returns string
+# next_value: next value in the list; returns string
+# next_is_alpha: checks if next value is the list; returns boolean
+# next_value_len: length of next value; return int
+# is_rom_numeral = checks if previous letter was a roman numeral; returns boolean
 
-
-
-# Create attributes for the paragraphs listed
 class PCitation:
-    # lst: list of all paragraphs
-    #   Returns list
     def __init__(self, list_object):
         self.lst = list_object
-    
-    # Get attributes
-    # lnum: list number, starts at 0
-    #   Returns int
-    # citation: citation is pulled from the list number in the 
-    #   Returns string or int
+        
+    # Define all the attributes listed above
     def get_attributes(self, list_number):
         lnum = list_number
-        citation = self.lst[lnum]  
+        citation = str(self.lst[lnum])
+        is_alpha = citation.isalpha()
+        is_caps = citation.isupper()
         
-        # Check if it is an alpha character
-        # is_alpha: checks if it is a letter
-        #   Returns boolean or 'N/A'
-        # is_caps: checks if the letter is a capital letter
-        #   Returns boolean or 'N/A'
-        while True:
-            try:
-                citation.isalpha()
-                is_alpha = True
-                break
-            except:
-                is_alpha = False
-                break
-        if is_alpha and citation.isupper():
-            is_caps = True
-        else:
-            is_caps = False
-            
         # Previous value attributes
-        # prev_value: previous value in the list
-        #   Returns string or int
-        # prev_is_alpha: if previous value is a letter
-        #   Returns boolean or 'N/A'
-        # prev_letter: all lowercase a-h, j-u, w, y-z
-        #   Returns string
-        if lnum > 0:
-            prev_value = self.lst[lnum - 1]
-            while True:
-                try:
-                    prev_value.isalpha()
-                    prev_is_alpha = True
-                    break
-                except:
-                    prev_is_alpha = False
+        if lnum != 0:
+            prev_value = str(self.lst[lnum - 1])
+            prev_is_alpha = prev_value.isalpha()
+            prev_letter = 'N/A'
+            for x, i in reversed(list(enumerate(self.lst[:(lnum)]))):
+                if str(i).isalpha():
+                    prev_letter = str(i)
+                    prev_lis_caps = prev_letter.isupper()
                     break
         else:
             prev_value = 'N/A'
             prev_is_alpha = 'N/A'
-            
+            prev_letter = 'N/A'
+
         # Next value attributes
-        # next_value: next value in the list
-        #   Returns string or int
-        # next_value_len: length of next value
-        #   Returns int
-        if lnum != len(self.lst):
-            next_value = self.lst[lnum]
-            next_value_len = len(str(next_value))
+        if (lnum + 1) != len(self.lst):
+            next_value = str(self.lst[lnum + 1])
+            next_is_alpha = next_value.isalpha()
+            next_letter = 'N/A'
+            for x, i in enumerate(self.lst[(lnum + 1):len(self.lst)]):
+                if str(i).isalpha():
+                    next_letter = str(i)
+                    next_lis_caps = next_letter.isupper()
+                    break
         else:
             next_value = 'N/A'
-            next_value_len = 'N/A'
-            
-        # Check if next value is a letter
-        # next_is_alpha: checks if next value is the list
-        #   Returns Boolean or 'N/A'
-        while True:
-            try:
-                next_value.isalpha()
-                next_is_alpha = True
-                break
-            except:
-                next_is_alpha = False
-                break
-            
-        # Find the previous letter and if it's an alpha character
-        # prev_lett_alpha: whatever the last letter is, checks if it's an alpha
-        #   Returns Boolean or 'N/A'
-        prev_lett_alpha = False
-        if lnum != 0:
-            for x, i in reversed(list(enumerate(self.lst[:(lnum)]))):
-                # First iteration of the loop assumes no alpha character
-                while True:
-                    try:
-                        i.isalpha()  
-                        prev_lett_alpha = True
-                        prev_letter = i
-                        break
-                    except:
-                        break
-                if prev_lett_alpha == True: break
-        else:
-            prev_lett_alpha = 'N/A'
-            prev_letter = 'N/A'
-            
-        # Find the next leter and if it's an alpha character
-        # next_lett_alpha: whatever the next letter is, checks if it's an alpha
-        #   Returns Boolean or 'N/A'
-        next_lett_alpha = False
-        if (lnum + 1) != len(self.lst):
-            for x, i in enumerate(self.lst[(lnum + 1):len(self.lst)]):
-                # Last iteration of the loop assumes no alpha character
-                while True:
-                    try:
-                        i.isalpha()
-                        next_lett_alpha = True
-                        next_letter = i
-                        break
-                    except:
-                        break
-                if next_lett_alpha == True: break
-        else:
-            next_lett_alpha = 'N/A'
+            next_is_alpha = 'N/A'
             next_letter = 'N/A'
         
         # Finally, check if the value is roman numeral, or just a letter
@@ -141,8 +78,6 @@ class PCitation:
         #   - NOT: next value is 1
         #   - next value may be i
         #   - is alpha and has two or more characters
-        # is_rom_numeral = checks if previous letter was a roman numeral
-        #   Returns Boolean or 'N/A'
         if is_alpha == True and \
            (citation[0] in 'ivx' and len(citation) >= 1) and \
            next_value != 1:
@@ -154,11 +89,12 @@ class PCitation:
         # Save data in a dictionary, and return it
         d = {
             'citation': citation,
-            'is_alpha': is_alpha,
-            'is_rnumeral': is_rom_numeral,
-            'prev_val_alpha': prev_is_alpha,
             'prev_letter': prev_letter,
-            'next_letter': next_letter
+            'next_letter': next_letter,
+            'is_rnumeral': is_rom_numeral          
+            # 'is_alpha': is_alpha,
+            # 'prev_val_alpha': prev_is_alpha
+
             }
         #print(json.dumps(d, indent = 2))
         return d

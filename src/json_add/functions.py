@@ -10,7 +10,8 @@ import re
 # Remove all file contents before writing anything, but only if it exists
 def rem_file(fname, dname):
     file_name = dname + '/' + fname + '.' + dname
-    if path.exists(file_name): open(file_name, 'w').close()
+    if path.exists(file_name):
+        open(file_name, 'w').close()
     return file_name
 
 
@@ -90,7 +91,8 @@ def add_far_parts():
         fpart = part.split(' ')[1]
         fname = name.replace(fpart + '-', '')
         # Error checks
-        if 'RESERVED' in fname: fname = 'RESERVED'
+        if 'RESERVED' in fname:
+            fname = 'RESERVED'
         dlist.append({'part': int(fpart), 'name': str(fname)})
     json.dump(dlist, open(jname, 'w', encoding = 'utf8'), indent = 2)  
     success_comp(jname)
@@ -117,7 +119,8 @@ def add_reg_links():
         hrtext = i.attrs['href']
         href = hrtext.strip().replace('/browse/index', '')
         # Error checks
-        if 'Smart' in reg: continue  
+        if 'Smart' in reg:
+            continue  
         dlist.append({'reg': reg, 'link': str(href)})
     json.dump(dlist, open(jname, 'w', encoding = 'utf8'), indent = 2)  
     success_comp(jname)
@@ -168,7 +171,8 @@ def ret_part(ptext):
     sp_text = ptext.split()
     cnt = len(sp_text)
     # If its just a number, the list will be 1 object
-    if cnt > 1: ptext = sp_text[cnt - 1]
+    if cnt > 1:
+        ptext = sp_text[cnt - 1]
     return ptext
 
 
@@ -206,7 +210,8 @@ def search_css(search_text):
     for k in list1:
         res = k.split(';')
         for l in res:
-            if l == '': continue
+            if l == '':
+                continue
             list2.append(l)
     # Parse the html out of each item and save to a new list
     list3 = []
@@ -214,7 +219,8 @@ def search_css(search_text):
         start = m.find('("') + len('("')
         end = m.find('")')
         link = m[start:end]
-        if link == '': continue
+        if link == '':
+            continue
         list3.append(link)
     # Search in each link and print each result if it contains the styles
     for n in list3:
@@ -233,7 +239,8 @@ def search_jscripts(srch_text):
     # First add all values in list
     list4 = []
     for p in htext:
-        if p.attrs['src'].startswith('//code'): continue
+        if p.attrs['src'].startswith('//code'):
+            continue
         list4.append(p.attrs['src'])
     # Search for string inside each jscript file
     for q in list4:

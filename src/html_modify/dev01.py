@@ -53,7 +53,7 @@ def return_d(citation, next_letter):
 
 
 
-from functions_mod_html import PCitation
+from functions import PCitation
 num = ['a', 'b', 1, 2, 'i', 'ii', 'iii', 'c', 1, 2, 'i', 'ii', 'iii', 3, 'd', \
        'e', 1, 'i', 'ii', 'iii', 2, 'f', 'g', 'h', 1, 'i', 2, 'i', 'i', 'j', 'k', 'l']
 

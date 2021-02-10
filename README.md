@@ -99,4 +99,7 @@ Either way, the FAR will need to be updated to reflect the many changes that upd
 ### 4.3 Potentially costly
 Having an API with constant data calls could potentially be more costly than just having html sitting on a website. The traditional website design that isn't like a web app is tried and true and more than likely isn't generating heavy costs. An AWS account that gets charged by the click could rack up many expenses.
 
+### 4.4 Lack of other users
+This goes with 4.3 above, but if the sole purpose of this API is to provide a more dynamic FAR, then it may not be as useful as we can imagine. What would be great is if there were many sources of information pulling the API to get text. Perhaps the contracting systems can pull this information to apply clauses, but there is no guarantee that this will even be a possibility among them.
+
 

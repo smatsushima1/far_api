@@ -44,47 +44,40 @@ class PCitation:
         citation = str(self.lst[lnum])
         is_alpha = citation.isalpha()
         is_caps = citation.isupper()
-        lnum_len = len(citation)
         
         # Previous value attributes
         if lnum != 0:
             prev_value = str(self.lst[lnum - 1])
             prev_is_alpha = prev_value.isalpha()
             prev_letter = 'N/A'
-            prev_letter_caps = 'N/A'
-            prev_letter_len = 'N/A'
+            prev_letter_caps = False
             for x, i in reversed(list(enumerate(self.lst[:(lnum)]))):
                 if str(i).isalpha():
                     prev_letter = str(i)
                     prev_letter_caps = prev_letter.isupper()
-                    prev_letter_len = len(prev_letter)
                     break
         else:
             prev_value = 'N/A'
-            prev_is_alpha = 'N/A'
+            prev_is_alpha = False
             prev_letter = 'N/A'
-            prev_letter_caps = 'N/A'
-            prev_letter_len = 'N/A'
+            prev_letter_caps = False
 
         # Next value attributes
         if (lnum + 1) != len(self.lst):
             next_value = str(self.lst[lnum + 1])
             next_is_alpha = next_value.isalpha()
             next_letter = 'N/A'
-            next_letter_caps = 'N/A'
-            next_letter_len = 'N/A'
+            next_letter_caps = False
             for x, i in enumerate(self.lst[(lnum + 1):len(self.lst)]):
                 if str(i).isalpha():
                     next_letter = str(i)
                     next_letter_caps = next_letter.isupper()
-                    next_letter_len = len(next_letter)
                     break
         else:
             next_value = 'N/A'
-            next_is_alpha = 'N/A'
+            next_is_alpha = False
             next_letter = 'N/A'
-            next_letter_caps = 'N/A'
-            next_letter_len = 'N/A'
+            next_letter_caps = False
         
         # Finally, check if the value is roman numeral, or just a letter
         # All roman numerals share the following characteristics:
@@ -95,19 +88,25 @@ class PCitation:
         #   - NOT: next value is 1
         #   - next value may be i
         #   - is alpha and has two or more characters
-        if is_alpha == True and \
-           (citation[0] in 'ivx' and len(citation) >= 1) and \
+        if is_alpha and \
+           citation[0] in 'ivx' and \
            next_value != 1:
-            # Check previous letter if it is the previous letter
             is_rom_numeral = True
         else:
             is_rom_numeral = False
 
+        # Special roman numeral check but only if this is an 'i'
+        if citation == 'i':
+            is_rom_numeral = case_i_rnum(lnum,
+                                         self.lst,
+                                         next_value,
+                                         next_is_alpha)
+
         # Save data in a dictionary, and return it
         d = {
             'citation': citation,
-            'prev_letter': prev_letter,
-            'next_letter': next_letter,
+            # 'prev_letter': prev_letter,
+            # 'next_letter': next_letter,
             'is_rnumeral': is_rom_numeral          
             # 'is_alpha': is_alpha,
             # 'prev_val_alpha': prev_is_alpha
@@ -115,10 +114,48 @@ class PCitation:
             }
         #print(json.dumps(d, indent = 2))
         return d
-            
 
            
-    
+# Only run this if the current iteration is an 'i'
+# Required: current iteration, list, next value, next value is alpha
+def case_i_rnum(curr_iteration,
+                current_list,
+                next_value,
+                next_value_is_alpha):
+    new_list = []
+    for x, i in reversed(list(enumerate(current_list[:(curr_iteration - 1)]))):
+        # Skip over upper-case citations
+        if str(i).isupper(): continue
+        new_list.append(i)
+        # Only do testing if the string is a letter
+        if str(i).isalpha():
+            # ...'g', 1, 2, 3, 'i', 1...
+            if next_value == 1:
+                return False
+            # ...'g', 1, 2, 3, 'i', 4...
+            elif next_value_is_alpha == False and next_value != 1:
+                return True
+            # ...'g', 1, 2, 3, 'i', 'ii'...
+            elif next_value_is_alpha and next_value[0] in 'ivx':
+                return True
+            # Tests for 'i' to 'i' lists
+            if str(i)[0] in 'ivx':
+                # ...'h', 1, 'i', 'i'...
+                if len(new_list) == 2:
+                    return False
+                # ...'h', 1, 'i', 2, 3, 'i', 'j'...
+                elif next_value_is_alpha and next_value[0] not in 'ivx':
+                    return False
+                break
+            # Tests for non 'i' to 'i' lists
+            else:
+                # ...'g', 1, 'h', 'i'...
+                if len(new_list) == 2:
+                    return True
+                # ...'g', 1, 2, 3, 'i', 'h'...
+                elif next_value_is_alpha and next_value[0] not in 'ivx':
+                    return True
+                break
     
     
     #prev_is_alpha == False and \

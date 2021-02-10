@@ -1,4 +1,6 @@
-# 1.0 Federal Acquisition Regulation API
+# Federal Acquisition Regulation API
+
+## 1.0 Overview
 This project will attempt to convert the FAR into separate JSON objects, each ontaining html text for each section. This way, the FAR can be stored in a database and pulled whenever required, and only updated in one location.
 
 The FAR still needs to exist online in html in order for us to do some google searches on its contents, but maybe this API will allow the FAR parts/subparts/sections to be stored in a more centralized location. This FAR API can pull the html text into wherever the FAR is required.
@@ -79,7 +81,7 @@ The main reason I wanted to create an API for the FAR was to implement a web app
 
 Having an API for the FAR will allow the web app to automatically detect when a selected reference from the FAR is available in another reference. Viewing regulations side-by-side can greatly help with the day-to-day searching and reading since all verbiage pertaining to the users' desired subject can now be had quicker in one tab, instead of having to find it in multiple tabs.
 
-In theory, if the FAR were stored in a database and referenced at ease, the system will be able to tell if a supplemental regulation further implements the FAR. Even if it doesn't apply, at least the API will allow the user to view the text (html) conveniently in front of them regardless. Utilizing proper hyperlinks will allow for faster and easier browsing (see problem [above](#hyperlinks-with-arbitrary-names)) as well as faster, easier, and more accurate analyzing of the regulations.
+In theory, if the FAR were stored in a database and referenced at ease, the system will be able to tell if a supplemental regulation further implements the FAR. Even if it doesn't apply, at least the API will allow the user to view the text (html) conveniently in front of them regardless. Utilizing proper hyperlinks will allow for faster and easier browsing (see problem [above](#2.2-hyperlinks-with-arbitrary-names)) as well as faster, easier, and more accurate analyzing of the regulations.
 
 ## 4.0 Complications with an API
 This project will not be without its problems. There are of course many things that could go wrong with this approach, which will be explained below for transparency.

@@ -20,20 +20,15 @@ import json
 # citation: citation is pulled from the list number; returns string
 # is_alpha: checks if it is a letter; returns boolean
 # is_caps: checks if the letter is a capital letter; returns boolean
-# cit_len: returns length of the current citation; returns integer
 # prev_value: previous value in the list; returns string
 # prev_is_alpha: if previous value is a letter; returns boolean
 # prev_letter: previous letter, skips over numbers; returns string
 # prev_letter_caps: whether previous letter is in caps; returns boolean
-# prev_letter_len: length of the previous letter; returns integer
 # next_value: next value in the list; returns string
 # next_is_alpha: checks if next value is the list; returns boolean
-# next_value_len: length of next value; return int
 # next_letter: next letter, excludes integers; returns string
 # next_letter_caps: whether the next letter is in caps; returns boolean
-# next_letter_len: length of the next letter; returns integer
 # is_rom_numeral = checks if previous letter was a roman numeral; returns boolean
-
 class PCitation:
     def __init__(self, list_object):
         self.lst = list_object
@@ -123,12 +118,13 @@ def case_i_rnum(curr_iteration,
                 next_value,
                 next_value_is_alpha):
     new_list = []
-    for x, i in reversed(list(enumerate(current_list[:(curr_iteration - 1)]))):
+    for x, i in reversed(list(enumerate(current_list[:(curr_iteration)]))):
         # Skip over upper-case citations
         if str(i).isupper(): continue
         new_list.append(i)
         # Only do testing if the string is a letter
         if str(i).isalpha():
+            print(new_list)
             # ...'g', 1, 2, 3, 'i', 1...
             if next_value == 1:
                 return False

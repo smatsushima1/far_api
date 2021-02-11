@@ -1,5 +1,5 @@
 
-from functions_add_json import *
+from functions import *
 
 #search_css('autonumber')
 #search_jscripts('autonumber')
@@ -133,7 +133,16 @@ if str1[0] in 'ivx': print('good')
 # regulation-index-browse_wrapper
 
 
+#print(reg_txt.prettify())
+# look into .extrar() for beautiful soup to extract contents in between tags
+# changin the names of tags and attributes
 
+# reg
+# part
+# subpart
+# section
+# http_link
+# html
 
 
 

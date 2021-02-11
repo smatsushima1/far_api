@@ -260,7 +260,70 @@ def search_jscripts(srch_text):
 # - depending on what type of paragraph it is, it could require a specific
 #   indent
 # - we already know the strucutre of the FAR, so this would be a simple test
-# - they will always go a, 1, i, A, 1, I
+# - they will always go a, 1, i, A, 1, i
 # - knowing this would mean I can set-up indents based on what value this is
+
+
+# Links within html should be the following:
+#   PART_SUBPART_SECTION_SUBSECTION_REG_TYPE
+# For example: FAR 1.105-2 = 1_1_5_2_far_body
+# PART: integers from 0-53
+# SUPBART: integers from 0-?
+# SECTION: integers from 0-?
+# SUBSECTION: integers from 0-?
+# REG: the regulation in lower case with no spaces; citations shall not include
+#      the supplemental regulation number in front; for example, a reference
+#      for DFARS 202.101 will not be 202_1_1_0_dfars_body, but instead will be
+#      1_1_1_0_dfars_body
+# TYPE: the type of link in reference:
+#   - body: the most prevalent, the citation html body
+#   - toc: the toc for each part and each associated regulation
+#   - main: the concatentation of the toc, and all appropriate bodies
+
+# As such, the associated json objects will be structured similarly:
+# {"part": ,
+#  "subpart": ,
+#  "section": ,
+#  "subsection": ,
+#  "reg": ,
+#  "type": ,
+#  "fac": ,
+#  "html":
+#  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

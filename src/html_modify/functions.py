@@ -66,15 +66,17 @@ class paragraph_attributes:
                                  )
 
         # Finally, find the indentation level of the paragraph
-        # Save everything as a list for now, then parse later
-        is_num_last = False
-        is_rom_num_last = False
+        # Currently, can't find any way to detect if the number or roman
+        #   numeral citation is the first or second tier
+        # As such, it will remain as false for now; taking too long to solve...
+        is_number2 = False
+        is_rom_numeral2 = False
         indentation = find_indentation(paragraph,
                                        is_alpha,
                                        is_rom_numeral,
                                        is_caps,
-                                       is_num_last,
-                                       is_rom_num_last
+                                       is_number2,
+                                       is_rom_numeral2
                                        )
 
         # Save data in a dictionary, and return it
@@ -86,7 +88,6 @@ class paragraph_attributes:
              'nv': next_value,
              'nv_al': next_is_alpha
              }
-
         return json.dumps(d, indent = 2)
 
 
@@ -150,11 +151,12 @@ def is_rnum(para_iteration,
 
 
 # Determine if this is a number after the capital letters
-def is_number_last(para_iteration,
-                   para_list,
-                   para_val,
-                   para_is_alpha
-                   ):
+# IN PROCESS: currently just returning False
+def is_number2(para_iteration,
+               para_list,
+               para_val,
+               para_is_alpha
+               ):
     if para_iteration == 0 or para_val.isalpha():
         return False
     list_back = []
@@ -188,22 +190,12 @@ def is_number_last(para_iteration,
     # a, b, c, 1, 2, 3, i, ii, A, B, 1, 2, 3, 4, d, 1, i, A, 1, 2
     
 
-    
-    
-
-    
-    
-
-
-
 # Determine if this is the second set of roman numerals
-def is_rnum_last(para_iteration,
-                 para_list,
-                 para_val
-                 ):
-    
-
-    
+# IN PROCESS: currently just returning False
+def is_rnum2(para_iteration,
+             para_list,
+             para_val
+             ):
     pass
 
 
@@ -219,20 +211,20 @@ def find_indentation(para_val,
                      para_is_alpha,     
                      para_is_rnum,
                      para_is_caps,
-                     para_is_num_caps,
-                     para_is_rnum_last
+                     para_is_num2,
+                     para_is_rnum2
                      ):
     if para_is_alpha and para_is_caps != True and para_is_rnum != True:
         return 1
-    elif para_is_alpha != True and para_is_num_caps != True:
+    elif para_is_alpha != True and para_is_num2 != True:
         return 2
     elif para_is_rnum:
         return 3
     elif para_is_caps:
         return 4
-    elif para_is_num_caps:
+    elif para_is_num2:
         return 5
-    elif para_is_rnum_last:
+    elif para_is_rnum2:
         return 6
     
     

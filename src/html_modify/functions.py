@@ -2,6 +2,15 @@
 import json
 
 
+# Calling it:
+# cdev = paragraph_attributes(num2)
+# final_list = []
+# for x, i in enumerate(num2):
+#     final_list.append(cdev.get_attributes(x))
+# for i in final_list:
+#     idict = json.loads(i)
+#     print('paragraph: ' + idict['para'])
+
 # Create attributes for the paragraph citations listed
 # Attributes:
 # lst: list of all paragraphs; returns list

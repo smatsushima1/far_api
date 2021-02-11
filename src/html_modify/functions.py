@@ -27,13 +27,13 @@ class paragraph_attributes:
     # Define all the attributes listed above
     def get_attributes(self, list_number):
         lnum = list_number
-        paragraph = str(self.lst[lnum])
+        paragraph = self.lst[lnum]
         is_alpha = paragraph.isalpha()
         is_caps = paragraph.isupper()
         
         # Previous value attributes
         if lnum != 0:
-            prev_value = str(self.lst[lnum - 1])
+            prev_value = self.lst[lnum - 1]
             prev_is_alpha = prev_value.isalpha()
         else:
             prev_value = 'N/A'
@@ -41,7 +41,7 @@ class paragraph_attributes:
 
         # Next value attributes
         if (lnum + 1) != len(self.lst):
-            next_value = str(self.lst[lnum + 1])
+            next_value = self.lst[lnum + 1]
             next_is_alpha = next_value.isalpha()
         else:
             next_value = 'N/A'
@@ -57,6 +57,7 @@ class paragraph_attributes:
                                  )
 
         # Finally, find the indentation level of the paragraph
+        # Save everything as a list for now, then parse later
         is_num_last = False
         is_rom_num_last = False
         indentation = find_indentation(paragraph,
@@ -68,14 +69,16 @@ class paragraph_attributes:
                                        )
 
         # Save data in a dictionary, and return it
-        d = {'paragraph': paragraph,
-             # 'prev_letter': prev_letter,
-             # 'next_letter': next_letter,
-             'indentation': indentation
-             # 'is_alpha': is_alpha,
-             # 'prev_val_alpha': prev_is_alpha
+        d = {'iter': lnum,
+             'para': paragraph,
+             'ind': indentation,
+             'pv': prev_value,
+             'pv_al': prev_is_alpha,
+             'nv': next_value,
+             'nv_al': next_is_alpha
              }
-        return json.dumps(d)
+
+        return json.dumps(d, indent = 2)
 
 
 # Returns whether the paragraph is a roman numeral
@@ -143,7 +146,45 @@ def is_number_last(para_iteration,
                    para_val,
                    para_is_alpha
                    ):
-    pass
+    if para_iteration == 0 or para_val.isalpha():
+        return False
+    list_back = []
+    for x, i in reversed(list(enumerate(para_list[:(para_iteration)]))):
+        list_back.append(i)
+        # Only do testing if the string is a letter
+        if str(i).isalpha() and str(i).isupper():
+            list_forw = []
+            for y, j in enumerate(para_list[para_iteration:]):
+                list_forw.append(j)
+                if str(j).isalpha() and str(j).isupper() != True:
+                    if str(j) == 'i':
+                        return False
+    
+    
+    # FAR 52.209-5
+    # 1  3  4  4  4  4  5  6  6   5  6  6   6     6   3  2  1  1  1  1
+    # a, i, A, B, C, D, 1, i, ii, 2, 1, ii, iii, iv, ii, 2, b, c, d, e
+    
+    #                                         \/ no             \/ yes
+    # a, b, c, 1, 2, 3, i, ii, A, B, 1, 2, 3, 4, i, C, 1, i, D, 4, 5
+    #                                         \/ no             \/ yes
+    # a, b, c, 1, 2, 3, i, ii, A, B, 1, 2, 3, 4, i, C, 1, i, D, 4, 5
+    #                                         \/ yes               \/ no
+    # a, b, c, 1, 2, 3, i, ii, A, B, 1, 2, 3, 4, iii, A, 1, iv, A, 4, 5
+    #                                         \/ yes               \/ no
+    # a, b, c, 1, 2, 3, i, ii, A, B, 1, 2, 3, 4, C, 1, iv, A, 4, 5    
+    #                                         \/ yes
+    # a, b, c, 1, 2, 3, i, ii, A, B, 1, 2, 3, 4, d, 1, i, A, 1, 2
+    #                                         \/ no
+    # a, b, c, 1, 2, 3, i, ii, A, B, 1, 2, 3, 4, d, 1, i, A, 1, 2
+    
+
+    
+    
+
+    
+    
+
 
 
 # Determine if this is the second set of roman numerals
@@ -151,6 +192,9 @@ def is_rnum_last(para_iteration,
                  para_list,
                  para_val
                  ):
+    
+
+    
     pass
 
 
@@ -161,7 +205,7 @@ def is_rnum_last(para_iteration,
 # (i)
 # (A)
 # (1)
-# (I)
+# (i)
 def find_indentation(para_val,
                      para_is_alpha,     
                      para_is_rnum,

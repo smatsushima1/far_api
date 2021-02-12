@@ -140,16 +140,18 @@ def add_parts_links():
     d = {}
     for i in data:
         htext = str(i['link'])
-        part = htext.strip('/')
-        print('Adding data to: ' + part)
-        d[part] = parts_hrefs(htext)
+        reg = htext.strip('/')
+        print('Adding data to: ' + reg)
+        d[reg] = parts_hrefs(reg, htext)
     json.dump(d, open(jname, 'w', encoding = 'utf8'), indent = 2)
     success_comp(jname) 
 
 
-# Parse each part for each regulation
-def parts_hrefs(htext):
-    # Open the url and save it as an html object  
+# Parse each part for each regulation; used with add_parts_links
+def parts_hrefs(regulation, htext):
+    # Open the url and save it as an html object
+    reg = regulation.strip()
+    reg = reg.strip('_')
     base = 'https://www.acquisition.gov'
     hlink = base + htext
     html = ul.request.urlopen(hlink).read()
@@ -167,7 +169,7 @@ def parts_hrefs(htext):
     else:
         res = hsoup.tbody.find_all('td', class_ = re.compile('.*part-number'))
         ind = 0
-    dlist = add_to_dict(res, base, ind)
+    dlist = add_to_dict(reg, res, base, ind)
     return dlist
 
 
@@ -182,7 +184,18 @@ def ret_part(ptext):
 
 
 # Returns dictionary of objects; used with parts_href
-def add_to_dict(rlist, addr, reg_ind):
+# JSON objects will be structured:
+# {"part": ,
+#  "subpart": ,
+#  "section": ,
+#  "subsection": ,
+#  "reg": ,
+#  "type": ,
+#  "fac": ,
+#  "link": ,
+#  "html":
+#  }
+def add_to_dict(regulation, rlist, addr, reg_ind):
     dlist = []
     for i in rlist:
         # The part numbers will always just be the text
@@ -192,7 +205,16 @@ def add_to_dict(rlist, addr, reg_ind):
             hlnk = addr + i.attrs['href'].strip()
         else:
             hlnk = addr + i.a['href'].strip()
-        ret_text = {'part': hpart, 'link': hlnk, 'html': 'N/A'}
+        ret_text = {'part': hpart,
+                    'subpart': 0,
+                    'section': 0,
+                    'subsection': 0,
+                    'reg': regulation,
+                    'type': 'main',
+                    'fac': '2021-04',
+                    'link': hlnk,
+                    'html': 'N/A'
+                    }
         dlist.append(ret_text)
     return dlist
 

@@ -126,7 +126,7 @@ def add_reg_links():
         dlist.append({'reg': reg, 'link': str(href)})
     # Add AFFARS regs to the list
     dlist.append({'reg': 'AFFARS MP', 'link': '/affars/mp'})
-    dlist.append({'reg': 'AFFARS PGI', 'link': 'affars/pgi'})
+    dlist.append({'reg': 'AFFARS PGI', 'link': '/affars/pgi'})
     json.dump(dlist, open(jname, 'w', encoding = 'utf8'), indent = 2)  
     success_comp(jname)
     

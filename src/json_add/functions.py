@@ -7,7 +7,7 @@ import urllib as ul
 import re
 
 
-#################################### Basics ####################################
+#################################### Basics ###################################
 # Remove all file contents before writing anything, but only if it exists
 def rem_file(fname, dname):
     file_name = dname + '/' + fname + '.' + dname
@@ -20,7 +20,7 @@ def success_comp(fname):
     print('Succesfully completed: ' + fname + '\n')
      
      
-################################# JSON Parsing #################################
+################################# JSON Parsing ################################
 # Parse-out FAR part and its name
 # Originally, the part names were going to be pulled into each respective
 #   citation, but this doesn't seem necessary anymore
@@ -124,6 +124,9 @@ def add_reg_links():
         if 'Smart' in reg:
             continue  
         dlist.append({'reg': reg, 'link': str(href)})
+    # Add AFFARS regs to the list
+    dlist.append({'reg': 'AFFARS MP', 'link': '/affars/mp'})
+    dlist.append({'reg': 'AFFARS PGI', 'link': 'affars/pgi'})
     json.dump(dlist, open(jname, 'w', encoding = 'utf8'), indent = 2)  
     success_comp(jname)
     
@@ -133,8 +136,8 @@ def add_parts_links():
     jname = rem_file('parts_links', 'json')
     
     # An empty dictionary is created because, there will be objects with lists
-    d = {}
     data = json.load(open('json/reg_links.json', 'r'))
+    d = {}
     for i in data:
         htext = str(i['link'])
         part = htext.strip('/')
@@ -194,7 +197,7 @@ def add_to_dict(rlist, addr, reg_ind):
     return dlist
 
 
-########################## CSS and JavaScript Parsing ##########################
+########################## CSS and JavaScript Parsing #########################
 # Only one result found for 'autonumber', but not usable
 def search_css(search_text):
     # First find CSS sheets

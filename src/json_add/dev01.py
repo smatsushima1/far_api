@@ -32,7 +32,6 @@ if str1[0] in 'ivx': print('good')
 
 
 ########################### For FAR, DFARS. GSAM... ###########################
-# for far, dfars, dfars pgi, gsam:
 # h1 = Parts
 # h2 = Subparts
 # h3 = Sections
@@ -47,9 +46,11 @@ if str1[0] in 'ivx': print('good')
 # *To pull data, get all get_text between two headings
 # *Each subsection gets its own division?
 
+# All contents:
+# div class='nested0'
+
 
 ################################ Supplementals ################################
-# for supplementals:
 # h1 = Parts
 # h2 = Subparts
 # h3 = Sections
@@ -63,9 +64,13 @@ if str1[0] in 'ivx': print('good')
 
 # Content:
 # div class= 'field-items'
+# div id='middlecontent'
 # field-items consists of everything, including table of contents
 # *To pull data, get all get_text between two headings
 # *Each subsection gets its own division?
+
+# All contents:
+# div id='middlecontent'
 
 
 # regulation-index-browse_wrapper

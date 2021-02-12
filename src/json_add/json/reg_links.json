@@ -130,5 +130,13 @@
   {
     "reg": "VAAR",
     "link": "/vaar"
+  },
+  {
+    "reg": "AFFARS MP",
+    "link": "/affars/mp"
+  },
+  {
+    "reg": "AFFARS PGI",
+    "link": "affars/pgi"
   }
 ]

@@ -6579,5 +6579,304 @@
       "link": "https://www.acquisition.gov/vaar/veterans-affairs-acquisition-regulation-system",
       "html": "N/A"
     }
+  ],
+  "affars/mp": [
+    {
+      "part": "mp_5332.470",
+      "link": "https://www.acquisition.gov/affars/advance-payment-pool",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5306.502",
+      "link": "https://www.acquisition.gov/affars/air-force-competition-and-commercial-advocacy-program",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5301.601-91",
+      "link": "https://www.acquisition.gov/affars/air-force-contracting-self-inspection-program",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5309.190",
+      "link": "https://www.acquisition.gov/affars/air-force-space-contractor-responsibility-watch-list-crwl",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5305.303",
+      "link": "https://www.acquisition.gov/affars/announcement-contract-awards",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5342.902",
+      "link": "https://www.acquisition.gov/affars/bankruptcy-procedures",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5301.9001(i)(1)(i)",
+      "link": "https://www.acquisition.gov/affars/business-clearance-approval-dascadasc",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5315.407-90",
+      "link": "https://www.acquisition.gov/affars/contract-audit-follow-cafu",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5332.7",
+      "link": "https://www.acquisition.gov/affars/contract-funding",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5315.4",
+      "link": "https://www.acquisition.gov/affars/contract-pricing",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5346.103",
+      "link": "https://www.acquisition.gov/affars/contracting-office-responsibilities",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5301.602-2(d)",
+      "link": "https://www.acquisition.gov/affars/designation-assignment-and-responsibilities-contracting-officers-representative-cor",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5325.7002-2",
+      "link": "https://www.acquisition.gov/affars/exceptions",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5325.7003-3",
+      "link": "https://www.acquisition.gov/affars/exceptions-0",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5325",
+      "link": "https://www.acquisition.gov/affars/foreign-acquisitions",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5301.601-90",
+      "link": "https://www.acquisition.gov/affars/head-agency-hoa-senior-procurement-executive-spe-service-acquisition-executive-sae-delegation-matrix",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5301.601(a)(i)",
+      "link": "https://www.acquisition.gov/affars/head-contracting-activity-hca-matrix",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5303",
+      "link": "https://www.acquisition.gov/affars/improper-business-practices-and-personal-conflicts-interest",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5333.104",
+      "link": "https://www.acquisition.gov/affars/protests-gao",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5315.606-90",
+      "link": "https://www.acquisition.gov/affars/receipt-evaluation-and-disposition-unsolicited-proposals",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5301.603",
+      "link": "https://www.acquisition.gov/affars/selection-appointment-and-termination-appointment-contracting-officers",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5319",
+      "link": "https://www.acquisition.gov/affars/small-business-programs",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5315.3",
+      "link": "https://www.acquisition.gov/affars/source-selection-reflects-new-dod-procedures",
+      "html": "N/A"
+    },
+    {
+      "part": "mp_5349",
+      "link": "https://www.acquisition.gov/affars/termination-contracts-0",
+      "html": "N/A"
+    }
+  ],
+  "affars/pgi": [
+    {
+      "part": "pgi_5312",
+      "link": "https://www.acquisition.gov/affars/acquisition-commercial-items-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5339",
+      "link": "https://www.acquisition.gov/affars/acquisition-information-technology-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5341",
+      "link": "https://www.acquisition.gov/affars/acquisition-utility-services-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5307",
+      "link": "https://www.acquisition.gov/affars/acquisition-planning-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5304",
+      "link": "https://www.acquisition.gov/affars/administrative-matters-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5322",
+      "link": "https://www.acquisition.gov/affars/application-labor-laws-government-acquisitions",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5306",
+      "link": "https://www.acquisition.gov/affars/competition-requirements-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5336",
+      "link": "https://www.acquisition.gov/affars/construction-and-architect-engineer-contracts-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5342",
+      "link": "https://www.acquisition.gov/affars/contract-administration-and-audit-services-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5331",
+      "link": "https://www.acquisition.gov/affars/contract-cost-principles-and-procedures-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5332",
+      "link": "https://www.acquisition.gov/affars/contract-financing-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5343",
+      "link": "https://www.acquisition.gov/affars/contract-modifications-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5315",
+      "link": "https://www.acquisition.gov/affars/contracting-negotiation-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5309",
+      "link": "https://www.acquisition.gov/affars/contractor-qualifications-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5311",
+      "link": "https://www.acquisition.gov/affars/describing-agency-needs-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5323",
+      "link": "https://www.acquisition.gov/affars/environment-energy-and-water-efficiency-renewable-energy-technologies-occupational-safety-and-drug-free-workplace",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5301",
+      "link": "https://www.acquisition.gov/affars/federal-acquisition-regulations-system",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5325",
+      "link": "https://www.acquisition.gov/affars/foreign-acquisition-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5345",
+      "link": "https://www.acquisition.gov/affars/government-property-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5327",
+      "link": "https://www.acquisition.gov/affars/patents-data-and-copyrights-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5324",
+      "link": "https://www.acquisition.gov/affars/protection-privacy-and-freedom-information-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5333",
+      "link": "https://www.acquisition.gov/affars/protests-disputes-and-appeals-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5305",
+      "link": "https://www.acquisition.gov/affars/publicizing-contract-actions-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5346",
+      "link": "https://www.acquisition.gov/affars/quality-assurance-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5308",
+      "link": "https://www.acquisition.gov/affars/required-sources-supplies-and-services-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5335",
+      "link": "https://www.acquisition.gov/affars/research-and-development-contracting-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5314",
+      "link": "https://www.acquisition.gov/affars/sealed-bidding-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5334",
+      "link": "https://www.acquisition.gov/affars/service-contracting-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5337",
+      "link": "https://www.acquisition.gov/affars/service-contracting-1",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5313",
+      "link": "https://www.acquisition.gov/affars/simplified-acquisition-procedures-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5319",
+      "link": "https://www.acquisition.gov/affars/small-business-programs-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5317",
+      "link": "https://www.acquisition.gov/affars/special-contracting-methods-0",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5349",
+      "link": "https://www.acquisition.gov/affars/termination-contracts-1",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5347",
+      "link": "https://www.acquisition.gov/affars/transportation",
+      "html": "N/A"
+    },
+    {
+      "part": "pgi_5316",
+      "link": "https://www.acquisition.gov/affars/types-contracts-0",
+      "html": "N/A"
+    }
   ]
 }

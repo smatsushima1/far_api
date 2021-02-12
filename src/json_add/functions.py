@@ -132,7 +132,7 @@ def add_reg_links():
     
 
 # Start extracting links to the Parts and save href in json file
-def add_parts_links():
+def add_all_parts():
     jname = rem_file('all_parts', 'json')
     
     # An empty dictionary is created because, there will be objects with lists
@@ -147,7 +147,7 @@ def add_parts_links():
     success_comp(jname) 
 
 
-# Parse each part for each regulation; used with add_parts_links
+# Parse each part for each regulation; used with add_all_parts
 def parts_hrefs(regulation, htext):
     # Open the url and save it as an html object
     reg = regulation.strip()
@@ -174,7 +174,7 @@ def parts_hrefs(regulation, htext):
 
 
 # Returns the part number regardless of what type it is; used with parts_href
-def ret_part(ptext):
+def return_part(ptext):
     sp_text = ptext.split()
     cnt = len(sp_text)
     # If its just a number, the list will be 1 object
@@ -199,7 +199,8 @@ def add_to_dict(regulation, rlist, addr, reg_ind):
     dlist = []
     for i in rlist:
         # The part numbers will always just be the text
-        hpart = ret_part(i.get_text()).strip()
+        hpart = return_part(i.get_text()).strip()
+        part_final = final_part(hpart)
         # If its for the main regs, 'href' will be in the 'attrs'
         if reg_ind == 1:
             hlnk = addr + i.attrs['href'].strip()
@@ -217,6 +218,27 @@ def add_to_dict(regulation, rlist, addr, reg_ind):
                     }
         dlist.append(ret_text)
     return dlist
+
+
+# Return only the far equivalent part; used with add_to_dict
+def final_part(part):
+    strip_part1 = part.strip("mp_")
+    strip_part2 = strip_part1.strip("pgi_")
+    lp = len(strip_part2)
+    if lp <= 2:
+        return strip_part2
+    elif lp == 3:
+        if strip_part2[1] == str(0):
+            return strip_part2[2]
+        else:
+            return strip_part2[1:2]
+    elif lp == 4:
+        if strip_part2[2] == str(0):
+            return strip_part2[3]
+        else:
+            return strip_part2[2:3]
+    else:
+        return strip_part2
 
 
 ########################## CSS and JavaScript Parsing #########################

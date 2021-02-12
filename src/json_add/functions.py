@@ -133,7 +133,7 @@ def add_reg_links():
 
 # Start extracting links to the Parts and save href in json file
 def add_parts_links():
-    jname = rem_file('parts_links', 'json')
+    jname = rem_file('all_parts', 'json')
     
     # An empty dictionary is created because, there will be objects with lists
     data = json.load(open('json/reg_links.json', 'r'))
@@ -293,6 +293,7 @@ def search_jscripts(srch_text):
 #  "reg": ,
 #  "type": ,
 #  "fac": ,
+#  "link": ,
 #  "html":
 #  }
 

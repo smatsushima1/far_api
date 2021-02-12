@@ -142,7 +142,7 @@ def add_all_parts():
         htext = str(i['link'])
         reg = htext.strip('/')
         print('Adding data to: ' + reg)
-        d[reg] = parts_hrefs(reg, htext)
+        d[i['reg']] = parts_hrefs(reg, htext)
     json.dump(d, open(jname, 'w', encoding = 'utf8'), indent = 2)
     success_comp(jname) 
 
@@ -173,16 +173,6 @@ def parts_hrefs(regulation, htext):
     return dlist
 
 
-# Returns the part number regardless of what type it is; used with parts_href
-def return_part(ptext):
-    sp_text = ptext.split()
-    cnt = len(sp_text)
-    # If its just a number, the list will be 1 object
-    if cnt > 1:
-        ptext = sp_text[cnt - 1]
-    return ptext
-
-
 # Returns dictionary of objects; used with parts_href
 # JSON objects will be structured:
 # {"part": ,
@@ -201,7 +191,6 @@ def add_to_dict(regulation, rlist, addr, reg_ind):
         # The part numbers will always just be the text
         hpart = return_part(i.get_text()).strip()
         part_final = final_part(hpart)
-        reg_final = regulation.strip('/')
         # If its for the main regs, 'href' will be in the 'attrs'
         if reg_ind == 1:
             hlnk = addr + i.attrs['href'].strip()
@@ -211,7 +200,7 @@ def add_to_dict(regulation, rlist, addr, reg_ind):
                     'subpart': 0,
                     'section': 0,
                     'subsection': 0,
-                    'reg': reg_final,
+                    'reg': regulation.replace('/', ''),
                     'type': 'main',
                     'fac': '2021-04',
                     'link': hlnk,
@@ -221,30 +210,34 @@ def add_to_dict(regulation, rlist, addr, reg_ind):
     return dlist
 
 
+# Returns the part number regardless of what type it is; used with parts_href
+def return_part(ptext):
+    sp_text = ptext.split()
+    cnt = len(sp_text)
+    # If its just a number, the list will be 1 object
+    if cnt > 1:
+        ptext = sp_text[cnt - 1]
+    return ptext
+
+
 # Return only the far equivalent part; used with add_to_dict
 def final_part(part):
     strip_part1 = part.strip("mp_")
     strip_part2 = strip_part1.strip("pgi_")
     lp = len(strip_part2)
     if lp <= 2:
-        print('if: ' + part + ' - ' + strip_part2)
         return strip_part2
     elif lp == 3:
         if strip_part2[1] == str(0):
-            print('elif 1: ' + part + ' - ' + strip_part2[2])
             return strip_part2[2]
         else:
-            print('elif 2: ' + part + ' - ' + strip_part2[1:])
             return strip_part2[1:]
     elif lp == 4:
         if strip_part2[2] == str(0):
-            print('elif 3: ' + part + ' - ' + strip_part2[3])
             return strip_part2[3]
         else:
-            print('elif 4: ' + part + ' - ' + strip_part2[2:])
             return strip_part2[2:]
     else:
-        print('else: ' + part + ' - ' + strip_part2)
         return strip_part2
 
 

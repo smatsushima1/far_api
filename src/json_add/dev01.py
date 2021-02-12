@@ -4,11 +4,8 @@ from functions import *
 #search_css('autonumber')
 #search_jscripts('autonumber')
 
-str1 = 'i'
-if str1[0] in 'ivx': print('good')
-
-str2 = '1234'
-print(str2[2:])
+str1 = 'affars/pgi'
+print(str1.replace('/', ''))
 
 
 

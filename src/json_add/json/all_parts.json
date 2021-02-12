@@ -1,5 +1,5 @@
 {
-  "far": [
+  "FAR": [
     {
       "part": "1",
       "subpart": 0,
@@ -584,7 +584,7 @@
       "html": "N/A"
     }
   ],
-  "chapter_99": [
+  "Chapter 99 (CAS)": [
     {
       "part": "0",
       "subpart": 0,
@@ -663,7 +663,7 @@
       "html": "N/A"
     }
   ],
-  "dfars": [
+  "DFARS": [
     {
       "part": "1",
       "subpart": 0,
@@ -1248,7 +1248,7 @@
       "html": "N/A"
     }
   ],
-  "dfarspgi": [
+  "DFARSPGI": [
     {
       "part": "1",
       "subpart": 0,
@@ -1745,7 +1745,7 @@
       "html": "N/A"
     }
   ],
-  "afars": [
+  "AFARS": [
     {
       "part": "12",
       "subpart": 0,
@@ -2418,7 +2418,7 @@
       "html": "N/A"
     }
   ],
-  "affars": [
+  "AFFARS": [
     {
       "part": "39",
       "subpart": 0,
@@ -3003,7 +3003,7 @@
       "html": "N/A"
     }
   ],
-  "dars": [
+  "DARS": [
     {
       "part": "12",
       "subpart": 0,
@@ -3610,7 +3610,7 @@
       "html": "N/A"
     }
   ],
-  "dlad": [
+  "DLAD": [
     {
       "part": "12",
       "subpart": 0,
@@ -4063,7 +4063,7 @@
       "html": "N/A"
     }
   ],
-  "nmcars": [
+  "NMCARS": [
     {
       "part": "1",
       "subpart": 0,
@@ -4791,7 +4791,7 @@
       "html": "N/A"
     }
   ],
-  "sofars": [
+  "SOFARS": [
     {
       "part": "1",
       "subpart": 0,
@@ -5222,7 +5222,7 @@
       "html": "N/A"
     }
   ],
-  "transfars": [
+  "TRANSFARS": [
     {
       "part": "1",
       "subpart": 0,
@@ -5257,7 +5257,7 @@
       "html": "N/A"
     }
   ],
-  "agar": [
+  "AGAR": [
     {
       "part": "1",
       "subpart": 0,
@@ -5732,7 +5732,7 @@
       "html": "N/A"
     }
   ],
-  "aidar": [
+  "AIDAR": [
     {
       "part": "D",
       "subpart": 0,
@@ -6163,7 +6163,7 @@
       "html": "N/A"
     }
   ],
-  "car": [
+  "CAR": [
     {
       "part": "1352-M",
       "subpart": 0,
@@ -6693,7 +6693,7 @@
       "html": "N/A"
     }
   ],
-  "dears": [
+  "DEAR": [
     {
       "part": "1",
       "subpart": 0,
@@ -7135,7 +7135,7 @@
       "html": "N/A"
     }
   ],
-  "diar": [
+  "DIAR": [
     {
       "part": "0",
       "subpart": 0,
@@ -7676,7 +7676,7 @@
       "html": "N/A"
     }
   ],
-  "dolar": [
+  "DOLAR": [
     {
       "part": "1",
       "subpart": 0,
@@ -8052,7 +8052,7 @@
       "html": "N/A"
     }
   ],
-  "dosar": [
+  "DOSAR": [
     {
       "part": "16",
       "subpart": 0,
@@ -8549,7 +8549,7 @@
       "html": "N/A"
     }
   ],
-  "dtar": [
+  "DTAR": [
     {
       "part": "1",
       "subpart": 0,
@@ -8694,7 +8694,7 @@
       "html": "N/A"
     }
   ],
-  "edar": [
+  "EDAR": [
     {
       "part": "1",
       "subpart": 0,
@@ -9004,7 +9004,7 @@
       "html": "N/A"
     }
   ],
-  "epaar": [
+  "EPAAR": [
     {
       "part": "0",
       "subpart": 0,
@@ -9424,7 +9424,7 @@
       "html": "N/A"
     }
   ],
-  "fehbar": [
+  "FEHBAR": [
     {
       "part": "4",
       "subpart": 0,
@@ -9701,7 +9701,7 @@
       "html": "N/A"
     }
   ],
-  "gsam": [
+  "GSAM/R": [
     {
       "part": "1",
       "subpart": 0,
@@ -10308,7 +10308,7 @@
       "html": "N/A"
     }
   ],
-  "hhsar": [
+  "HHSAR": [
     {
       "part": "1",
       "subpart": 0,
@@ -10695,7 +10695,7 @@
       "html": "N/A"
     }
   ],
-  "hsar": [
+  "HSAR": [
     {
       "part": "0",
       "subpart": 0,
@@ -11269,7 +11269,7 @@
       "html": "N/A"
     }
   ],
-  "hudar": [
+  "HUDAR": [
     {
       "part": "7",
       "subpart": 0,
@@ -11689,7 +11689,7 @@
       "html": "N/A"
     }
   ],
-  "iaar": [
+  "IAAR": [
     {
       "part": "1",
       "subpart": 0,
@@ -11834,7 +11834,7 @@
       "html": "N/A"
     }
   ],
-  "jar": [
+  "JAR": [
     {
       "part": "1",
       "subpart": 0,
@@ -12188,7 +12188,7 @@
       "html": "N/A"
     }
   ],
-  "lifar": [
+  "LIFAR": [
     {
       "part": "43",
       "subpart": 0,
@@ -12465,7 +12465,7 @@
       "html": "N/A"
     }
   ],
-  "nfs": [
+  "NFS": [
     {
       "part": "Appendix",
       "subpart": 0,
@@ -13017,7 +13017,7 @@
       "html": "N/A"
     }
   ],
-  "nrcar": [
+  "NRCAR": [
     {
       "part": "1",
       "subpart": 0,
@@ -13283,7 +13283,7 @@
       "html": "N/A"
     }
   ],
-  "tar": [
+  "TAR": [
     {
       "part": "1",
       "subpart": 0,
@@ -13879,7 +13879,7 @@
       "html": "N/A"
     }
   ],
-  "vaar": [
+  "VAAR": [
     {
       "part": "12",
       "subpart": 0,
@@ -14398,13 +14398,13 @@
       "html": "N/A"
     }
   ],
-  "affars/mp": [
+  "AFFARS MP": [
     {
       "part": "5332.470",
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/advance-payment-pool",
@@ -14415,7 +14415,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/air-force-competition-and-commercial-advocacy-program",
@@ -14426,7 +14426,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/air-force-contracting-self-inspection-program",
@@ -14437,7 +14437,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/air-force-space-contractor-responsibility-watch-list-crwl",
@@ -14448,7 +14448,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/announcement-contract-awards",
@@ -14459,7 +14459,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/bankruptcy-procedures",
@@ -14470,7 +14470,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/business-clearance-approval-dascadasc",
@@ -14481,7 +14481,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/contract-audit-follow-cafu",
@@ -14492,7 +14492,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/contract-funding",
@@ -14503,7 +14503,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/contract-pricing",
@@ -14514,7 +14514,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/contracting-office-responsibilities",
@@ -14525,7 +14525,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/designation-assignment-and-responsibilities-contracting-officers-representative-cor",
@@ -14536,7 +14536,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/exceptions",
@@ -14547,7 +14547,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/exceptions-0",
@@ -14558,7 +14558,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/foreign-acquisitions",
@@ -14569,7 +14569,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/head-agency-hoa-senior-procurement-executive-spe-service-acquisition-executive-sae-delegation-matrix",
@@ -14580,7 +14580,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/head-contracting-activity-hca-matrix",
@@ -14591,7 +14591,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/improper-business-practices-and-personal-conflicts-interest",
@@ -14602,7 +14602,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/protests-gao",
@@ -14613,7 +14613,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/receipt-evaluation-and-disposition-unsolicited-proposals",
@@ -14624,7 +14624,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/selection-appointment-and-termination-appointment-contracting-officers",
@@ -14635,7 +14635,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/small-business-programs",
@@ -14646,7 +14646,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/source-selection-reflects-new-dod-procedures",
@@ -14657,20 +14657,20 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/mp",
+      "reg": "affarsmp",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/termination-contracts-0",
       "html": "N/A"
     }
   ],
-  "affars/pgi": [
+  "AFFARS PGI": [
     {
       "part": "12",
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/acquisition-commercial-items-0",
@@ -14681,7 +14681,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/acquisition-information-technology-0",
@@ -14692,7 +14692,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/acquisition-utility-services-0",
@@ -14703,7 +14703,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/acquisition-planning-0",
@@ -14714,7 +14714,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/administrative-matters-0",
@@ -14725,7 +14725,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/application-labor-laws-government-acquisitions",
@@ -14736,7 +14736,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/competition-requirements-0",
@@ -14747,7 +14747,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/construction-and-architect-engineer-contracts-0",
@@ -14758,7 +14758,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/contract-administration-and-audit-services-0",
@@ -14769,7 +14769,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/contract-cost-principles-and-procedures-0",
@@ -14780,7 +14780,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/contract-financing-0",
@@ -14791,7 +14791,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/contract-modifications-0",
@@ -14802,7 +14802,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/contracting-negotiation-0",
@@ -14813,7 +14813,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/contractor-qualifications-0",
@@ -14824,7 +14824,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/describing-agency-needs-0",
@@ -14835,7 +14835,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/environment-energy-and-water-efficiency-renewable-energy-technologies-occupational-safety-and-drug-free-workplace",
@@ -14846,7 +14846,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/federal-acquisition-regulations-system",
@@ -14857,7 +14857,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/foreign-acquisition-0",
@@ -14868,7 +14868,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/government-property-0",
@@ -14879,7 +14879,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/patents-data-and-copyrights-0",
@@ -14890,7 +14890,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/protection-privacy-and-freedom-information-0",
@@ -14901,7 +14901,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/protests-disputes-and-appeals-0",
@@ -14912,7 +14912,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/publicizing-contract-actions-0",
@@ -14923,7 +14923,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/quality-assurance-0",
@@ -14934,7 +14934,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/required-sources-supplies-and-services-0",
@@ -14945,7 +14945,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/research-and-development-contracting-0",
@@ -14956,7 +14956,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/sealed-bidding-0",
@@ -14967,7 +14967,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/service-contracting-0",
@@ -14978,7 +14978,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/service-contracting-1",
@@ -14989,7 +14989,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/simplified-acquisition-procedures-0",
@@ -15000,7 +15000,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/small-business-programs-0",
@@ -15011,7 +15011,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/special-contracting-methods-0",
@@ -15022,7 +15022,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/termination-contracts-1",
@@ -15033,7 +15033,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/transportation",
@@ -15044,7 +15044,7 @@
       "subpart": 0,
       "section": 0,
       "subsection": 0,
-      "reg": "affars/pgi",
+      "reg": "affarspgi",
       "type": "main",
       "fac": "2021-04",
       "link": "https://www.acquisition.gov/affars/types-contracts-0",

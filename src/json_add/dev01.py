@@ -12,54 +12,12 @@ if str1[0] in 'ivx': print('good')
 
 
 
-# for far, dfars, dfars pgi, gsam:
-# h1 = Parts
-# h2 = Subparts
-# h3 = Sections
-# h4 = Subsections
-#
-# TOC:
-# div class= 'body'
-#
-# Content:
-# article role= 'article'
-# div class= 'body conbody'
-# *To pull data, get all get_text between two headings
-# *Each subsection gets its own division?
-#
-# Pararaphs
-# FAR will always be in this format per FAR 1.105-2:
-# (a)
-# (1)
-# (i)
-# (A)
-# (1)
-# (I)
-
-
-
-
-# for supplementals:
-# h1 = Parts
-# h2 = Subparts
-# h3 = Sections
-# h4 = Subsections
-#
-# TOC:
-# *Usually not found...
-# div class= 'field-items'
-# div id='Table of Contents1"
-# *Create my own? Ugh...
-#
-# Content:
-# div class= 'field-items'
-# *To pull data, get all get_text between two headings
-# *Each subsection gets its own division?
-
-
-
-
-
+# with open(hname2, 'w', encoding = 'utf8') as hn2:
+#   soup = bsp(contents, 'html.parser')
+#   res = soup.find_all('tbody')
+#   for i in res:
+#     hn2.write(str(i.prettify()))
+#     break
 
 
 
@@ -73,76 +31,90 @@ if str1[0] in 'ivx': print('good')
 # 3) Fix paragraphs now or later?
 
 
+########################### For FAR, DFARS. GSAM... ###########################
+# for far, dfars, dfars pgi, gsam:
+# h1 = Parts
+# h2 = Subparts
+# h3 = Sections
+# h4 = Subsections
+
+# TOC:
+# div class= 'body'
+
+# Content (FAR, DFARS, GSAM):
+# article role= 'article'
+# div class= 'body conbody'
+# *To pull data, get all get_text between two headings
+# *Each subsection gets its own division?
 
 
+################################ Supplementals ################################
+# for supplementals:
+# h1 = Parts
+# h2 = Subparts
+# h3 = Sections
+# h4 = Subsections
 
+# TOC:
+# *Usually not found...
+# div class= 'field-items'
+# div id='Table of Contents1"
+# *Create my own? Ugh...
 
+# Content:
+# div class= 'field-items'
+# field-items consists of everything, including table of contents
+# *To pull data, get all get_text between two headings
+# *Each subsection gets its own division?
 
-
-
-
-
-
-
-
-
-
-
-
-
-# with open(hname2, 'w', encoding = 'utf8') as hn2:
-#   soup = bsp(contents, 'html.parser')
-#   res = soup.find_all('tbody')
-#   for i in res:
-#     hn2.write(str(i.prettify()))
-#     break
-
-
-
-
-
-
-# open the url and save it as an html object
-# resp = ul.request.urlopen(res)
-# html_res = resp.read()
-
-# turn it into html and parse out the content
-# text is always found in the <div id="middlecontent"> area on the webpage
-# soup = bsp(html_res, 'html.parser')
-# reg_txt = soup.find('div', id = 'middlecontent')
-
-# with open(hfile, 'w', encoding = 'utf8') as h:
-#   h.write(reg_txt.prettify())
-#   h.close()
-
-#print(reg_txt.prettify())
-# look into .extrar() for beautiful soup to extract contents in between tags
-# changin the names of tags and attributes
-
-
-
-
-
-# reg
-# part
-# subpart
-# section
-# http_link
-# html
 
 # regulation-index-browse_wrapper
-
-
-#print(reg_txt.prettify())
 # look into .extrar() for beautiful soup to extract contents in between tags
 # changin the names of tags and attributes
 
-# reg
-# part
-# subpart
-# section
-# http_link
-# html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

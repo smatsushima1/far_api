@@ -7,6 +7,7 @@ import urllib as ul
 import re
 
 
+#################################### Basics ####################################
 # Remove all file contents before writing anything, but only if it exists
 def rem_file(fname, dname):
     file_name = dname + '/' + fname + '.' + dname
@@ -19,6 +20,7 @@ def success_comp(fname):
     print('Succesfully completed: ' + fname + '\n')
      
      
+################################# JSON Parsing #################################
 # Parse-out FAR part and its name
 # Originally, the part names were going to be pulled into each respective
 #   citation, but this doesn't seem necessary anymore
@@ -166,7 +168,7 @@ def parts_hrefs(htext):
     return dlist
 
 
-# Returns the part number regardless of what type it is
+# Returns the part number regardless of what type it is; used with parts_href
 def ret_part(ptext):
     sp_text = ptext.split()
     cnt = len(sp_text)
@@ -176,7 +178,7 @@ def ret_part(ptext):
     return ptext
 
 
-# Returns dictionary of objects
+# Returns dictionary of objects; used with parts_href
 def add_to_dict(rlist, addr, reg_ind):
     dlist = []
     for i in rlist:
@@ -192,7 +194,7 @@ def add_to_dict(rlist, addr, reg_ind):
     return dlist
 
 
-# Find CSS sheets
+########################## CSS and JavaScript Parsing ##########################
 # Only one result found for 'autonumber', but not usable
 def search_css(search_text):
     # First find CSS sheets

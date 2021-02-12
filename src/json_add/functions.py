@@ -201,16 +201,17 @@ def add_to_dict(regulation, rlist, addr, reg_ind):
         # The part numbers will always just be the text
         hpart = return_part(i.get_text()).strip()
         part_final = final_part(hpart)
+        reg_final = regulation.strip('/')
         # If its for the main regs, 'href' will be in the 'attrs'
         if reg_ind == 1:
             hlnk = addr + i.attrs['href'].strip()
         else:
             hlnk = addr + i.a['href'].strip()
-        ret_text = {'part': hpart,
+        ret_text = {'part': part_final,
                     'subpart': 0,
                     'section': 0,
                     'subsection': 0,
-                    'reg': regulation,
+                    'reg': reg_final,
                     'type': 'main',
                     'fac': '2021-04',
                     'link': hlnk,
@@ -226,18 +227,24 @@ def final_part(part):
     strip_part2 = strip_part1.strip("pgi_")
     lp = len(strip_part2)
     if lp <= 2:
+        print('if: ' + part + ' - ' + strip_part2)
         return strip_part2
     elif lp == 3:
         if strip_part2[1] == str(0):
+            print('elif 1: ' + part + ' - ' + strip_part2[2])
             return strip_part2[2]
         else:
-            return strip_part2[1:2]
+            print('elif 2: ' + part + ' - ' + strip_part2[1:])
+            return strip_part2[1:]
     elif lp == 4:
         if strip_part2[2] == str(0):
+            print('elif 3: ' + part + ' - ' + strip_part2[3])
             return strip_part2[3]
         else:
-            return strip_part2[2:3]
+            print('elif 4: ' + part + ' - ' + strip_part2[2:])
+            return strip_part2[2:]
     else:
+        print('else: ' + part + ' - ' + strip_part2)
         return strip_part2
 
 

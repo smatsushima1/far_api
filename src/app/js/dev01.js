@@ -15,8 +15,6 @@ function popPart() {
     };
 popPart();
 
-test
-
 function popSubpart() {
 
 

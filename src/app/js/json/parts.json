@@ -1,0 +1,43 @@
+[
+  {
+   "part": 1,
+   "subparts": 15,
+   "sections":
+     [
+       {
+        "subpart": 1,
+        "sections": 3,
+        "subsections":
+          [
+            {
+             "section": 1,
+             "subsections": 3
+            },
+            {
+             "section": 2,
+             "subsections": 4
+            },
+            {
+             "section": 3,
+             "subsection": 7
+            }
+          ]
+        },
+        {
+         "subpart": 2,
+         "sections": 2,
+         "subsections":
+          [
+            {
+             "section": 1,
+             "subsections": 6
+            },
+            {
+             "section": 2,
+             "subsections": 7
+            }
+          ]
+        }
+      ]
+  }
+]

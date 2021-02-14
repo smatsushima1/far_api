@@ -16,7 +16,7 @@ function popPart() {
     };
 popPart();
 
-// Can't get jquery to work
+// This works, but I need to dynamically change them
 function changeDD(value) {
     if (value == 1) {
         var subpartDD = document.getElementById('dd_subpart')
@@ -31,7 +31,45 @@ function changeDD(value) {
     }
 };
 
+// See if jquery even works
+function changeDD02(value) {
+    $("#dd_part").change(function() {
+        if (value == 1) {
+            console.log(value)
+            var subpartDD = document.getElementById('dd_subpart')
+            for (var i = 1; i <= 18; i++){
+                var lst = document.createElement('option')
+                lst.textContent = i
+                lst.value = i
+                subpartDD.appendChild(lst)
+            }
+        } else {
+            console.log(value)
+            document.getElementById('dd_subpart').innerHTML = '<option>dev02</option>'
+        }
+       //$("#second-choice").load("textdata/" + $(this).val() + ".txt");
+    });
+};
 
+function devJquery() {
+    $("#first-choice").change(function() {
+       $("#second-choice").load("js/txt/" + $(this).val() + ".txt");
+    });
+};
+devJquery();
+
+// console.log = print
+function dev01() {
+    console.log('ugh')
+};
+
+// Load JSON
+//function jsonDev() {
+//    $.getJSON('json/parts.json', function(data) {
+//        console.log(data);
+//    });
+//}
+//jsonDev();
 
 
 // Subparts are determined by what part is chosen

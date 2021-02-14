@@ -5,11 +5,27 @@
     <h2>What Can JavaScript Do?</h2>
         <p id='demo'>JavaScript can change HTML content.</p>
         <button type='button' onclick='changeName()'>Click Me!</button>
-        <br>
-            <label for='dd_part' id='far'>Part: </label>
-                <select id='dd_part'>
+        <br><br>
+            <label for='dd_part'>Part: </label>
+                <select id='dd_part' onchange='changeDD(this.value)'>
                     <option>-</option>
                 </select>
+            <br>
+            <label for='dd_subpart'>Subpart: </label>
+                <select id='dd_subpart'>
+                    <option>-</option>
+                </select>
+            <br>
+            <label for='dd_section'>Section: </label>
+                <select id='dd_section'>
+                    <option>-</option>
+                </select>
+            <br>
+            <label for='dd_subsection'>Subsection: </label>
+                <select id='dd_subsection'>
+                    <option>-</option>
+                </select>
+            <br>
         <p></p>
         <p>
         </p>

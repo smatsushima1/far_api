@@ -47,16 +47,19 @@ function changeDD02(value) {
             console.log(value)
             document.getElementById('dd_subpart').innerHTML = '<option>dev02</option>'
         }
-       //$("#second-choice").load("textdata/" + $(this).val() + ".txt");
+       //$("#second-choice").load("js/txt/" + $(this).val() + ".txt");
     });
 };
 
-function devJquery() {
-    $("#first-choice").change(function() {
-       $("#second-choice").load("js/txt/" + $(this).val() + ".txt");
+$(function() {
+    $('#first-choice').change(function() {
+       $('#second-choice').load('../js/txt/' + $(this).val() + '.txt');
     });
-};
-devJquery();
+});
+
+//function devJquery() {
+//};
+//devJquery();
 
 // console.log = print
 function dev01() {

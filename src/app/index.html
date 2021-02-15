@@ -1,14 +1,23 @@
 
 <!DOCTYPE html>
-<html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <script src='https://code.jquery.com/jquery-3.5.1.min.js'></script>
+    <script src='txt/beverages.txt'></script>
+</head>
+
 <body>
     <h2>What Can JavaScript Do?</h2>
         <p id='demo'>JavaScript can change HTML content.</p>
         <button type='button' onclick='changeName()'>Click Me!</button>
-        <br><br>
+        <br>
+
             <label for='dd_part'>Part: </label>
-                <select id='dd_part' onchange='changeDD(this.value)'>
-                    <option>-</option>
+                <select id='dd_part' onchange='changeDD02(this.value)'>
+                    <option></option>
                 </select>
             <br>
             <label for='dd_subpart'>Subpart: </label>
@@ -26,11 +35,22 @@
                     <option>-</option>
                 </select>
             <br>
-        <p></p>
-        <p>
-        </p>
 
+            <select id="first-choice">
+                <option selected value="base">Please Select</option>
+                <option value="beverages">beverages</option>
+                <option value="snacks">snacks</option>
+             </select>
+             <br>
+
+             <select id="second-choice">
+                 <option>Please choose from above</option>
+             </select>
+
+        <p></p>
+        <p></p>
 
     <script type='text/javascript' src='js/dev01.js'></script>
+
 </body>
 </html>

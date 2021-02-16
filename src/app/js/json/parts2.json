@@ -1,0 +1,38 @@
+[
+  {
+    "reg": "far",
+    "curr_part": 1,
+    "curr_subpart": 1,
+    "curr_section": 1,
+    "tot_subparts": 15,
+    "tot_section": 5,
+    "tot_subsections": 3
+  },
+  {
+    "reg": "far",
+    "curr_part": 1,
+    "curr_subpart": 1,
+    "curr_section": 2,
+    "tot_subparts": 15,
+    "tot_section": 5,
+    "tot_subsections": 4
+  },
+  {
+    "reg": "far",
+    "curr_part": 1,
+    "curr_subpart": 1,
+    "curr_section": 3,
+    "tot_subparts": 15,
+    "tot_section": 5,
+    "tot_subsections": 1
+  },
+  {
+    "reg": "far",
+    "curr_part": 1,
+    "curr_subpart": 1,
+    "curr_section": 4,
+    "tot_subparts": 15,
+    "tot_section": 5,
+    "tot_subsections": 2
+  }
+]

@@ -57,6 +57,16 @@ $(function() {
     });
 });
 
+def devConnect() {
+    var pg = require('pg');
+    var conString = "postgres://postgres:peer@localhost:5432/far_api";
+
+    var client = new pg.Client(conString);
+    client.connect();
+}
+devConnect();
+console.log('devconnect done')
+
 //function devJquery() {
 //};
 //devJquery();

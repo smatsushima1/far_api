@@ -57,7 +57,7 @@ $(function() {
     });
 });
 
-def devConnect() {
+function devConnect() {
     var pg = require('pg');
     var conString = "postgres://postgres:peer@localhost:5432/far_api";
 

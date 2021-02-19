@@ -53,8 +53,18 @@ def db_insert(connection, table_name, values):
     qry = 'insert into ' + table_name + ' values ' + values_string + ';'
     cur.execute(qry, values)
     connection.commit()
+    
+    
+# Drop and create table; returns connection
+def drop_create_tables(curs, table_name, table_values):
+    qry = '''
+    drop table if exists %s;
+    create table %s (%s);
+    ''' % (table_name, table_name, table_values)
+    curs.execute(qry)
 
-     
+
+# Add all FAR parts and titles
 def db_far_parts():
     print('\nStarting db_far_parts')
     # https://acqnotes.com/acqnote/careerfields/federal-acquisition-regulation-index
@@ -118,12 +128,8 @@ def db_far_parts():
     conn = db_connect()
     cur = conn.cursor()
     tname = 'far_parts'
-    values = 'part integer, title text'
-    qry = '''
-    drop table if exists %s;
-    create table %s (%s);
-    ''' % (tname, tname, values)
-    cur.execute(qry)
+    values = 'part integer, title text'    
+    drop_create_tables(cur, tname, values)
 
     # Start adding values
     for i in far:
@@ -166,11 +172,7 @@ def db_add_reg_links():
     cur = conn.cursor()
     tname = 'reg_links'
     values = 'reg text, link text'
-    qry = '''
-    drop table if exists %s;
-    create table %s (%s);
-    ''' % (tname, tname, values)
-    cur.execute(qry)
+    drop_create_tables(cur, tname, values)
     
     # Start adding values
     for i in res:
@@ -223,10 +225,7 @@ def db_add_all_parts():
                 link text,
                 html text
                 '''
-    qry = '''drop table if exists %s;
-             create table %s (%s);
-             ''' % (tname, tname, values)
-    cur.execute(qry)
+    drop_create_tables(cur, tname, values)
     qry2 = 'select * from reg_links;'
     cur.execute(qry2)
     res = cur.fetchall()

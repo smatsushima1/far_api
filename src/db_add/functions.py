@@ -51,16 +51,16 @@ def db_insert(connection, table_name, values):
     values_string = '%s' + (', %s' * (len_values - 1))
     values_string = '(' + values_string + ')'
     qry = 'insert into ' + table_name + ' values ' + values_string + ';'
+    # Values shouldn't be concatenated together
     cur.execute(qry, values)
     connection.commit()
     
     
 # Drop and create table; returns connection
 def drop_create_tables(curs, table_name, table_values):
-    qry = '''
-    drop table if exists %s;
-    create table %s (%s);
-    ''' % (table_name, table_name, table_values)
+    qry = '''drop table if exists %s;
+             create table %s (%s);
+             ''' % (table_name, table_name, table_values)
     curs.execute(qry)
 
 
@@ -68,8 +68,7 @@ def drop_create_tables(curs, table_name, table_values):
 def db_far_parts():
     print('\nStarting db_far_parts')
     # https://acqnotes.com/acqnote/careerfields/federal-acquisition-regulation-index
-    far = [
-           'Part 1-Federal Acquisition Regulations System', 
+    far = ['Part 1-Federal Acquisition Regulations System', 
            'Part 2-Definitions of Words and Terms', 
            'Part 3-Improper Business Practices and Personal Conflicts of Interest', 
            'Part 4-Administrative Matters', 
@@ -122,7 +121,7 @@ def db_far_parts():
            'Part 51-Use of Government Sources by Contractors', 
            'Part 52-Solicitation Provisions and Contract Clauses', 
            'Part 53-Forms'
-          ]
+           ]
     
     # Connect to database
     conn = db_connect()

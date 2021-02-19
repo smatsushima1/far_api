@@ -8,55 +8,30 @@ import re
 import psycopg2 as pg2
 
 
-################################## PostgreSQL #################################
-# Connect to DB
-def db_connect():
-    pw = input('Enter password: ')
-    conn = pg2.connect(dbname = 'far_api',
-                       user = 'postgres',
-                       host = 'localhost',
-                       password = pw)
-    return conn
+#################################### Basics ###################################
+# Remove all file contents before writing anything, but only if it exists
+def rem_file(fname, dname):
+    file_name = dname + '/' + fname + '.' + dname
+    if path.exists(file_name):
+        open(file_name, 'w').close()
+    return file_name
 
 
-# Select all for a given table
-def db_select_all(connection, table_name):
-    # Tables can be concatenated in, but not the arguments
-    cur = connection.cursor()
-    qry = 'select * from ' + table_name + ';'
-    cur.execute(qry)
-    results = cur.fetchall()
-    for i in results:
-        print(i)
-    connection.commit()
-    cur.close()
-
-
-# Insert all values into a table
-def db_insert(connection, table_name, values):
-    cur = connection.cursor()
-    len_values = len(values)
-    values_string = '%s' + (', %s' * (len_values - 1))
-    values_string = '(' + values_string + ')'
-    qry = 'insert into ' + table_name + ' values ' + values_string + ';'
-    # Values shouldn't be concatenated together
-    cur.execute(qry, values)
-    connection.commit()
+def success_comp(fname):
+    print('Succesfully completed: ' + fname + '\n')
     
-    
-# Drop and create table; returns connection
-def drop_create_tables(curs, table_name, table_values):
-    qry = '''drop table if exists %s;
-             create table %s (%s);
-             ''' % (table_name, table_name, table_values)
-    curs.execute(qry)
 
+################################# JSON Parsing ################################
+# Parse-out FAR part and its name
+# Originally, the part names were going to be pulled into each respective
+#   citation, but this doesn't seem necessary anymore
+# This will still stay in the file though...
+def add_far_parts():
+    jname = rem_file('far_parts', 'json')
 
-# Add all FAR parts and titles
-def db_far_parts():
-    print('\nStarting db_far_parts')
     # https://acqnotes.com/acqnote/careerfields/federal-acquisition-regulation-index
-    far = ['Part 1-Federal Acquisition Regulations System', 
+    far = [
+           'Part 1-Federal Acquisition Regulations System', 
            'Part 2-Definitions of Words and Terms', 
            'Part 3-Improper Business Practices and Personal Conflicts of Interest', 
            'Part 4-Administrative Matters', 
@@ -109,16 +84,9 @@ def db_far_parts():
            'Part 51-Use of Government Sources by Contractors', 
            'Part 52-Solicitation Provisions and Contract Clauses', 
            'Part 53-Forms'
-           ]
+          ]
     
-    # Connect to database
-    conn = db_connect()
-    cur = conn.cursor()
-    tname = 'far_parts'
-    values = 'part integer, title text'    
-    drop_create_tables(cur, tname, values)
-
-    # Start adding values
+    dlist = []
     for i in far:
         spl = i.split('-')
         part = spl[0]
@@ -128,22 +96,15 @@ def db_far_parts():
         # Error checks
         if 'RESERVED' in fname:
             fname = 'RESERVED'
-        lst = []
-        lst.append(int(fpart))
-        lst.append(str(fname))
-        tup = tuple(lst)
-        db_insert(conn, tname, tup)
-        
-    # Finish
-    conn.commit()
-    db_select_all(conn, tname)
-    cur.close()
-    print('Done updating ' + tname)
+        dlist.append({'part': int(fpart), 'name': str(fname)})
+    json.dump(dlist, open(jname, 'w', encoding = 'utf8'), indent = 2)  
+    success_comp(jname)
 
 
 # Add links to href sits
-def db_add_reg_links():
-    print('\nStarting db_add_reg_links')
+def add_reg_links():
+    jname = rem_file('reg_links', 'json')
+    
     # The following string could have been anywhere on acq.gov
     srch = 'https://www.acquisition.gov/browse/index/far'
     # Open the url and save it as an html object
@@ -154,14 +115,7 @@ def db_add_reg_links():
     htext = soup.find('div', class_ = 'reg-container clearfix')
     res = htext.find_all('a')
     
-    # Connect to database
-    conn = db_connect()
-    cur = conn.cursor()
-    tname = 'reg_links'
-    values = 'reg text, link text'
-    drop_create_tables(cur, tname, values)
-    
-    # Start adding values
+    dlist = []
     for i in res:
         rtext = i.get_text()
         reg = rtext.strip()
@@ -169,69 +123,33 @@ def db_add_reg_links():
         href = hrtext.strip().replace('/browse/index', '')
         # Error checks
         if 'Smart' in reg:
-            continue
-        lst = []
-        lst.append(reg)
-        lst.append(str(href))
-        tup = tuple(lst)
-        db_insert(conn, tname, tup)
-        
+            continue  
+        dlist.append({'reg': reg, 'link': str(href)})
     # Add AFFARS regs to the list
-    lst = []
-    lst.append('AFFARS MP')
-    lst.append('/affars/mp')
-    tup = tuple(lst)
-    db_insert(conn, tname, tup)
-    lst.clear()
-    lst.append('AFFARS PGI')
-    lst.append('/affars/pgi')
-    tup = tuple(lst)
-    db_insert(conn, tname, tup)
-    lst.clear()
-    # Finish
-    conn.commit()
-    db_select_all(conn, tname)
-    cur.close()
-    print('Done updating ' + tname)
-
+    dlist.append({'reg': 'AFFARS MP', 'link': '/affars/mp'})
+    dlist.append({'reg': 'AFFARS PGI', 'link': '/affars/pgi'})
+    json.dump(dlist, open(jname, 'w', encoding = 'utf8'), indent = 2)  
+    success_comp(jname)
+    
 
 # Start extracting links to the Parts and save href in json file
-def db_add_all_parts():
-    print('\nStarting db_add_all_parts')
-    # Connect to database
-    conn = db_connect()
-    cur = conn.cursor()
-    tname = 'all_parts'
-    values = '''part text,
-                subpart integer,
-                section integer,
-                subsection integer,
-                reg text,
-                type text,
-                fac text,
-                link text,
-                html text
-                '''
-    drop_create_tables(cur, tname, values)
-    qry2 = 'select * from reg_links;'
-    cur.execute(qry2)
-    res = cur.fetchall()
+def add_all_parts():
+    jname = rem_file('all_parts', 'json')
     
-    # Start adding values
-    for i in res:
-        htext = str(i[1])
+    # An empty dictionary is created because, there will be objects with lists
+    data = json.load(open('json/reg_links.json', 'r'))
+    d = {}
+    for i in data:
+        htext = str(i['link'])
         reg = htext.strip('/')
         print('Adding data to: ' + reg)
-        db_parts_hrefs(conn, reg, htext)
-    
-    # Finish
-    conn.commit()
-    cur.close()
-    print('Done with ' + tname)
+        d[i['reg']] = parts_hrefs(reg, htext)
+    json.dump(d, open(jname, 'w', encoding = 'utf8'), indent = 2)
+    success_comp(jname) 
 
 
 # Parse each part for each regulation; used with add_all_parts
-def db_parts_hrefs(connection, regulation, htext):
+def parts_hrefs(regulation, htext):
     # Open the url and save it as an html object
     reg = regulation.strip()
     reg = reg.strip('_')
@@ -252,11 +170,24 @@ def db_parts_hrefs(connection, regulation, htext):
     else:
         res = hsoup.tbody.find_all('td', class_ = re.compile('.*part-number'))
         ind = 0
-    db_add_to_list(connection, reg, res, base, ind)
+    dlist = add_to_dict(reg, res, base, ind)
+    return dlist
 
 
-# Adds everything to db
-def db_add_to_list(connection, regulation, rlist, addr, reg_ind):
+# Returns dictionary of objects; used with parts_href
+# JSON objects will be structured:
+# {"part": ,
+#  "subpart": ,
+#  "section": ,
+#  "subsection": ,
+#  "reg": ,
+#  "type": ,
+#  "fac": ,
+#  "link": ,
+#  "html":
+#  }
+def add_to_dict(regulation, rlist, addr, reg_ind):
+    dlist = []
     for i in rlist:
         # The part numbers will always just be the text
         hpart = return_part(i.get_text()).strip()
@@ -266,27 +197,18 @@ def db_add_to_list(connection, regulation, rlist, addr, reg_ind):
             hlnk = addr + i.attrs['href'].strip()
         else:
             hlnk = addr + i.a['href'].strip()
-        lst = []
-        # part
-        lst.append(part_final)
-        # subpart
-        lst.append(0)
-        # section
-        lst.append(0)
-        # subsection
-        lst.append(0)
-        # reg
-        lst.append(regulation.replace('/', ''))
-        # type
-        lst.append('main')
-        # fac
-        lst.append('2021-04')
-        # link
-        lst.append(hlnk)
-        # html
-        lst.append('N/A')
-        tup = tuple(lst)
-        db_insert(connection, 'all_parts', tup)
+        ret_text = {'part': part_final,
+                    'subpart': 0,
+                    'section': 0,
+                    'subsection': 0,
+                    'reg': regulation.replace('/', ''),
+                    'type': 'main',
+                    'fac': '2021-04',
+                    'link': hlnk,
+                    'html': 'N/A'
+                    }
+        dlist.append(ret_text)
+    return dlist
 
 
 # Returns the part number regardless of what type it is; used with parts_href

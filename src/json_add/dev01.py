@@ -1,11 +1,32 @@
-
+import psycopg2 as pg2
 from functions import *
 
 #search_css('autonumber')
 #search_jscripts('autonumber')
 
-str1 = 'affars/pgi'
-print(str1.replace('/', ''))
+
+#db_select_all('temp_dd_data')
+
+
+
+conn = db_connect()
+cur = conn.cursor()
+qry = 'select * from all_parts;'
+cur.execute(qry)
+res = cur.fetchall()
+print(res[0][1])
+conn.commit()
+cur.close()
+
+
+
+
+
+
+
+
+
+
 
 
 

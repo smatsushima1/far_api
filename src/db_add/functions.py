@@ -1,4 +1,6 @@
 
+import os
+from dotenv import load_dotenv
 from bs4 import BeautifulSoup as bsp
 import urllib as ul
 import re
@@ -10,16 +12,16 @@ from psycopg2.extensions import AsIs
 ################################## PostgreSQL #################################
 # Connect to DB
 def db_connect():
-    pw = input('Enter password: ')
-    conn = pg2.connect(dbname = 'far_api',
+    load_dotenv('../.env')
+    conn = pg2.connect(dbname = os.environ['DB_NAME'],
                        user = 'postgres',
                        host = 'localhost',
-                       password = pw)
+                       password = os.environ['DB_PW'])
     return conn
 
 
 # Select all for a given table
-def db_select_all(connection, table_name):
+def select_all(connection, table_name):
     # Tables can be concatenated in, but not the arguments
     cur = connection.cursor()
     qry = 'select * from %s;'
@@ -34,20 +36,21 @@ def db_select_all(connection, table_name):
 
 
 # Insert all values into a table
-def db_insert(connection, table_name, values):
+def insert_values(connection, table_name, values):
     cur = connection.cursor()
     len_values = len(values)
     values_string = '%s' + (', %s' * (len_values - 1))
-    qry = 'insert into {} values (' + values_string + ');'
+    qry = 'insert into {table} values (' + values_string + ');'
     # Identifier is required here because there are other values to be inserted
-    cur.execute(sql.SQL(qry).format(sql.Identifier(table_name)), values)
+    cur.execute(sql.SQL(qry).format(table = sql.Identifier(table_name)),
+                values
+                )
     connection.commit()
     
     
 # Drop and create table
 def drop_create_tables(curs, table_name, table_values):
-    qry = '''drop table if exists %s;
-             create table %s (%s);'''
+    qry = 'drop table if exists %s; create table %s %s'
     # AsIs is required because table names don't require quotes
     curs.execute(qry, (AsIs(table_name),
                        AsIs(table_name),
@@ -118,7 +121,7 @@ def db_far_parts():
     conn = db_connect()
     cur = conn.cursor()
     tname = 'far_parts'
-    values = 'part integer, title text'    
+    values = '(part integer, title text)'
     drop_create_tables(cur, tname, values)
 
     # Start adding values
@@ -135,11 +138,11 @@ def db_far_parts():
         lst.append(int(fpart))
         lst.append(str(fname))
         tup = tuple(lst)
-        db_insert(conn, tname, tup)
+        insert_values(conn, tname, tup)
         
     # Finish
     conn.commit()
-    db_select_all(conn, tname)
+    select_all(conn, tname)
     cur.close()
     print('Done updating ' + tname)
 
@@ -161,7 +164,7 @@ def db_add_reg_links():
     conn = db_connect()
     cur = conn.cursor()
     tname = 'reg_links'
-    values = 'reg text, link text'
+    values = '(reg text, link text)'
     drop_create_tables(cur, tname, values)
     
     # Start adding values
@@ -177,23 +180,23 @@ def db_add_reg_links():
         lst.append(reg)
         lst.append(str(href))
         tup = tuple(lst)
-        db_insert(conn, tname, tup)
+        insert_values(conn, tname, tup)
         
     # Add AFFARS regs to the list
     lst = []
     lst.append('AFFARS MP')
     lst.append('/affars/mp')
     tup = tuple(lst)
-    db_insert(conn, tname, tup)
+    insert_values(conn, tname, tup)
     lst.clear()
     lst.append('AFFARS PGI')
     lst.append('/affars/pgi')
     tup = tuple(lst)
-    db_insert(conn, tname, tup)
+    insert_values(conn, tname, tup)
     lst.clear()
     # Finish
     conn.commit()
-    db_select_all(conn, tname)
+    select_all(conn, tname)
     cur.close()
     print('Done updating ' + tname)
 
@@ -205,7 +208,7 @@ def db_add_all_parts():
     conn = db_connect()
     cur = conn.cursor()
     tname = 'all_parts'
-    values = '''part text,
+    values = '''(part text,
                 subpart text,
                 section text,
                 subsection text,
@@ -213,7 +216,7 @@ def db_add_all_parts():
                 type text,
                 fac text,
                 link text,
-                html text
+                html text)
                 '''
     drop_create_tables(cur, tname, values)
     qry2 = 'select * from reg_links;'
@@ -228,7 +231,7 @@ def db_add_all_parts():
         db_parts_hrefs(conn, reg, htext)
         
     # Add row numbers to each value
-    db_add_row_nums(cur, tname, tname + '_final')
+    add_row_nums(cur, tname, tname + '_final')
     # Finish
     conn.commit()
     cur.close()
@@ -291,7 +294,7 @@ def db_add_to_list(connection, regulation, rlist, addr, reg_ind):
         # html
         lst.append('N/A')
         tup = tuple(lst)
-        db_insert(connection, 'all_parts', tup)
+        insert_values(connection, 'all_parts', tup)
 
 
 # Returns the part number regardless of what type it is; used with parts_href
@@ -325,7 +328,7 @@ def final_part(part):
         return strip_part2
 
 
-def db_add_row_nums(curs, orig_tname, new_tname):
+def add_row_nums(curs, orig_tname, new_tname):
     qry = '''drop table if exists %s;
              create table %s as
              select %s.*,
@@ -339,6 +342,5 @@ def db_add_row_nums(curs, orig_tname, new_tname):
                        AsIs(orig_tname),
                        AsIs(orig_tname)
                        ))
-    
     
     

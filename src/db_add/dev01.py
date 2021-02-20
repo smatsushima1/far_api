@@ -6,11 +6,15 @@ import psycopg2 as pg2
 from functions import *
 from functions_json import *
 
-#search_css('autonumber')
-#search_jscripts('autonumber')
+
+def db_update_html(cur, table_name, html, id_num):
+    qry = "update %s set html = '''%s''' where id_num = %s;" % (table_name, html, id_num)
+    cur.execute(qry)
 
 
-#db_select_all('temp_dd_data')
+
+
+
 
 # Remove file if already there
 fname = 'contents_dev'
@@ -18,24 +22,22 @@ hname = rem_file('contents_dev', 'html')
 
 conn = db_connect()
 cur = conn.cursor()
-qry = 'select * from all_parts_dev1;'
+tname = 'all_parts_dev1'
+qry = 'select * from %s;' % (tname)
 cur.execute(qry)
 res = cur.fetchall()
 
 # HTML link
-for i in res:
+for x, i in enumerate(res):
+    print(x)
     html = ul.request.urlopen(i[7]).read()
+    idnum = i[8]
     soup = bsp(html, 'html.parser')
     hres = soup.find('div', class_ = 'nested0')
-
-    if hres is not None:
-        with open(hname, 'w', encoding = 'utf8') as hf:
-            hf.write(results)
-    else:
+    if hres is None:
         hres = soup.find('div', class_ = 'field-items')
-        with open(hname, 'w', encoding = 'utf8') as hf:
-            hf.write(results)
-
+    # hres_final = "'''" + str(hres) + "'''"
+    db_update_html(cur, tname, str(hres), idnum)
 
 conn.commit()
 cur.close()
@@ -43,6 +45,14 @@ cur.close()
 
 
 
+# conn = db_connect()
+# cur = conn.cursor()
+# t = 'temp_dd_data'
+# qry = 'select * from %s' % t
+# qry2 = qry + ' where reg = %s;'
+# cur.execute(qry2, ('far', ))
+# res = cur.fetchall()
+# print(res)
 
 
 

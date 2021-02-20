@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup as bsp
 import urllib as ul
 import re
 import psycopg2 as pg2
+from psycopg2 import sql
+from psycopg2.extensions import AsIs
 
 
 ################################## PostgreSQL #################################
@@ -20,8 +22,10 @@ def db_connect():
 def db_select_all(connection, table_name):
     # Tables can be concatenated in, but not the arguments
     cur = connection.cursor()
-    qry = 'select * from ' + table_name + ';'
-    cur.execute(qry)
+    qry = 'select * from %s;'
+    # Single values in tuples require an extra comma to register as a tuple
+    # Multiple values don't, since those are already multiples
+    cur.execute(qry, (AsIs(table_name), ))
     results = cur.fetchall()
     for i in results:
         print(i)
@@ -34,19 +38,21 @@ def db_insert(connection, table_name, values):
     cur = connection.cursor()
     len_values = len(values)
     values_string = '%s' + (', %s' * (len_values - 1))
-    values_string = '(' + values_string + ')'
-    qry = 'insert into ' + table_name + ' values ' + values_string + ';'
-    # Values shouldn't be concatenated together
-    cur.execute(qry, values)
+    qry = 'insert into {} values (' + values_string + ');'
+    # Identifier is required here because there are other values to be inserted
+    cur.execute(sql.SQL(qry).format(sql.Identifier(table_name)), values)
     connection.commit()
     
     
-# Drop and create table; returns connection
+# Drop and create table
 def drop_create_tables(curs, table_name, table_values):
     qry = '''drop table if exists %s;
-             create table %s (%s);
-             ''' % (table_name, table_name, table_values)
-    curs.execute(qry)
+             create table %s (%s);'''
+    # AsIs is required because table names don't require quotes
+    curs.execute(qry, (AsIs(table_name),
+                       AsIs(table_name),
+                       AsIs(table_values)
+                       ))
 
 
 # Add all FAR parts and titles
@@ -326,8 +332,13 @@ def db_add_row_nums(curs, orig_tname, new_tname):
                     row_number() over() as id_num
              from %s;
              drop table %s;
-             ''' % (new_tname, new_tname, orig_tname, orig_tname, orig_tname)
-    curs.execute(qry)
+             '''
+    curs.execute(qry, (AsIs(new_tname),
+                       AsIs(new_tname),
+                       AsIs(orig_tname),
+                       AsIs(orig_tname),
+                       AsIs(orig_tname)
+                       ))
     
     
     

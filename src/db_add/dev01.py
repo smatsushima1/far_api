@@ -12,39 +12,33 @@ from functions_json import *
 
 #db_select_all('temp_dd_data')
 
-
-
-conn = db_connect()
-cur = conn.cursor()
-qry = 'select * from all_parts;'
-cur.execute(qry)
-res = cur.fetchall()
-res_dev = res[331][7]
-conn.commit()
-cur.close()
-
-# HTML link
-html = ul.request.urlopen(res_dev).read()
-soup = bsp(html, 'html.parser')
-hres = soup.find('div', class_ = 'nested0')
-
-
 # Remove file if already there
 fname = 'contents_dev'
 hname = rem_file('contents_dev', 'html')
 
-if hres is not None:
-    results = str(hres.prettify())
-    with open(hname, 'w', encoding = 'utf8') as hf:
-        hf.write(results)
-else:
-    hres = soup.find('div', class_ = 'field-items')
-    results = str(hres.prettify())
-    with open(hname, 'w', encoding = 'utf8') as hf:
-        hf.write(results)
+conn = db_connect()
+cur = conn.cursor()
+qry = 'select * from all_parts_dev1;'
+cur.execute(qry)
+res = cur.fetchall()
+
+# HTML link
+for i in res:
+    html = ul.request.urlopen(i[7]).read()
+    soup = bsp(html, 'html.parser')
+    hres = soup.find('div', class_ = 'nested0')
+
+    if hres is not None:
+        with open(hname, 'w', encoding = 'utf8') as hf:
+            hf.write(results)
+    else:
+        hres = soup.find('div', class_ = 'field-items')
+        with open(hname, 'w', encoding = 'utf8') as hf:
+            hf.write(results)
 
 
-
+conn.commit()
+cur.close()
 
 
 

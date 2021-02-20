@@ -220,7 +220,9 @@ def db_add_all_parts():
         reg = htext.strip('/')
         print('Adding data to: ' + reg)
         db_parts_hrefs(conn, reg, htext)
-    
+        
+    # Add row numbers to each value
+    db_add_row_nums(cur, tname, tname + '_final')
     # Finish
     conn.commit()
     cur.close()
@@ -317,3 +319,15 @@ def final_part(part):
         return strip_part2
 
 
+def db_add_row_nums(curs, orig_tname, new_tname):
+    qry = '''drop table if exists %s;
+             create table %s as
+             select %s.*,
+                    row_number() over() as id_num
+             from %s;
+             drop table %s;
+             ''' % (new_tname, new_tname, orig_tname, orig_tname, orig_tname)
+    curs.execute(qry)
+    
+    
+    

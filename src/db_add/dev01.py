@@ -1,5 +1,10 @@
+
+from bs4 import BeautifulSoup as bsp
+import urllib as ul
+import re
 import psycopg2 as pg2
 from functions import *
+from functions_json import *
 
 #search_css('autonumber')
 #search_jscripts('autonumber')
@@ -14,10 +19,29 @@ cur = conn.cursor()
 qry = 'select * from all_parts;'
 cur.execute(qry)
 res = cur.fetchall()
-print(res[0][1])
+res_dev = res[331][7]
 conn.commit()
 cur.close()
 
+# HTML link
+html = ul.request.urlopen(res_dev).read()
+soup = bsp(html, 'html.parser')
+hres = soup.find('div', class_ = 'nested0')
+
+
+# Remove file if already there
+fname = 'contents_dev'
+hname = rem_file('contents_dev', 'html')
+
+if hres is not None:
+    results = str(hres.prettify())
+    with open(hname, 'w', encoding = 'utf8') as hf:
+        hf.write(results)
+else:
+    hres = soup.find('div', class_ = 'field-items')
+    results = str(hres.prettify())
+    with open(hname, 'w', encoding = 'utf8') as hf:
+        hf.write(results)
 
 
 

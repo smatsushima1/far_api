@@ -1,7 +1,4 @@
 
-import os
-from os import path
-import json
 from bs4 import BeautifulSoup as bsp
 import urllib as ul
 import re
@@ -203,9 +200,9 @@ def db_add_all_parts():
     cur = conn.cursor()
     tname = 'all_parts'
     values = '''part text,
-                subpart integer,
-                section integer,
-                subsection integer,
+                subpart text,
+                section text,
+                subsection text,
                 reg text,
                 type text,
                 fac text,

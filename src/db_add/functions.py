@@ -8,6 +8,7 @@ import psycopg2 as pg2
 from psycopg2 import sql
 from psycopg2.extensions import AsIs
 import time
+import datetime
 
 
 # Connect to DB
@@ -77,8 +78,9 @@ def add_reg_links():
     conn = db_connect()
     cur = conn.cursor()
     tname = 'dev_reg_links'
-    values = '(reg text, link text)'
+    values = '(reg varchar, link varchar, order_num integer)'
     drop_create_tables(cur, tname, values)
+    order_num = 1
     # Start adding values
     for i in res:
         rtext = i.get_text()
@@ -88,14 +90,14 @@ def add_reg_links():
         # Error checks
         if 'Smart' in reg:
             continue
-        lst = []
-        lst.append(reg)
-        lst.append(str(href))
-        tup = tuple(lst)
-        insert_values(conn, tname, tup)
+        lst = [reg,
+               str(href),
+               order_num]
+        insert_values(conn, tname, tuple(lst))
+        order_num += 1        
         # The supplemental AFFARS regs aren't normally found
         if reg == 'AFFARS':
-            add_affars_supp(conn, tname)
+            order_num = add_affars_supp(conn, tname, order_num)
     # Finish
     conn.commit()
     cur.close()
@@ -103,17 +105,23 @@ def add_reg_links():
 
 
 # Add supplemental AFFARS regulations; used with dev_add_reg_links
-def add_affars_supp(db_conn, table_name):
-    lst = []
-    lst.append('AFFARS MP')
-    lst.append('/affars/mp')
-    tup = tuple(lst)
-    insert_values(db_conn, table_name, tup)
+def add_affars_supp(db_conn,
+                    table_name,
+                    order_num):
+    lst = ['AFFARS MP',
+           '/affars/mp',
+           order_num
+           ]
+    insert_values(db_conn, table_name, tuple(lst))
+    order_num += 1
     lst.clear()
-    lst.append('AFFARS PGI')
-    lst.append('/affars/pgi')
-    tup = tuple(lst)
-    insert_values(db_conn, table_name, tup)
+    lst = ['AFFARS PGI',
+           '/affars/pgi',
+           order_num
+           ]
+    insert_values(db_conn, table_name, tuple(lst))
+    order_num += 1
+    return order_num
 
 
 # Start extracting links to the Parts and save href in json file
@@ -125,15 +133,17 @@ def add_all_parts():
     conn = db_connect()
     cur = conn.cursor()
     tname = 'dev_all_parts'
-    values = '''(part text,
-                subpart text,
-                section text,
-                subsection text,
-                reg text,
-                type text,
-                fac text,
-                link text,
-                html text)
+    values = '''(part varchar,
+                subpart varchar,
+                section varchar,
+                subsection varchar,
+                reg varchar,
+                type varchar,
+                fac varchar,
+                link varchar,
+                html varchar,
+                order_num integer,
+                import_date varchar)
                 '''
     drop_create_tables(cur, tname, values)
     cur.execute('select * from %s;', (AsIs('dev_reg_links'), ))
@@ -143,7 +153,7 @@ def add_all_parts():
         htext = str(i[1])
         reg = htext.strip('/')
         print('Adding data to: ' + reg)
-        parts_hrefs(conn, reg, htext, tname)
+        parts_hrefs(conn, tname, reg, htext, i[2])
     # Add row numbers to each value
     add_row_nums(cur, tname, tname + '_2')
     # Finish
@@ -153,7 +163,11 @@ def add_all_parts():
 
 
 # Parse each part for each regulation; used with db_add_all_parts
-def parts_hrefs(connection, regulation, htext, table_name):
+def parts_hrefs(connection,
+                table_name,
+                regulation,
+                htext,
+                order):
     # Open the url and save it as an html object
     reg = regulation.strip()
     reg = reg.strip('_')
@@ -174,11 +188,17 @@ def parts_hrefs(connection, regulation, htext, table_name):
     else:
         res = hsoup.tbody.find_all('td', class_ = re.compile('.*part-number'))
         ind = 0
-    add_to_list(connection, reg, res, base, ind, table_name)
+    add_to_list(connection, table_name, reg, res, base, ind, order)
 
 
 # Adds everything to db; used with db_parts_hrefs
-def add_to_list(connection, regulation, rlist, addr, reg_ind, table_name):
+def add_to_list(connection,
+                table_name,
+                regulation,
+                rlist,
+                addr,
+                reg_ind,
+                order):
     for i in rlist:
         # The part numbers will always just be the text
         hpart = return_part(i.get_text()).strip()
@@ -205,10 +225,13 @@ def add_to_list(connection, regulation, rlist, addr, reg_ind, table_name):
                # link
                hlnk,
                # html
-               'N/A'
+               'N/A',
+               # order_num
+               order,
+               # import_date
+               datetime.datetime.now()
                ]
-        tup = tuple(lst)
-        insert_values(connection, table_name, tup)
+        insert_values(connection, table_name, tuple(lst))
 
 
 # Returns the part number regardless of what type it is; used with parts_href
@@ -248,14 +271,15 @@ def add_row_nums(curs, orig_tname, new_tname):
              create table %s as
              select %s.*,
                     row_number() over() as id_num
-             from %s;
-             drop table %s;
+             from %s
+             order by %s, %s;
              '''
     curs.execute(qry, (AsIs(new_tname),
                        AsIs(new_tname),
                        AsIs(orig_tname),
                        AsIs(orig_tname),
-                       AsIs(orig_tname)
+                       AsIs('order_num'),
+                       AsIs('part')
                        ))
 
 

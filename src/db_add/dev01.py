@@ -3,24 +3,24 @@ from bs4 import BeautifulSoup as bsp
 import urllib as ul
 import re
 import psycopg2 as pg2
+import datetime
 from functions import *
 from functions_json import *
 
 
-# Updates table to include html portion of the web link provided
-def split_sections():
-    jname = rem_file('contents_dev', 'html')
+# Used for debugging specific sections
+def debug_write_to_file():
+    jname = rem_file('contents_dev8', 'html')
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
-    tname = 'all_parts_dev_2'
+    tname = 'dev_all_parts_2'
     qry = 'select * from %s where id_num = %s;'
-    cur.execute(qry, (AsIs(tname), '1'))
+    cur.execute(qry, (AsIs(tname), '209'))
     res = cur.fetchall()
     soup = bsp(res[0][8], 'html.parser')
-    # hres = soup.prettify()
-    hres = str(soup)
-    
+    hres = soup.prettify()
+    # hres = str(hres)
     with open(jname, 'w', encoding = 'utf8') as jf:
         jf.write(hres)
         jf.close()
@@ -29,73 +29,63 @@ def split_sections():
     cur.close()
 
 
-def extract_headers():
-    # jname = rem_file('contents_dev', 'html')
-    with open('html/contents_dev.html', 'r', encoding = 'utf8') as jf:
-        rhtml = jf.read()
-    soup = bsp(rhtml, 'html.parser')
-    #soup2 = soup.find('main')
-
+# Used for debugging specific sections; used with debug_write_to_file
+def debug_html():
+    with open('html/contents_dev8.html', 'r', encoding = 'utf8') as jf:
+        contents = jf.read()
+        jf.close()
+    soup = bsp(contents, 'html.parser')
     headers = soup.find_all('h2')
-    header = headers.get_text().lstrip().strip().rstrip()
-    hsplit = header.split()
-    hstr = ''
-    for k in hsplit:
-        hstr += k + ' '
-    hstr = hstr.rstrip()
-    print(hstr)
-    soup2 = bsp(hstr, 'html.parser')
-    htag = soup2.new_tag('h2')
-    htag.string = hstr
-    htag['href'] = '#ugh_derp'
-    print(htag)
-    
     for i in headers:
-        break
-        header = i.get_text().strip()
-        hsplit = header.split()
-        hstr = ''
-        for j in hsplit:
-            hstr += j + ' '
-        print(hstr)
-        soup2 = bsp(hstr, 'html.parser')
-        htag = soup2.new_tag('h2')
-        htag.string = hstr
-        htag['href'] = '#ugh_derp'
-        print(htag)
+        print(i.get_text().strip())
+    
 
 
-def extract_headers2():
+
+
+# Extracts headers in a separate table
+# Runtime: seconds
+def extract_headers():
     start_time = time.time()
-    print('\nFunction: extract_headers\nStarting...')
+    print('\nFunction: extract_headers\nStarting...\nID_NUM - PART - REG - STATUS')
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
     tname = 'dev_all_parts_headers'
     tname_orig = 'dev_all_parts_2'
+    # Create new table from original instead of creating it from scratch
     qry = '''drop table if exists %s;
              create table %s as
              select * from %s limit 1;
              truncate table %s;
-             alter table %s drop column id_num;
+             alter table %s drop column %s;
+             alter table %s add column %s %s;
              '''
-    # Truncate everything since it will be identical in format to dev_all_parts_2
     cur.execute(qry,
                 (AsIs(tname),
-                AsIs(tname),
-                AsIs(tname_orig),
-                AsIs(tname),
-                AsIs(tname)
+                 AsIs(tname),
+                 AsIs(tname_orig),
+                 AsIs(tname),
+                 AsIs(tname),
+                 AsIs('id_num'),
+                 AsIs(tname),
+                 AsIs('import_date'),
+                 AsIs('timestamp'),
                 ))
-    
+    # Run for the real results
     cur.execute('select * from %s order by %s;',
                 (AsIs(tname_orig),
                 AsIs('id_num')
                 ))
     results = cur.fetchall()
     for i in results:
-        id_num = i[9] + 1
-        print('%s - %s - %s - Working' % (str(id_num), i[0], i[4]))
+        idnum = str(i[9])
+        print('%s - %s - %s - Working' % (idnum, i[0], i[4]))
+        # Skipped sections: these will take more time to debug
+        if idnum in ['166', '167', '168', '170', '188', '192', '196', '209'
+                     ]:
+            print('Skipping for now...')
+            continue
         # Start extracting headers
         extract_h1(conn, tname, i)
         extract_h2(conn, tname, i)
@@ -108,7 +98,10 @@ def extract_headers2():
 # For parts
 def extract_h1(connection, table_name, record):
     soup = bsp(record[8], 'html.parser')
-    htag = soup.find('h1')
+    headers = soup.find('h1')
+    if headers is None:
+        print('Leaving...')
+        return
     # Insert into table, only changing the html and type
     lst = [record[0],
            # subpart
@@ -126,7 +119,9 @@ def extract_h1(connection, table_name, record):
            # link
            record[7],
            # html
-           str(htag)
+           str(headers),
+           # import_date
+           datetime.datetime.now()
            ]
     insert_values(connection, table_name, tuple(lst))
     
@@ -135,6 +130,9 @@ def extract_h1(connection, table_name, record):
 def extract_h2(connection, table_name, record):
     soup = bsp(record[8], 'html.parser')
     headers = soup.find_all('h2')
+    if headers is None:
+        print('Leaving...')
+        return
     for i in headers:
         header = i.get_text().strip()
         hsplit = header.split()
@@ -146,7 +144,12 @@ def extract_h2(connection, table_name, record):
         # For scope
         else:
             spart = 0
-            typ = 'scope'
+            if 'scope' in header:
+                typ = 'scope'
+            elif 'definitions' in header:
+                typ = 'definitions'
+            else:
+                typ = 'other'
         # Insert values
         lst = [record[0],
                # subpart
@@ -164,11 +167,15 @@ def extract_h2(connection, table_name, record):
                # link
                record[7],
                # html
-               str(i)
+               str(i),
+               # import_date
+               datetime.datetime.now()
                ]
         insert_values(connection, table_name, tuple(lst))
 
-extract_headers2()
+debug_html()
+split_sections()
+# extract_headers()
 
 
 ##############################################################################

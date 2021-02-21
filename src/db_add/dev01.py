@@ -30,37 +30,56 @@ def split_sections():
     cur.close()
 
 
-def read_html():
+def extract_toc():
     # jname = rem_file('contents_dev', 'html')
-    with open('html/contents_dev.html', 'r', encoding = 'utf8') as jf:
+    with open('html/contents_dev5.html', 'r', encoding = 'utf8') as jf:
         rhtml = jf.read()
     soup = bsp(rhtml, 'html.parser')
-    soup2 = soup.find('main')
-    # Remove all span classes
-    for i in soup2.find_all('span'):
-        i.unwrap()
+    #soup2 = soup.find('main')
+
+    main_title = soup.find('h1')
+    #print(h1_text)
+    try:
+        toc = soup.find('div', class_ = 'body')
+    except AttributeError:
+        pass
+    try:
+        toc = soup.find('div', id = 'Table of Contents1')
+    except:
+        toc = ''
+    toc_final = str(main_title) + str(toc)
+    print(toc_final)
+    # for x, j in enumerate(soup2.find('div', class_ = )
+
+# extract_toc()
+
+    # Remove all span classes in their separate objects
+    # for i in soup.find_all('span'):
+    #     i.unwrap()
+
+    # Use this for headers
     # Separate each article by section and save this into another table
-    for x, j in enumerate(soup2.find_all('h2')):
-        if x == 2:
-            # h2res = soup2.find('h2', id = j['id'])
-            print(j.get_text().lstrip())
-            print(j)
-            print(j.next_sibling.next)
-        else:
-            continue
+    # for x, j in enumerate(soup2.find_all('h2')):
+    #     if x == 2:
+    #         # h2res = soup2.find('h2', id = j['id'])
+    #         print(j.get_text().lstrip())
+    #         print(j)
+    #         print(j.next_sibling.next)
+    #     else:
+    #         continue
         # print(j['id'])
         # print(soup2.find_next_sibling('h2', id = j['id']))
     # print(soup2.find('h2', id="ariaid-title3").nextSibling.next)
 
 # Just separate everything by headers
-read_html()
+# read_html()
 
 
 
 
 
 
-
+# We'll make our own TOC!!!!!! Don't Extract!!!
 # Insert all headings as titles
 # Meaning, we will have:
 # - main: all text combined
@@ -71,19 +90,34 @@ read_html()
 
 
 
+# For Tomorrow:
+# - extract main title from each section in FAR, save as title
+#     - we dont' need to extract title and toc - we'll make them ourselves
+#     - extract the h2, h3, h4 headings: try except with bold tags in lieu of headings
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Updates table to include html portion of the web link provided
 def split_sections2():
-    jname = rem_file('contents_dev5', 'html')
+    jname = rem_file('contents_dev7', 'html')
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
     tname = 'all_parts_dev_2'
-    qry = 'select * from %s where part = %s;'
-    cur.execute(qry, (AsIs(tname), '1'))
+    qry = 'select * from %s where part = %s and reg = %s;'
+    cur.execute(qry, (AsIs(tname), '1', 'dtar'))
     res = cur.fetchall()
-    soup = bsp(res[4][8], 'html.parser')
+    soup = bsp(res[0][8], 'html.parser')
     hres = soup.prettify()
     #hres = str(soup)
     
@@ -97,7 +131,7 @@ def split_sections2():
 
 def read_html2():
     # jname = rem_file('contents_dev', 'html')
-    with open('html/contents_dev5.html', 'r', encoding = 'utf8') as jf:
+    with open('html/contents_dev6.html', 'r', encoding = 'utf8') as jf:
         rhtml = jf.read()
     soup = bsp(rhtml, 'html.parser')
     soup2 = soup.find('main')
@@ -108,8 +142,8 @@ def read_html2():
     for j in soup2.find_all('article'):
         print(j)    
     
-# split_sections2()
-# read_html2()    
+split_sections2()
+read_html2()    
 
     # print(soup)
     # break

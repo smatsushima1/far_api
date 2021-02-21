@@ -14,17 +14,121 @@ def split_sections():
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
-    tname = 'all_parts_final'
+    tname = 'all_parts_dev_2'
     qry = 'select * from %s where id_num = %s;'
     cur.execute(qry, (AsIs(tname), '1'))
     res = cur.fetchall()
     soup = bsp(res[0][8], 'html.parser')
-    hres = soup.prettify()
+    # hres = soup.prettify()
+    hres = str(soup)
     
     with open(jname, 'w', encoding = 'utf8') as jf:
         jf.write(hres)
         jf.close()
+    # Finish
+    conn.commit()
+    cur.close()
+
+
+def read_html():
+    # jname = rem_file('contents_dev', 'html')
+    with open('html/contents_dev.html', 'r', encoding = 'utf8') as jf:
+        rhtml = jf.read()
+    soup = bsp(rhtml, 'html.parser')
+    soup2 = soup.find('main')
+    # Remove all span classes
+    for i in soup2.find_all('span'):
+        i.unwrap()
+    # Separate each article by section and save this into another table
+    for x, j in enumerate(soup2.find_all('h2')):
+        if x == 2:
+            # h2res = soup2.find('h2', id = j['id'])
+            print(j.get_text().lstrip())
+            print(j)
+            print(j.next_sibling.next)
+        else:
+            continue
+        # print(j['id'])
+        # print(soup2.find_next_sibling('h2', id = j['id']))
+    # print(soup2.find('h2', id="ariaid-title3").nextSibling.next)
+
+# Just separate everything by headers
+read_html()
+
+
+
+
+
+
+
+# Insert all headings as titles
+# Meaning, we will have:
+# - main: all text combined
+# - toc: table of contents
+# - title: titles of subparts
+# - body: sections and subsections
+
+
+
+
+
+
+# Updates table to include html portion of the web link provided
+def split_sections2():
+    jname = rem_file('contents_dev5', 'html')
+    # Connect to database
+    conn = db_connect()
+    cur = conn.cursor()
+    tname = 'all_parts_dev_2'
+    qry = 'select * from %s where part = %s;'
+    cur.execute(qry, (AsIs(tname), '1'))
+    res = cur.fetchall()
+    soup = bsp(res[4][8], 'html.parser')
+    hres = soup.prettify()
+    #hres = str(soup)
     
+    with open(jname, 'w', encoding = 'utf8') as jf:
+        jf.write(hres)
+        jf.close()
+    # Finish
+    conn.commit()
+    cur.close()
+
+
+def read_html2():
+    # jname = rem_file('contents_dev', 'html')
+    with open('html/contents_dev5.html', 'r', encoding = 'utf8') as jf:
+        rhtml = jf.read()
+    soup = bsp(rhtml, 'html.parser')
+    soup2 = soup.find('main')
+    # Remove all span classes
+    for i in soup2.find_all('span'):
+        i.unwrap()
+    # Separate each article by section and save this into another table
+    for j in soup2.find_all('article'):
+        print(j)    
+    
+# split_sections2()
+# read_html2()    
+
+    # print(soup)
+    # break
+        # print(i)
+        # break
+        # res = i.get_text().strip()
+        # print(str(res))
+        # break
+        # res_spl = res.split()
+        # # print(len(res.split()))
+        # str1 = ''
+        # for j in res_spl:
+        #     str1 += j + ' '
+        # print(str1)
+    
+
+
+
+
     # # HTML link
     # for x, i in enumerate(res):
     #     pass
@@ -41,12 +145,10 @@ def split_sections():
     #         hres = soup.find('div', class_ = 'field-items')
     #     update_one2(cur, tname, 'html', str(hres), idnum)
     
-    # Finish
-    conn.commit()
-    cur.close()
 
 
-split_sections()
+
+
 
 
 

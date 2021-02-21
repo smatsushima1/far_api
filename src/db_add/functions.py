@@ -140,7 +140,7 @@ def add_all_parts():
                 reg varchar,
                 type varchar,
                 fac varchar,
-                link varchar,
+                hlink varchar,
                 html varchar,
                 order_num numeric,
                 import_date varchar)

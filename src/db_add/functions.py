@@ -10,7 +10,6 @@ from psycopg2.extensions import AsIs
 import time
 
 
-################################## PostgreSQL #################################
 # Connect to DB
 # Credentials loaded to .env file
 def db_connect():
@@ -60,96 +59,11 @@ def drop_create_tables(curs, table_name, table_values):
                        ))
 
 
-# Add all FAR parts and titles
-def db_far_parts():
+# Add links to href sites
+# Runtime: 1.105 seconds
+def add_reg_links():
     start_time = time.time()
-    print('\nStarting db_far_parts...')
-    # https://acqnotes.com/acqnote/careerfields/federal-acquisition-regulation-index
-    far = ['Part 1-Federal Acquisition Regulations System', 
-           'Part 2-Definitions of Words and Terms', 
-           'Part 3-Improper Business Practices and Personal Conflicts of Interest', 
-           'Part 4-Administrative Matters', 
-           'Part 5-Publicizing Contract Actions', 
-           'Part 6-Competition Requirements', 
-           'Part 7-Acquisition Planning', 
-           'Part 8-Required Sources of Supplies and Services', 
-           'Part 9-Contractor Qualifications', 
-           'Part 10-Market Research', 
-           'Part 11-Describing Agency Needs', 
-           'Part 12-Acquisition of Commercial Items', 
-           'Part 13-Simplified Acquisition Procedures', 
-           'Part 14-Sealed Bidding', 
-           'Part 15-Contracting by Negotiation', 
-           'Part 16-Types of Contracts', 
-           'Part 17-Special Contracting Methods', 
-           'Part 18-Emergency Acquisitions', 
-           'Part 19-Small Business Programs', 
-           'Part 20-[RESERVED, not currently in use]', 
-           'Part 21-[RESERVED, not currently in use]', 
-           'Part 22-Application of Labor Laws to Government Acquisitions', 
-           'Part 23-Environment, Energy and Water Efficiency, Renewable Energy Technologies, Occupational Safety, and Drug-Free Workplace', 
-           'Part 24-Protection of Privacy and Freedom of Information', 
-           'Part 25-Foreign Acquisition', 
-           'Part 26-Other Socioeconomic Programs', 
-           'Part 27-Patents, Data, and Copyrights', 
-           'Part 28-Bonds and Insurance', 
-           'Part 29-Taxes', 
-           'Part 30-Cost Accounting Standards Administration', 
-           'Part 31-Contract Cost Principles and Procedures', 
-           'Part 32-Contract Financing', 
-           'Part 33-Protests, Disputes, and Appeals', 
-           'Part 34-Major System Acquisition', 
-           'Part 35-Research and Development Contracting', 
-           'Part 36-Construction and Architect-Engineer Contracts', 
-           'Part 37-Service Contracting', 
-           'Part 38-Federal Supply Schedule Contracting', 
-           'Part 39-Acquisition of Information Technology', 
-           'Part 40-[RESERVED, not currently in use]', 
-           'Part 41-Acquisition of Utility Services', 
-           'Part 42-Contract Administration and Audit Services', 
-           'Part 43-Contract Modifications', 
-           'Part 44-Subcontracting Policies and Procedures', 
-           'Part 45-Government Property', 
-           'Part 46-Quality Assurance', 
-           'Part 47-Transportation', 
-           'Part 48-Value Engineering', 
-           'Part 49-Termination of Contracts', 
-           'Part 50-Extraordinary Contractual Actions', 
-           'Part 51-Use of Government Sources by Contractors', 
-           'Part 52-Solicitation Provisions and Contract Clauses', 
-           'Part 53-Forms'
-           ]
-    # Connect to database
-    conn = db_connect()
-    cur = conn.cursor()
-    tname = 'far_parts'
-    values = '(part integer, title text)'
-    drop_create_tables(cur, tname, values)
-    # Start adding values
-    for i in far:
-        spl = i.split('-')
-        part = spl[0]
-        name = spl[1]
-        fpart = part.split(' ')[1]
-        fname = name.replace(fpart + '-', '')
-        # Error checks
-        if 'RESERVED' in fname:
-            fname = 'RESERVED'
-        lst = []
-        lst.append(int(fpart))
-        lst.append(str(fname))
-        tup = tuple(lst)
-        insert_values(conn, tname, tup)
-    # Finish
-    conn.commit()
-    cur.close()
-    print("Script finished in %s seconds" % round(time.time() - start_time, 3))
-
-
-# Add links to href sits
-def db_add_reg_links():
-    start_time = time.time()
-    print('\nStarting db_add_reg_links...')
+    print('\nFunction: add_reg_links\nStarting...')
     # The following string could have been anywhere on acq.gov
     srch = 'https://www.acquisition.gov/browse/index/far'
     # Open the url and save it as an html object
@@ -162,7 +76,7 @@ def db_add_reg_links():
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
-    tname = 'reg_links'
+    tname = 'dev_reg_links'
     values = '(reg text, link text)'
     drop_create_tables(cur, tname, values)
     # Start adding values
@@ -179,32 +93,38 @@ def db_add_reg_links():
         lst.append(str(href))
         tup = tuple(lst)
         insert_values(conn, tname, tup)
-    # Add AFFARS regs to the list
+        # The supplemental AFFARS regs aren't normally found
+        if reg == 'AFFARS':
+            add_affars_supp(conn, tname)
+    # Finish
+    conn.commit()
+    cur.close()
+    print("Function finished in %s seconds" % round(time.time() - start_time, 3))
+
+
+# Add supplemental AFFARS regulations; used with dev_add_reg_links
+def add_affars_supp(db_conn, table_name):
     lst = []
     lst.append('AFFARS MP')
     lst.append('/affars/mp')
     tup = tuple(lst)
-    insert_values(conn, tname, tup)
+    insert_values(db_conn, table_name, tup)
     lst.clear()
     lst.append('AFFARS PGI')
     lst.append('/affars/pgi')
     tup = tuple(lst)
-    insert_values(conn, tname, tup)
-    lst.clear()
-    # Finish
-    conn.commit()
-    cur.close()
-    print("Script finished in %s seconds" % round(time.time() - start_time, 3))
+    insert_values(db_conn, table_name, tup)
 
 
 # Start extracting links to the Parts and save href in json file
-def db_add_all_parts():
+# Runtime: 13.891 seconds
+def add_all_parts():
     start_time = time.time()
-    print('\nStarting db_add_all_parts...')
+    print('\nFunction: add_all_parts\nStarting...')
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
-    tname = 'all_parts_dev'
+    tname = 'dev_all_parts'
     values = '''(part text,
                 subpart text,
                 section text,
@@ -216,25 +136,24 @@ def db_add_all_parts():
                 html text)
                 '''
     drop_create_tables(cur, tname, values)
-    qry2 = 'select * from reg_links;'
-    cur.execute(qry2)
+    cur.execute('select * from %s;', (AsIs('dev_reg_links'), ))
     res = cur.fetchall()
     # Start adding values
     for i in res:
         htext = str(i[1])
         reg = htext.strip('/')
         print('Adding data to: ' + reg)
-        db_parts_hrefs(conn, reg, htext, tname)
+        parts_hrefs(conn, reg, htext, tname)
     # Add row numbers to each value
     add_row_nums(cur, tname, tname + '_2')
     # Finish
     conn.commit()
     cur.close()
-    print("Script finished in %s seconds" % round(time.time() - start_time, 3))
+    print("Function finished in %s seconds" % round(time.time() - start_time, 3))
 
 
 # Parse each part for each regulation; used with db_add_all_parts
-def db_parts_hrefs(connection, regulation, htext, table_name):
+def parts_hrefs(connection, regulation, htext, table_name):
     # Open the url and save it as an html object
     reg = regulation.strip()
     reg = reg.strip('_')
@@ -255,11 +174,11 @@ def db_parts_hrefs(connection, regulation, htext, table_name):
     else:
         res = hsoup.tbody.find_all('td', class_ = re.compile('.*part-number'))
         ind = 0
-    db_add_to_list(connection, reg, res, base, ind, table_name)
+    add_to_list(connection, reg, res, base, ind, table_name)
 
 
 # Adds everything to db; used with db_parts_hrefs
-def db_add_to_list(connection, regulation, rlist, addr, reg_ind, table_name):
+def add_to_list(connection, regulation, rlist, addr, reg_ind, table_name):
     for i in rlist:
         # The part numbers will always just be the text
         hpart = return_part(i.get_text()).strip()
@@ -269,25 +188,25 @@ def db_add_to_list(connection, regulation, rlist, addr, reg_ind, table_name):
             hlnk = addr + i.attrs['href'].strip()
         else:
             hlnk = addr + i.a['href'].strip()
-        lst = []
-        # part
-        lst.append(part_final)
-        # subpart
-        lst.append(0)
-        # section
-        lst.append(0)
-        # subsection
-        lst.append(0)
-        # reg
-        lst.append(regulation.replace('/', ''))
-        # type
-        lst.append('main')
-        # fac
-        lst.append('2021-04')
-        # link
-        lst.append(hlnk)
-        # html
-        lst.append('N/A')
+        # Start populating list with part
+        lst = [part_final,
+               # subpart
+               0,
+               # section
+               0,
+               # subsection
+               0,
+               # reg
+               regulation.replace('/', ''),
+               # type
+               'main',
+               # fac
+               '2021-04',
+               # link
+               hlnk,
+               # html
+               'N/A'
+               ]
         tup = tuple(lst)
         insert_values(connection, table_name, tup)
 
@@ -344,14 +263,15 @@ def add_row_nums(curs, orig_tname, new_tname):
 # Total run time: 435.296 seconds
 def add_html():
     start_time = time.time()
+    print('\nFunction: add_html\nStarting...')
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
-    tname = 'all_parts_dev_2'
+    tname = 'dev_all_parts_2'
     qry = 'select * from %s order by id_num;'
     cur.execute(qry, (AsIs(tname), ))
     res = cur.fetchall()
-    # HTML link
+    # 
     for x, i in enumerate(res):
         url = i[7]
         idnum = i[9]
@@ -367,16 +287,14 @@ def add_html():
             print('%s: Updated' % (str(idnum)))
             html = ul.request.urlopen(url_final).read()
         soup = bsp(html, 'html.parser')
-        # For FAR, DFARS, GSAM: all content is listed under 'nested0'
+        # All the main content is listed under the class below
         hres = soup.find('div', class_ = 'field-items')
         # For all others, content is listed under 'field-items'
-        # if hres is None:
-        #     hres = soup.find('div', class_ = 'field-items')
         update_one(cur, tname, 'html', str(hres), idnum)
     # Finish
     conn.commit()
     cur.close()
-    print("Script finished in %s seconds" % round(time.time() - start_time, 3))
+    print("Function finished in %s seconds" % round(time.time() - start_time, 3))
     
 
 # Updates only one field in a table

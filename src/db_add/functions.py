@@ -7,10 +7,12 @@ import re
 import psycopg2 as pg2
 from psycopg2 import sql
 from psycopg2.extensions import AsIs
+import time
 
 
 ################################## PostgreSQL #################################
 # Connect to DB
+# Credentials loaded to .env file
 def db_connect():
     load_dotenv('../.env')
     conn = pg2.connect(dbname = os.environ['DB_NAME'],
@@ -60,6 +62,7 @@ def drop_create_tables(curs, table_name, table_values):
 
 # Add all FAR parts and titles
 def db_far_parts():
+    start_time = time.time()
     print('\nStarting db_far_parts')
     # https://acqnotes.com/acqnote/careerfields/federal-acquisition-regulation-index
     far = ['Part 1-Federal Acquisition Regulations System', 
@@ -116,14 +119,12 @@ def db_far_parts():
            'Part 52-Solicitation Provisions and Contract Clauses', 
            'Part 53-Forms'
            ]
-    
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
     tname = 'far_parts'
     values = '(part integer, title text)'
     drop_create_tables(cur, tname, values)
-
     # Start adding values
     for i in far:
         spl = i.split('-')
@@ -139,16 +140,16 @@ def db_far_parts():
         lst.append(str(fname))
         tup = tuple(lst)
         insert_values(conn, tname, tup)
-        
     # Finish
     conn.commit()
     select_all(conn, tname)
     cur.close()
-    print('Done updating ' + tname)
+    print("Script finished in %s seconds" % round(time.time() - start_time, 3))
 
 
 # Add links to href sits
 def db_add_reg_links():
+    start_time = time.time()
     print('\nStarting db_add_reg_links')
     # The following string could have been anywhere on acq.gov
     srch = 'https://www.acquisition.gov/browse/index/far'
@@ -159,14 +160,12 @@ def db_add_reg_links():
     soup = bsp(html_res, 'html.parser')
     htext = soup.find('div', class_ = 'reg-container clearfix')
     res = htext.find_all('a')
-    
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
     tname = 'reg_links'
     values = '(reg text, link text)'
     drop_create_tables(cur, tname, values)
-    
     # Start adding values
     for i in res:
         rtext = i.get_text()
@@ -181,7 +180,6 @@ def db_add_reg_links():
         lst.append(str(href))
         tup = tuple(lst)
         insert_values(conn, tname, tup)
-        
     # Add AFFARS regs to the list
     lst = []
     lst.append('AFFARS MP')
@@ -198,11 +196,12 @@ def db_add_reg_links():
     conn.commit()
     select_all(conn, tname)
     cur.close()
-    print('Done updating ' + tname)
+    print("Script finished in %s seconds" % round(time.time() - start_time, 3))
 
 
 # Start extracting links to the Parts and save href in json file
 def db_add_all_parts():
+    start_time = time.time()
     print('\nStarting db_add_all_parts')
     # Connect to database
     conn = db_connect()
@@ -222,23 +221,21 @@ def db_add_all_parts():
     qry2 = 'select * from reg_links;'
     cur.execute(qry2)
     res = cur.fetchall()
-    
     # Start adding values
     for i in res:
         htext = str(i[1])
         reg = htext.strip('/')
         print('Adding data to: ' + reg)
         db_parts_hrefs(conn, reg, htext)
-        
     # Add row numbers to each value
     add_row_nums(cur, tname, tname + '_final')
     # Finish
     conn.commit()
     cur.close()
-    print('Done with ' + tname)
+    print("Script finished in %s seconds" % round(time.time() - start_time, 3))
 
 
-# Parse each part for each regulation; used with add_all_parts
+# Parse each part for each regulation; used with db_add_all_parts
 def db_parts_hrefs(connection, regulation, htext):
     # Open the url and save it as an html object
     reg = regulation.strip()
@@ -263,7 +260,7 @@ def db_parts_hrefs(connection, regulation, htext):
     db_add_to_list(connection, reg, res, base, ind)
 
 
-# Adds everything to db
+# Adds everything to db; used with db_parts_hrefs
 def db_add_to_list(connection, regulation, rlist, addr, reg_ind):
     for i in rlist:
         # The part numbers will always just be the text
@@ -307,7 +304,7 @@ def return_part(ptext):
     return ptext
 
 
-# Return only the far equivalent part; used with add_to_dict
+# Return only the far equivalent part; used with db_add_to_list
 def final_part(part):
     strip_part1 = part.strip("mp_")
     strip_part2 = strip_part1.strip("pgi_")
@@ -328,6 +325,7 @@ def final_part(part):
         return strip_part2
 
 
+# Adds crucial row numbers to each record; used with db_add_all_parts
 def add_row_nums(curs, orig_tname, new_tname):
     qry = '''drop table if exists %s;
              create table %s as
@@ -342,5 +340,61 @@ def add_row_nums(curs, orig_tname, new_tname):
                        AsIs(orig_tname),
                        AsIs(orig_tname)
                        ))
+
+
+# Updates table to include html portion of the web link provided
+# Total run time: 332.466 seconds
+def add_html():
+    start_time = time.time()
+    # Connect to database
+    conn = db_connect()
+    cur = conn.cursor()
+    tname = 'all_parts_final'
+    qry = 'select * from %s order by id_num;'
+    cur.execute(qry, (AsIs(tname), ))
+    res = cur.fetchall()
+    # HTML link
+    for x, i in enumerate(res):
+        url = i[7]
+        idnum = i[9]
+        print('%s: Working' % (str(idnum)))
+        # id_num 96 and 144 have ASCII characters in their title
+        # This converts their characters to UTF-8
+        try:
+            html = ul.request.urlopen(url).read()
+        except:
+            url = str(str(url).encode('utf-8'))
+            url_final = url[2:len(url) - 1]
+            update_one(cur, tname, 'link', url_final, idnum)
+            print('%s: Updated' % (str(idnum)))
+            html = ul.request.urlopen(url_final).read()
+        soup = bsp(html, 'html.parser')
+        # For FAR, DFARS, GSAM: all content is listed under 'nested0'
+        hres = soup.find('div', class_ = 'nested0')
+        # For all others, content is listed under 'field-items'
+        if hres is None:
+            hres = soup.find('div', class_ = 'field-items')
+        update_one(cur, tname, 'html', str(hres), idnum)
+    # Finish
+    conn.commit()
+    cur.close()
+    print("Script finished in %s seconds" % round(time.time() - start_time, 3))
     
-    
+
+# Updates only one field in a table
+# Maybe later update to include logic to update multiple fields
+def update_one(cur, table_name, field_name, value, id_num):
+    qry = "update {table} set {field} = %s where id_num = %s"
+    cur.execute(sql.SQL(qry).format(table = sql.Identifier(table_name),
+                                    field = sql.Identifier(field_name)),
+                (value, id_num)
+                )
+
+
+
+
+
+
+
+
+

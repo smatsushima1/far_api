@@ -7,42 +7,91 @@ from functions import *
 from functions_json import *
 
 
-# Updates only one field in a table
-# Maybe later update to include logic to update multiple fields
-def update_one(cur, table_name, field_name, html, id_num):
-    qry = "update {table} set {field} = %s where id_num = %s"
-    cur.execute(sql.SQL(qry).format(table = sql.Identifier(table_name),
-                                    field = sql.Identifier(field_name)),
-                (html, id_num)
-                )
 
-
-def add_html():
-    # Remove file if already there
-    fname = 'contents_dev'
-    hname = rem_file('contents_dev', 'html')
-    
+# Updates table to include html portion of the web link provided
+def split_sections():
+    jname = rem_file('contents_dev', 'html')
+    # Connect to database
     conn = db_connect()
     cur = conn.cursor()
-    tname = 'all_parts_dev1'
-    qry = 'select * from %s;'
-    cur.execute(qry, (AsIs(tname), ))
+    tname = 'all_parts_final'
+    qry = 'select * from %s where id_num = %s;'
+    cur.execute(qry, (AsIs(tname), '1'))
     res = cur.fetchall()
+    soup = bsp(res[0][8], 'html.parser')
+    hres = soup.prettify()
     
-    # HTML link
-    for x, i in enumerate(res):
-        print(x)
-        html = ul.request.urlopen(i[7]).read()
-        idnum = i[9]
-        soup = bsp(html, 'html.parser')
-        hres = soup.find('div', class_ = 'nested0')
-        if hres is None:
-            hres = soup.find('div', class_ = 'field-items')
-        db_update_one(cur, tname, 'html', str(hres), idnum)
+    with open(jname, 'w', encoding = 'utf8') as jf:
+        jf.write(hres)
+        jf.close()
     
+    # # HTML link
+    # for x, i in enumerate(res):
+    #     pass
+    #     print(x)
+    #     url = str(str(i[7]).encode('utf-8'))
+    #     url_final = url[2:len(url) - 1]
+    #     html = ul.request.urlopen(url_final).read()
+    #     idnum = i[9]
+    #     soup = bsp(html, 'html.parser')
+    #     # For FAR, DFARS, GSAM: all content is listed under 'nested0'
+    #     hres = soup.find('div', class_ = 'nested0')
+    #     # For all others, content is listed under 'field-items'
+    #     if hres is None:
+    #         hres = soup.find('div', class_ = 'field-items')
+    #     update_one2(cur, tname, 'html', str(hres), idnum)
+    
+    # Finish
     conn.commit()
     cur.close()
 
+
+split_sections()
+
+
+
+
+
+
+
+
+
+
+#add_html2()
+
+#print('\u2014')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # Remove file if already there
+# fname = 'contents_dev'
+# hname = rem_file('contents_dev', 'html')
+
+# conn = db_connect()
+# cur = conn.cursor()
+# tname = 'all_parts_dev1'
+# qry = 'select * from %s order by id_num;'
+# cur.execute(qry, (AsIs(tname), ))
+# res = cur.fetchall()
+
+# with open(hname, 'w', encoding = 'utf8') as hw:
+#     hw.write(res[0][8])
+#     hw.close()
 
 
 

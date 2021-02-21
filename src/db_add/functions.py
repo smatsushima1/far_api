@@ -142,7 +142,7 @@ def add_all_parts():
                 fac varchar,
                 link varchar,
                 html varchar,
-                order_num integer,
+                order_num numeric,
                 import_date varchar)
                 '''
     drop_create_tables(cur, tname, values)

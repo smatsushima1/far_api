@@ -291,8 +291,8 @@ def update_affars_mp():
     fname = 'id_num'
     qry = 'select * from {table} where {field} >= %s and {field} <= %s'
     cur.execute(sql.SQL(qry).format(table = sql.Identifier(tname),
-                                    field = sql.Identifier(fname)
-                                    ), (277, 296)
+                                    field = sql.Identifier(fname)),
+                (277, 296)
                 )
     results = cur.fetchall()
     for i in results:
@@ -359,14 +359,14 @@ def update_affars_mp():
                                          field3 = sql.Identifier('section'),
                                          field4 = sql.Identifier('subsection'),
                                          field5 = sql.Identifier('paragraph'),
-                                         field6 = sql.Identifier('id_num')
-                                         ), (final_part,
-                                             final_subpart,
-                                             final_section,
-                                             final_subsection,
-                                             final_paragraph,
-                                             idnum
-                                             ))
+                                         field6 = sql.Identifier('id_num')),
+                    (final_part,
+                    final_subpart,
+                    final_section,
+                    final_subsection,
+                    final_paragraph,
+                    idnum
+                    ))
     # Finish
     conn.commit()
     cur.close()
@@ -374,21 +374,23 @@ def update_affars_mp():
 
 
 # Updates table to include html portion of the web link provided
-# Total run time: 435.296 seconds
+# Total run time: 1595.066 seconds
 def add_html():
     start_time = time.time()
     print('\nFunction: add_html\nStarting...')
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
-    tname = 'dev_all_parts_2'
-    qry = 'select * from %s order by id_num;'
-    cur.execute(qry, (AsIs(tname), ))
+    tname = 'dev_all_parts2'
+    qry = 'select * from %s order by %s;'
+    cur.execute(qry, (AsIs(tname), 
+                      AsIs('id_num')
+                      ))
     res = cur.fetchall()
-    # 
-    for x, i in enumerate(res):
-        url = i[7]
-        idnum = i[9]
+    # Start adding html to the DB
+    for i in res:
+        url = i[8]
+        idnum = i[12]
         print('%s: Working' % (str(idnum)))
         # id_num 96 and 144 have ASCII characters in their title
         # This converts their characters to UTF-8
@@ -397,14 +399,14 @@ def add_html():
         except:
             url = str(str(url).encode('utf-8'))
             url_final = url[2:len(url) - 1]
-            update_one(cur, tname, 'link', url_final, idnum)
+            update_one(cur, tname, 'hlink', url_final, idnum)
             print('%s: Updated' % (str(idnum)))
             html = ul.request.urlopen(url_final).read()
         soup = bsp(html, 'html.parser')
         # All the main content is listed under the class below
         hres = soup.find('div', class_ = 'field-items')
         # For all others, content is listed under 'field-items'
-        update_one(cur, tname, 'html', str(hres), idnum)
+        update_one(cur, tname, 'htext', str(hres), idnum)
     # Finish
     conn.commit()
     cur.close()

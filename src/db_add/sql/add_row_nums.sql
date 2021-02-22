@@ -130,4 +130,5 @@ drop table if exists dev_dupes4;
 drop table if exists dev_dupes5;
 drop table if exists dev_dupes6;
 drop table if exists dev_dupes7;
+drop table if exists dev_all_parts;
 

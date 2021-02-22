@@ -11,16 +11,16 @@ from functions_json import *
 # Used for debugging specific sections
 # Modify file_name and idnum as appropriate
 def debug_headers():
-    jname = rem_file('contents_dev8', 'html')
+    jname = rem_file('dev_contents3', 'html')
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
-    tname = 'dev_all_parts_2'
+    tname = 'dev_all_parts2'
     qry = 'select * from %s where id_num = %s;'
-    idnum = '209'
+    idnum = '177'
     cur.execute(qry, (AsIs(tname), idnum))
     res = cur.fetchall()
-    soup = bsp(res[0][8], 'html.parser')
+    soup = bsp(res[0][9], 'html.parser')
     hres = soup.prettify()
     # hres = str(hres)
     with open(jname, 'w', encoding = 'utf8') as jf:
@@ -89,7 +89,7 @@ def extract_headers():
 
 # For parts
 def extract_h1(connection, table_name, record):
-    soup = bsp(record[8], 'html.parser')
+    soup = bsp(record[9], 'html.parser')
     headers = soup.find('h1')
     if headers is None:
         print('Leaving...')
@@ -124,7 +124,7 @@ def extract_h1(connection, table_name, record):
 
 # For subparts
 def extract_h2(connection, table_name, record):
-    soup = bsp(record[8], 'html.parser')
+    soup = bsp(record[9], 'html.parser')
     headers = soup.find_all('h2')
     if headers is None:
         print('Leaving...')
@@ -134,11 +134,12 @@ def extract_h2(connection, table_name, record):
         hsplit = header.split()
         hstr = ''
         # For most other subparts
-        if header[0].isalpha():
+        try:
+            header[0].isalpha()
             spart = hsplit[1].split('.')[1]
             typ = 'header'
         # For scope
-        else:
+        except:
             spart = 0
             if 'scope' in header:
                 typ = 'scope'
@@ -173,10 +174,23 @@ def extract_h2(connection, table_name, record):
                ]
         insert_values(connection, table_name, tuple(lst))
 
-# debug_html()
-split_sections()
+# debug_headers()
 extract_headers()
 
+
+
+
+
+##############################################################################
+# 21 February:
+# - great progress! - the database needed much cleaning
+# - everything seems cleaned for now...
+# - first started extracting headers but lots to improve:
+#    - route stdout to a file
+#    - add in scope and definition types
+#    - be sure subparts can be entered in
+#    - read over data in db and find missing information
+#    - lots of regs left early...
 
 ##############################################################################
 # Add attributes to tags
@@ -246,11 +260,6 @@ extract_headers()
 # - body: sections and subsections
 
 
-##############################################################################
-# For Tomorrow:
-# - extract main title from each section in FAR, save as title
-#     - we dont' need to extract title and toc - we'll make them ourselves
-#     - extract the h2, h3, h4 headings: try except with bold tags in lieu of headings
 
 
 

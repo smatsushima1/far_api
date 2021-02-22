@@ -173,8 +173,8 @@ def extract_h2(connection, table_name, record):
                ]
         insert_values(connection, table_name, tuple(lst))
 
-debug_html()
-split_sections()
+# debug_html()
+# split_sections()
 # extract_headers()
 
 
@@ -251,6 +251,19 @@ split_sections()
 # - extract main title from each section in FAR, save as title
 #     - we dont' need to extract title and toc - we'll make them ourselves
 #     - extract the h2, h3, h4 headings: try except with bold tags in lieu of headings
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

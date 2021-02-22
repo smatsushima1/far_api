@@ -155,8 +155,6 @@ def add_all_parts():
         reg = htext.strip('/')
         print('Adding data to: ' + reg)
         parts_hrefs(conn, tname, reg, htext, i[2])
-    # Add row numbers to each value
-    # add_row_nums(cur, tname, tname + '_2')
     # Finish
     conn.commit()
     cur.close()
@@ -268,22 +266,111 @@ def final_part(part):
         return strip_part2
 
 
-# Adds crucial row numbers to each record; used with db_add_all_parts
-def add_row_nums(curs, orig_tname, new_tname):
-    qry = '''drop table if exists %s;
-             create table %s as
-             select %s.*,
-                    row_number() over() as id_num
-             from %s
-             order by %s, %s;
-             '''
-    curs.execute(qry, (AsIs(new_tname),
-                       AsIs(new_tname),
-                       AsIs(orig_tname),
-                       AsIs(orig_tname),
-                       AsIs('order_num'),
-                       AsIs('part')
-                       ))
+# Adds crucial row numbers to each record
+# Runtime: 0.282 seconds
+def add_row_nums():
+    start_time = time.time()
+    print('\nFunction: add_row_nums\nStarting...')
+    conn = db_connect()
+    cur = conn.cursor()
+    sql_file = 'sql/add_row_nums.sql'
+    cur.execute(open(sql_file, 'r', encoding = 'utf8').read())
+    conn.commit()
+    cur.close()
+    print("Function finished in %s seconds" % round(time.time() - start_time, 3))
+
+
+# Update the AFFARS MP parts; performed after add_row_nums
+# Runtime: 0.09 seconds
+def update_affars_mp():
+    start_time = time.time()
+    print('\nFunction: add_row_nums\nStarting...')
+    conn = db_connect()
+    cur = conn.cursor()
+    tname = 'dev_all_parts2'
+    fname = 'id_num'
+    qry = 'select * from {table} where {field} >= %s and {field} <= %s'
+    cur.execute(sql.SQL(qry).format(table = sql.Identifier(tname),
+                                    field = sql.Identifier(fname)
+                                    ), (277, 296)
+                )
+    results = cur.fetchall()
+    for i in results:
+        idnum = i[12]
+        part = i[0]
+        spart = part.split('.')
+        final_part = str(spart[0][2:]).lstrip('0')
+        # First split on hyphens
+        spart2 = spart[1].split('-')
+        spl2_1 = spart2[0]
+        num_spart2 = len(spart2)
+        lspart2 = len(spl2_1)
+        # First get subpart and section
+        if lspart2 <= 3:
+            final_subpart = spl2_1[0]
+            if lspart2 == 1:
+                final_section = 0
+            else:
+                final_section = spl2_1[1:].lstrip('0')
+        # Also a regular reference but 4 characters long
+        elif lspart2 == 4:
+            final_subpart = spl2_1[:1]
+            final_section = spl2_1[2:].lstrip('0')
+        # These never had a - and are much longer
+        else:
+            spl_spart2 = spl2_1.split('(')[0]
+            if len(spl_spart2) == 3:
+                final_subpart = spl_spart2[0]
+                final_section = spl_spart2[1:].lstrip('0')
+            else:
+                final_subpart = spl_spart2[:1]
+                final_section = spl_spart2[2:].lstrip('0')
+        # Pull subsections
+        if num_spart2 == 2:
+            if '(' not in str(spart2[1]):
+                final_subsection = spart2[1]
+            else:
+                final_subsection = spart2[1].split('(')[0]
+        else:
+            final_subsection = 0
+        find_para = part.find('(')
+        final_paragraph = 0
+        if find_para != -1:
+            final_paragraph = part[find_para:]
+        print('%s: %s - %s - %s - %s - %s' % (part,
+                                              final_part,
+                                              final_subpart,
+                                              final_section,
+                                              final_subsection,
+                                              final_paragraph
+                                              ))
+        # Updates all values in table
+        qry2 = '''update {table}
+                  set {field1} = %s,
+                      {field2} = %s,
+                      {field3} = %s,
+                      {field4} = %s,
+                      {field5} = %s
+                  where {field6} = %s
+                  '''
+        cur.execute(sql.SQL(qry2).format(table = sql.Identifier(tname),
+                                         field1 = sql.Identifier('part'),
+                                         field2 = sql.Identifier('subpart'),
+                                         field3 = sql.Identifier('section'),
+                                         field4 = sql.Identifier('subsection'),
+                                         field5 = sql.Identifier('paragraph'),
+                                         field6 = sql.Identifier('id_num')
+                                         ), (final_part,
+                                             final_subpart,
+                                             final_section,
+                                             final_subsection,
+                                             final_paragraph,
+                                             idnum
+                                             ))
+    # Finish
+    conn.commit()
+    cur.close()
+    print("Function finished in %s seconds" % round(time.time() - start_time, 3))
 
 
 # Updates table to include html portion of the web link provided
@@ -321,13 +408,13 @@ def add_html():
     # Finish
     conn.commit()
     cur.close()
-    print("Function finished in %s seconds" % round(time.time() - start_time, 3))
+    print('Function finished in %s seconds' % round(time.time() - start_time, 3))
     
 
 # Updates only one field in a table
 # Maybe later update to include logic to update multiple fields
 def update_one(cur, table_name, field_name, value, id_num):
-    qry = "update {table} set {field} = %s where id_num = %s"
+    qry = 'update {table} set {field} = %s where id_num = %s'
     cur.execute(sql.SQL(qry).format(table = sql.Identifier(table_name),
                                     field = sql.Identifier(field_name)),
                 (value, id_num)

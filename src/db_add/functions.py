@@ -137,6 +137,7 @@ def add_all_parts():
                 subpart varchar,
                 section varchar,
                 subsection varchar,
+                paragraph varchar,
                 reg varchar,
                 htype varchar,
                 fac varchar,
@@ -215,6 +216,8 @@ def add_to_list(connection,
                # section
                0,
                # subsection
+               0,
+               # paragraph
                0,
                # reg
                regulation.replace('/', ''),

@@ -81,6 +81,7 @@ select t1.part,
        t1.subpart,
        t1.section,
        t1.subsection,
+	   t1.paragraph,
 	   (case when t2.reg is null then t1.reg
 		    else t2.reg
 		end) as reg,

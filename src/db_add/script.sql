@@ -13,7 +13,7 @@ group by part,
     having count(*) > 1
 order by order_num,
          substring(part from '([0-9]+)')::numeric;
-select * from dev_dupes1;
+-- select * from dev_dupes1;
 
 
 -- Inner join all values to include the hlinks
@@ -29,7 +29,7 @@ join dev_dupes1 d1 on d0.part = d1.part and
 					  d0.order_num = d1.order_num
 order by d0.order_num,
          substring(d0.part from '([0-9]+)')::numeric;
-select * from dev_dupes2;
+-- select * from dev_dupes2;
 
 
 -- Fix the dupes in the dlad regs
@@ -45,7 +45,7 @@ where reg = 'dlad' and
 	   hlink like '%-0')
 order by order_num,
          substring(part from '([0-9]+)')::numeric;
-select * from dev_dupes3;
+-- select * from dev_dupes3;
 
 
 -- Fix the dupes in the nmcars regs
@@ -60,13 +60,13 @@ where reg = 'nmcars' and
       hlink like '%annex%'
 order by order_num,
          substring(part from '([0-9]+)')::numeric;
-select * from dev_dupes4;
+-- select * from dev_dupes4;
 
 
 -- create new dev_all_parts table that has the updated values
-drop table if exists dev_all_parts2;
-create table dev_all_parts2
-select 
+-- drop table if exists dev_all_parts2;
+-- create table dev_all_parts2
+-- select 
 
 
 

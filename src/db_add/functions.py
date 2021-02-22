@@ -138,10 +138,10 @@ def add_all_parts():
                 section varchar,
                 subsection varchar,
                 reg varchar,
-                type varchar,
+                htype varchar,
                 fac varchar,
                 hlink varchar,
-                html varchar,
+                htext varchar,
                 order_num numeric,
                 import_date varchar)
                 '''
@@ -155,7 +155,7 @@ def add_all_parts():
         print('Adding data to: ' + reg)
         parts_hrefs(conn, tname, reg, htext, i[2])
     # Add row numbers to each value
-    add_row_nums(cur, tname, tname + '_2')
+    # add_row_nums(cur, tname, tname + '_2')
     # Finish
     conn.commit()
     cur.close()

@@ -1,5 +1,6 @@
 
 import os
+from os import path
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup as bsp
 import urllib as ul
@@ -9,6 +10,27 @@ from psycopg2 import sql
 from psycopg2.extensions import AsIs
 import time
 import datetime
+
+
+#################################### Basics ###################################
+# Remove all file contents before writing anything, but only if it exists
+def remove_file(file_name):
+    if path.exists(file_name):
+        open(file_name, 'w').close()
+    return file_name
+
+
+# Start timer for functinos
+def start_function(func_name):
+    start_time = time.time()
+    print('\nFunction: %s\nStarting...' % (func_name))
+    return start_time
+
+
+# End timer for functions
+def end_function(start_time):
+    print("Function finished in %s seconds" % round(time.time() - start_time, 3))
+
 
 
 # Connect to DB
@@ -63,8 +85,7 @@ def drop_create_tables(curs, table_name, table_values):
 # Add links to href sites
 # Runtime: 1.105 seconds
 def add_reg_links():
-    start_time = time.time()
-    print('\nFunction: add_reg_links\nStarting...')
+    start_time = start_function('add_reg_links')
     # The following string could have been anywhere on acq.gov
     srch = 'https://www.acquisition.gov/browse/index/far'
     # Open the url and save it as an html object
@@ -101,7 +122,7 @@ def add_reg_links():
     # Finish
     conn.commit()
     cur.close()
-    print("Function finished in %s seconds" % round(time.time() - start_time, 3))
+    end_function(start_time)
 
 
 # Add supplemental AFFARS regulations; used with dev_add_reg_links
@@ -127,8 +148,7 @@ def add_affars_supp(db_conn,
 # Start extracting links to the Parts and save href in json file
 # Runtime: 13.891 seconds
 def add_all_parts():
-    start_time = time.time()
-    print('\nFunction: add_all_parts\nStarting...')
+    start_time = start_function('add_all_parts')
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
@@ -158,7 +178,7 @@ def add_all_parts():
     # Finish
     conn.commit()
     cur.close()
-    print("Function finished in %s seconds" % round(time.time() - start_time, 3))
+    end_function(start_time)
 
 
 # Parse each part for each regulation; used with db_add_all_parts
@@ -269,22 +289,20 @@ def final_part(part):
 # Adds crucial row numbers to each record
 # Runtime: 0.282 seconds
 def add_row_nums():
-    start_time = time.time()
-    print('\nFunction: add_row_nums\nStarting...')
+    start_time = start_function('add_row_nums')
     conn = db_connect()
     cur = conn.cursor()
     sql_file = 'sql/add_row_nums.sql'
     cur.execute(open(sql_file, 'r', encoding = 'utf8').read())
     conn.commit()
     cur.close()
-    print("Function finished in %s seconds" % round(time.time() - start_time, 3))
+    end_function(start_time)
 
 
 # Update the AFFARS MP parts; performed after add_row_nums
 # Runtime: 0.09 seconds
 def update_affars_mp():
-    start_time = time.time()
-    print('\nFunction: add_row_nums\nStarting...')
+    start_time = start_function('update_affars_mp')
     conn = db_connect()
     cur = conn.cursor()
     tname = 'dev_all_parts2'
@@ -370,7 +388,7 @@ def update_affars_mp():
     # Finish
     conn.commit()
     cur.close()
-    print("Function finished in %s seconds" % round(time.time() - start_time, 3))
+    end_function(start_time)
 
 
 # Updates table to include html portion of the web link provided

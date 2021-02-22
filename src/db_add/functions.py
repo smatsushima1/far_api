@@ -14,7 +14,7 @@ import datetime
 
 #################################### Basics ###################################
 # Remove all file contents before writing anything, but only if it exists
-def remove_file(file_name):
+def init_write_file(file_name):
     if path.exists(file_name):
         open(file_name, 'w').close()
     return file_name

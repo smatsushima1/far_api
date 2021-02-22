@@ -5,7 +5,6 @@ import re
 import psycopg2 as pg2
 import datetime
 from functions import *
-from functions_json import *
 
 
 # Used for debugging specific sections
@@ -40,10 +39,9 @@ def debug_headers():
     
 
 # Extracts headers in a separate table
-# Runtime: seconds
+# Runtime: 100.789 seconds
 def extract_headers():
-    start_time = time.time()
-    print('\nFunction: extract_headers\nStarting...\nID_NUM - PART - REG - STATUS')
+    start_time = start_function('extract_headers')
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
@@ -71,28 +69,30 @@ def extract_headers():
                 ))
     results = cur.fetchall()
     for i in results:
-        idnum = str(i[12])
-        print('%s - %s - %s - Working' % (idnum, i[0], i[5]))
-        # Skipped sections: these will take more time to debug
-        if idnum in [
-                     ]:
-            print('Skipping for now...')
-            continue
-        # Start extracting headers
-        extract_h1(conn, tname, i)
-        extract_h2(conn, tname, i)
+        lfile = init_write_file('log/log_add_headers.txt')
+        with open(lfile, 'a', encoding = 'utf8') as lf:
+            idnum = str(i[12])
+            print('%s - %s - %s - Working' % (idnum, i[0], i[5]), file = lf)
+            # Skipped sections: these will take more time to debug
+            if idnum in [
+                         ]:
+                print("Skipping for now...", file = lf)
+                continue
+            # Start extracting headers
+            extract_h1(conn, tname, i, lf)
+            extract_h2(conn, tname, i, lf)
     # Finish
     conn.commit()
     cur.close()
-    print("Function finished in %s seconds" % round(time.time() - start_time, 3))
+    end_function(start_time)
 
 
 # For parts
-def extract_h1(connection, table_name, record):
+def extract_h1(connection, table_name, record, file_name):
     soup = bsp(record[9], 'html.parser')
     headers = soup.find('h1')
     if headers is None:
-        print('Leaving...')
+        print("Leaving: no h1's...", file = file_name)
         return
     # Insert into table, only changing the html and type
     lst = [record[0],
@@ -123,11 +123,11 @@ def extract_h1(connection, table_name, record):
     
 
 # For subparts
-def extract_h2(connection, table_name, record):
+def extract_h2(connection, table_name, record, file_name):
     soup = bsp(record[9], 'html.parser')
     headers = soup.find_all('h2')
     if headers is None:
-        print('Leaving...')
+        print("Leaving: no h2's...", file = file_name)
         return
     for i in headers:
         header = i.get_text().strip()

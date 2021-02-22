@@ -9,14 +9,16 @@ from functions_json import *
 
 
 # Used for debugging specific sections
-def debug_write_to_file():
+# Modify file_name and idnum as appropriate
+def debug_headers():
     jname = rem_file('contents_dev8', 'html')
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
     tname = 'dev_all_parts_2'
     qry = 'select * from %s where id_num = %s;'
-    cur.execute(qry, (AsIs(tname), '209'))
+    idnum = '209'
+    cur.execute(qry, (AsIs(tname), idnum))
     res = cur.fetchall()
     soup = bsp(res[0][8], 'html.parser')
     hres = soup.prettify()
@@ -27,11 +29,8 @@ def debug_write_to_file():
     # Finish
     conn.commit()
     cur.close()
-
-
-# Used for debugging specific sections; used with debug_write_to_file
-def debug_html():
-    with open('html/contents_dev8.html', 'r', encoding = 'utf8') as jf:
+    # Used for debugging specific sections; used with debug_write_to_file
+    with open(jname, 'r', encoding = 'utf8') as jf:
         contents = jf.read()
         jf.close()
     soup = bsp(contents, 'html.parser')
@@ -39,9 +38,6 @@ def debug_html():
     for i in headers:
         print(i.get_text().strip())
     
-
-
-
 
 # Extracts headers in a separate table
 # Runtime: seconds
@@ -52,14 +48,13 @@ def extract_headers():
     conn = db_connect()
     cur = conn.cursor()
     tname = 'dev_all_parts_headers'
-    tname_orig = 'dev_all_parts_2'
+    tname_orig = 'dev_all_parts2'
     # Create new table from original instead of creating it from scratch
     qry = '''drop table if exists %s;
              create table %s as
              select * from %s limit 1;
              truncate table %s;
              alter table %s drop column %s;
-             alter table %s add column %s %s;
              '''
     cur.execute(qry,
                 (AsIs(tname),
@@ -67,10 +62,7 @@ def extract_headers():
                  AsIs(tname_orig),
                  AsIs(tname),
                  AsIs(tname),
-                 AsIs('id_num'),
-                 AsIs(tname),
-                 AsIs('import_date'),
-                 AsIs('timestamp'),
+                 AsIs('id_num')
                 ))
     # Run for the real results
     cur.execute('select * from %s order by %s;',
@@ -79,10 +71,10 @@ def extract_headers():
                 ))
     results = cur.fetchall()
     for i in results:
-        idnum = str(i[9])
-        print('%s - %s - %s - Working' % (idnum, i[0], i[4]))
+        idnum = str(i[12])
+        print('%s - %s - %s - Working' % (idnum, i[0], i[5]))
         # Skipped sections: these will take more time to debug
-        if idnum in ['166', '167', '168', '170', '188', '192', '196', '209'
+        if idnum in [
                      ]:
             print('Skipping for now...')
             continue
@@ -110,16 +102,20 @@ def extract_h1(connection, table_name, record):
            record[2],
            # subsection
            record[3],
-           # reg
+           # paragraph
            record[4],
-           # type
+           # reg
+           record[5],
+           # htype
            'header',
            # fac
-           record[6],
-           # link
            record[7],
-           # html
+           # hlink
+           record[8],
+           # htext
            str(headers),
+           # order_num
+           record[10],
            # import_date
            datetime.datetime.now()
            ]
@@ -158,24 +154,28 @@ def extract_h2(connection, table_name, record):
                record[2],
                # subsection
                record[3],
-               # reg
+               # paragraph
                record[4],
-               # type
+               # reg
+               record[5],
+               # htype
                typ,
                # fac
-               record[6],
-               # link
                record[7],
-               # html
+               # hlink
+               record[8],
+               # htext
                str(i),
+               # order_num
+               record[10],
                # import_date
                datetime.datetime.now()
                ]
         insert_values(connection, table_name, tuple(lst))
 
 # debug_html()
-# split_sections()
-# extract_headers()
+split_sections()
+extract_headers()
 
 
 ##############################################################################

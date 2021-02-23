@@ -4,14 +4,14 @@ file=$1
 var=1
 
 while read -r line; do
-    lnk="$line"
-    res=$(wget.exe -qO - $line)
-    res2=$(trim -d '\n' < echo "$res")
+    wget.exe -qO - $line > wget_results.html
+    res=$(tr -d '\n' < wget_results.html)
     psql -t \
          -f ../sql/dev_variable_pass.sql \
-         -v val=$res2 \
+         -v val=$res \
          -v idnum=$var
     let var+=1
 done < $file
 
+echo > wget_results.html
 

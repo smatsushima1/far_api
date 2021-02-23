@@ -7,7 +7,14 @@ order by substring(part from '([0-9]+)')::numeric;
 
 select *
 from dev_all_parts2
-where reg = 'dfars' and
-      part = '36'
+where htext = 'None'
 order by substring(part from '([0-9]+)')::numeric;
+
+
+drop table if exists dev_psql_update;
+create table dev_psql_update as
+select *
+from dev_all_parts2
+order by id_num
+limit 10;
 

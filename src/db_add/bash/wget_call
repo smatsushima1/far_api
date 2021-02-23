@@ -1,0 +1,19 @@
+#!/bin/bash
+
+file=$1
+var=1
+
+while read -r line; do
+    lnk="$line"
+    res=$(cat <<EOF
+          wget.exe -qO - $line
+EOF
+)
+    psql -t \
+         -f ../sql/dev_variable_pass.sql \
+         -v val=$res \
+         -v idnum=$var
+    let var+=1
+done < $file
+
+

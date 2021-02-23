@@ -1,20 +1,6 @@
 
 from functions import *
-import subprocess as sp
-
-
-def shell_command(command):
-    sp.Popen(command,
-             shell = True,
-             executable = 'C:/Program Files/Git/mingw64/bin')
-
-def shell_command2(command):
-    sp.Popen(['', '-f', '-c', command],
-             shell = False,
-             stderr = sp.PIPE,
-             stdout = sp.PIPE
-             )
-
+import requests as rq
 
 # Let bash do the encoding
 def wget_links():
@@ -38,9 +24,30 @@ def wget_links():
     cur.close()
     
 
+def wget_pull():
+    with open('bash/wget_links.txt', 'r', encoding = 'utf8') as wf:
+        contents = wf.readlines()
+        wf.close()
+        
+    print(contents)
+    for i in contents:
+        print(str(i))
+        results = rq.get('https://www.acquisition.gov/dfarspgi/pgi-part-236-construction-and-architect-%E2%80%94-engineer-contracts').text
+        soup = bsp(results, 'html.parser')
+        hres = soup.find('div', class_ = 'field-items')
+        print(hres.prettify())
+        break
+        
+        # soup = bsp(contents, 'html.parser')
+        # hres = soup.find('div', class_ = 'field-items')
+        # hname = init_write_file('html/dev_contents6.html')
+        # with open(hname, 'w', encoding = 'utf8') as hf:
+        #     hf.write(str(hres))
+        #     hf.close()
 
 
-# shell_command2('echo ugh')
+
+wget_pull()
 wget_links()
 
 

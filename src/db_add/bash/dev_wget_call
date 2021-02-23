@@ -1,6 +1,0 @@
-#!/bin/bash
-
-res=$(tr -d '\n' < dev_wget_res.html)
-echo $res
-
-

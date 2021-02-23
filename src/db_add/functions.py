@@ -4,6 +4,7 @@ from os import path
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup as bsp
 import urllib as ul
+import requests as rq
 import re
 import psycopg2 as pg2
 from psycopg2 import sql
@@ -192,7 +193,8 @@ def parts_hrefs(connection,
     reg = reg.strip('_')
     base = 'https://www.acquisition.gov'
     hlink = base + htext
-    html = ul.request.urlopen(hlink).read()
+    #html = ul.request.urlopen(hlink).read()
+    html = rq.get(hlink).text
     hsoup = bsp(html, 'html.parser')
     # Finding this div applies to FAR, DFARS, and GSAM
     # If there were no results, it would be a null object
@@ -412,14 +414,16 @@ def add_html():
         # id_num 96 and 144 have ASCII characters in their title
         # This converts their characters to UTF-8
         try:
-            html = ul.request.urlopen(url).read()
+            #html = ul.request.urlopen(url).read()
+            html = rq.get(url).text
         except:
             print('nope')
             url = str(str(url).encode('utf-8'))
             url_final = url[2:len(url) - 1]
             update_one(cur, tname, 'hlink', url_final, idnum)
             print('%s: Updated' % (str(idnum)))
-            html = ul.request.urlopen(url_final).read()
+            # html = ul.request.urlopen(url_final).read()
+            html = rq.get(url).text
         soup = bsp(html, 'html.parser')
         # All the main content is listed under the class below
         hres = soup.find('div', class_ = 'field-items')

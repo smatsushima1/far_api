@@ -37,7 +37,9 @@ def wget_links():
     conn.commit()
     cur.close()
     
-    
+
+
+
 # shell_command2('echo ugh')
 wget_links()
 

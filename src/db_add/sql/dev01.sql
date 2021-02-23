@@ -1,7 +1,13 @@
 
-select * from dev_all_parts2 where id_num >= 277 and id_num <= 296;
+select *
+from dev_all_parts_headers
+where reg = 'dfars'
+order by substring(part from '([0-9]+)')::numeric;
 
 
+select *
+from dev_all_parts2
+where reg = 'dfars' and
+      part = '36'
+order by substring(part from '([0-9]+)')::numeric;
 
--- drop table dev_all_parts2;
--- 

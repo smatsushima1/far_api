@@ -1,25 +1,19 @@
 
-from bs4 import BeautifulSoup as bsp
-import urllib as ul
-import re
-import psycopg2 as pg2
-import datetime
 from functions import *
 
 
 # Used for debugging specific sections
 # Modify file_name and idnum as appropriate
-def debug_headers():
-    jname = rem_file('dev_contents3', 'html')
+def debug_headers(idnum, file_name, heading, search_heading):
+    jname = init_write_file(file_name)
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
     tname = 'dev_all_parts2'
     qry = 'select * from %s where id_num = %s;'
-    idnum = '177'
     cur.execute(qry, (AsIs(tname), idnum))
     res = cur.fetchall()
-    soup = bsp(res[0][9], 'html.parser')
+    soup = bsp(res[0][8], 'html.parser')
     hres = soup.prettify()
     # hres = str(hres)
     with open(jname, 'w', encoding = 'utf8') as jf:
@@ -32,10 +26,11 @@ def debug_headers():
     with open(jname, 'r', encoding = 'utf8') as jf:
         contents = jf.read()
         jf.close()
-    soup = bsp(contents, 'html.parser')
-    headers = soup.find_all('h2')
-    for i in headers:
-        print(i.get_text().strip())
+    if search_heading:
+        soup = bsp(contents, 'html.parser')
+        headers = soup.find_all(heading)
+        for i in headers:
+            print(i.get_text().strip())
     
 
 # Extracts headers in a separate table
@@ -68,9 +63,9 @@ def extract_headers():
                 AsIs('id_num')
                 ))
     results = cur.fetchall()
-    for i in results:
-        lfile = init_write_file('log/log_add_headers.txt')
-        with open(lfile, 'a', encoding = 'utf8') as lf:
+    lfile = init_write_file('log/log_add_headers.txt')    
+    with open(lfile, 'w', encoding = 'utf8') as lf:
+        for i in results:
             idnum = str(i[12])
             print('%s - %s - %s - Working' % (idnum, i[0], i[5]), file = lf)
             # Skipped sections: these will take more time to debug
@@ -174,8 +169,8 @@ def extract_h2(connection, table_name, record, file_name):
                ]
         insert_values(connection, table_name, tuple(lst))
 
-# debug_headers()
-extract_headers()
+debug_headers(96, 'html/dev_contents4.html', 'h1', False)
+# extract_headers()
 
 
 

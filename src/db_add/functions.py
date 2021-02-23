@@ -239,13 +239,13 @@ def add_to_list(connection,
                0,
                # reg
                regulation.replace('/', ''),
-               # type
+               # htype
                'main',
                # fac
                '2021-04',
-               # link
+               # hlink
                hlnk,
-               # html
+               # htext
                'N/A',
                # order_num
                order,
@@ -394,8 +394,7 @@ def update_affars_mp():
 # Updates table to include html portion of the web link provided
 # Total run time: 1595.066 seconds
 def add_html():
-    start_time = time.time()
-    print('\nFunction: add_html\nStarting...')
+    start_time = start_function('add_html')
     # Connect to database
     conn = db_connect()
     cur = conn.cursor()
@@ -415,6 +414,7 @@ def add_html():
         try:
             html = ul.request.urlopen(url).read()
         except:
+            print('nope')
             url = str(str(url).encode('utf-8'))
             url_final = url[2:len(url) - 1]
             update_one(cur, tname, 'hlink', url_final, idnum)
@@ -428,7 +428,7 @@ def add_html():
     # Finish
     conn.commit()
     cur.close()
-    print('Function finished in %s seconds' % round(time.time() - start_time, 3))
+    end_function(start_time)
     
 
 # Updates only one field in a table

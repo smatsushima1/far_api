@@ -1,0 +1,11 @@
+#!/bin/bash
+
+psql -f ../sql/dev_variable_pass.sql \
+     -t \
+     -v tbl=dev_reg_links \
+    | while read col1 col2 col3; do
+      echo "RESULTS: $col1, $col2, $col3"
+    done
+
+
+

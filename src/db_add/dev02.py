@@ -2,12 +2,6 @@
 from functions import *
 
 
-    
-
-
-
-
-
 add_header_counts()
 
 

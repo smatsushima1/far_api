@@ -182,7 +182,7 @@ def extract_h2(connection, table_name, record, file_name):
 
 # 1 for debug, 0 for extract_headers
 go_ind = 1
-debug_record(go_ind, 240, 'html/dev_contents4.html', 'h4', True)
+debug_record(go_ind, 1344, 'html/dev_contents4.html', 'b', True)
 extract_headers(go_ind)
 
 

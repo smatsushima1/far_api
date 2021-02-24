@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# These scripts hardly worked at all
+# Keeping these in here just in case I decide to go this route
+# wget never worked becuase it was trying to download html files, not a url
+
+
+file=$1
+var=1
+
+while read -r line; do
+    wget.exe --no-parent -EqO wget_results.html $line
+    #res=$(tr -d '\n' < wget_results.html)
+    #psql -t \
+    #     -f ../sql/dev_variable_pass.sql \
+    #     -v val="'ugh'" \
+    #     -v idnum=$var
+    exit 0
+    #let var+=1
+done < $file
+
+
+# This is the only way this has worked
+while read -r line; do
+    #wget.exe -qO - $line > wget_results.html
+    #res=$(tr -d '\n' < wget_results.html)
+    psql -t \
+         -f ../sql/dev_variable_pass.sql \
+         -v val="'ugh'" \
+         -v idnum=$var
+    #let var+=1
+done < $file
+
+echo > wget_results.html
+
+
+################################ dev_pull_links ################################
+
+psql -t \
+     -o wget_links.txt \
+     -q \
+     -c "select hlink from dev_all_parts2 where htext = 'None' order by id_num;"
+
+#wget -qO wget_results.html https://www.acquisition.gov/dfarspgi/pgi-part-236-construction-and-architect-\xe2\x80\x94-engineer-contracts
+#
+#tr -d '\n' < wget_results.html
+
+
+################################ dev_update_db ################################
+
+psql -t \
+     -f ../sql/dev_variable_pass.sql \
+     -v val=\'ugh2\' \
+     -v idnum=1
+
+

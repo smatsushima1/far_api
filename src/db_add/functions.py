@@ -470,16 +470,15 @@ def add_header_counts():
                  h3 numeric,
                  h4 numeric,
                  bld numeric,
-                 hlink varchar
+                 htext varchar
                  )'''
     drop_create_tables(conn, tname, values)
-    qry = 'select %s, %s, %s, %s, %s from %s order by %s;'
+    qry = 'select %s, %s, %s, %s from %s order by %s;'
     cur.execute(qry,
                 (AsIs('id_num'),
                  AsIs('part'),
                  AsIs('reg'),
                  AsIs('htext'),
-                 AsIs('hlink'),
                  AsIs('dev_all_parts2'),
                  AsIs('id_num')
                  ))
@@ -508,8 +507,8 @@ def add_header_counts():
                h4count,
                # b
                bcount,
-               # hlink
-               i[4]
+               # htext
+               i[3]
                ]
         insert_values(conn, tname, tuple(lst))
     dbcl(conn, cur)

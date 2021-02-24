@@ -1,12 +1,8 @@
 
+import env
 from functions import *
 
-
-add_header_counts()
-
-
-
-
+print(env.PG_PASSWORD)
 
 
 

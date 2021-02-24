@@ -36,13 +36,24 @@ def end_function(start_time):
 
 ################################### DB Tasks ##################################
 # DB Init
-# Credentials loaded to .env file
+# Credentials loaded from .env file
 def dbi():
     load_dotenv('../.env')
-    conn = pg2.connect(dbname = os.environ['DB_NAME'],
-                       user = os.environ['DB_USER'],
-                       host = os.environ['DB_HOST'],
-                       password = os.environ['DB_PW'])
+    conn = pg2.connect(dbname = os.environ['PG_DATABASE'],
+                       user = os.environ['PG_USER'],
+                       host = os.environ['PG_HOST'],
+                       password = os.environ['PG_PASSWORD']
+                       )
+    return [conn, conn.cursor()]
+
+
+# Credentials loaded from the command line
+def dbi2():
+    conn = pg2.connect(dbname = os.environ.get('PG_DATABASE'),
+                       user = os.environ.get('PG_USER'),
+                       host = os.environ.get('PG_HOST'),
+                       password = os.environ.get('PG_PASSWORD')
+                       )
     return [conn, conn.cursor()]
 
 

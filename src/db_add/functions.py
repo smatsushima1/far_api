@@ -31,7 +31,15 @@ def start_function(func_name):
 
 # End timer for functions
 def end_function(start_time):
-    print("Function finished in %s seconds" % round(time.time() - start_time, 3))
+    end_time = time.time() - start_time
+    if end_time > 60:
+        res = end_time / 60
+        res_spl = str(res).split('.')
+        mins = res_spl[0]
+        secs = round(float('.' + res_spl[1]) * 60, 3)
+        print('Function finished in %s minutes %s seconds' % (mins, secs))
+    else:
+        print("Function finished in %s seconds" % round(time.time() - start_time, 3))
 
 
 ################################### DB Tasks ##################################
@@ -484,6 +492,7 @@ def add_header_counts():
                  h3 numeric,
                  h4 numeric,
                  bld numeric,
+                 strong numeric,
                  htext varchar
                  )'''
     drop_create_tables(conn, tname, values)
@@ -505,6 +514,7 @@ def add_header_counts():
         h3count = len(soup.find_all('h3'))
         h4count = len(soup.find_all('h4'))
         bcount = len(soup.find_all('b'))
+        strcount = len(soup.find_all('strong'))
         # Add values to list, starting with id_num
         lst = [i[0],
                # part
@@ -521,6 +531,8 @@ def add_header_counts():
                h4count,
                # b
                bcount,
+               # strong
+               strcount,
                # htext
                i[3]
                ]

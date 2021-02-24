@@ -40,4 +40,26 @@ order by id_num;
 
 select *
 from dev_all_parts2
+where htext = 'None'
 order by id_num;
+
+
+select *
+from dev_header_counts
+where strong > 1
+order by id_num;
+
+
+
+--------------------------------------------------------------------------------
+-- Things to look out for:
+-- - nfs: literally no formatting except for paragraphs
+--     - p class="p-Normal" and go to next siblings for each section
+-- - vaar: h2's are actually h1's
+--     - h3's are h2's
+--     - strong are the main tags (why...)
+
+
+
+
+

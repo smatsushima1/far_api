@@ -4,7 +4,7 @@ from functions import *
 
 # Used for debugging specific sections
 # Modify file_name and idnum as appropriate
-def debug_record(go_ind, idnum, file_name, heading, search_heading):
+def debug_record(go_ind, idnum, file_name, search_heading):
     if go_ind == 0:
         return
     jname = init_write_file(file_name)
@@ -31,11 +31,23 @@ def debug_record(go_ind, idnum, file_name, heading, search_heading):
         jf.close()
     if search_heading:
         soup = bsp(contents, 'html.parser')
-        headers = soup.find_all(heading)
-        print('Heading: %s\nNumber of headings = %s\n' % (heading, str(len(headers))))
-        for i in headers:
-            print(i.get_text().strip())
-    
+        hlist = ['h1', 'h2', 'h3', 'h4', 'b']
+        for i in hlist:
+            headers = soup.find_all(i)
+            print('\n')
+            print('#' * 80)
+            print('Heading: %s\nNumber of headings = %s\n' % (i, str(len(headers))))
+            for j in headers:
+                hstr1 = j.get_text().strip()
+                hsplit = hstr1.split()
+                hstr2 = ''
+                for k in hsplit:
+                    hstr2 += k + ' '
+                print(hstr2)
+
+            
+            
+            
 
 # Extracts headers in a separate table
 # Runtime: 100.789 seconds
@@ -182,7 +194,7 @@ def extract_h2(connection, table_name, record, file_name):
 
 # 1 for debug, 0 for extract_headers
 go_ind = 1
-debug_record(go_ind, 1344, 'html/dev_contents4.html', 'b', True)
+debug_record(go_ind, 332, 'html/dev_contents4.html', True)
 extract_headers(go_ind)
 
 

@@ -4,7 +4,7 @@ from functions import *
 
 # Used for debugging specific sections
 # Modify file_name and idnum as appropriate
-def debug_record(go_ind, idnum, file_name, search_heading):
+def debug_headers(go_ind, idnum, file_name, file_save):
     if go_ind == 0:
         return
     jname = init_write_file(file_name)
@@ -13,37 +13,38 @@ def debug_record(go_ind, idnum, file_name, search_heading):
     conn = db[0]
     cur = db[1]
     tname = 'dev_all_parts2'
-    qry = 'select * from %s where id_num = %s;'
-    cur.execute(qry, (AsIs(tname), idnum))
+    qry = 'select %s from %s where %s = %s;'
+    cur.execute(qry,
+                (AsIs('htext'),
+                 AsIs(tname),
+                 AsIs('id_num'),
+                 idnum
+                 ))
+    
     res = cur.fetchall()
-    soup = bsp(res[0][9], 'html.parser')
-    hres = soup.prettify()
-    # hres = str(hres)
-    with open(jname, 'w', encoding = 'utf8') as jf:
-        jf.write(hres)
-        jf.close()
+    soup = bsp(res[0][0], 'html.parser')
     # Finish
-    conn.commit()
-    cur.close()
-    # Used for debugging specific sections; used with debug_write_to_file
-    with open(jname, 'r', encoding = 'utf8') as jf:
-        contents = jf.read()
-        jf.close()
-    if search_heading:
-        soup = bsp(contents, 'html.parser')
-        hlist = ['h1', 'h2', 'h3', 'h4', 'b']
-        for i in hlist:
-            headers = soup.find_all(i)
-            print('\n')
-            print('#' * 80)
-            print('Heading: %s\nNumber of headings = %s\n' % (i, str(len(headers))))
-            for j in headers:
-                hstr1 = j.get_text().strip()
-                hsplit = hstr1.split()
-                hstr2 = ''
-                for k in hsplit:
-                    hstr2 += k + ' '
-                print(hstr2)
+    dbcl(conn, cur)
+    # Save to file only if specified
+    if file_save:
+        with open(jname, 'w', encoding = 'utf8') as jf:
+            jf.write(soup.prettify())
+            jf.close()
+    # Start looping through headers
+    hlist = ['h1', 'h2', 'h3', 'h4', 'b']
+    for i in hlist:
+        headers = soup.find_all(i)
+        print('\n')
+        print('#' * 80)
+        print('Heading: %s\nNumber of headings = %s\n' % (i, str(len(headers))))
+        for j in headers:
+            # Make all the text look pretty
+            hstr1 = j.get_text().strip()
+            hsplit = hstr1.split()
+            hstr2 = ''
+            for k in hsplit:
+                hstr2 += k + ' '
+            print(hstr2)
 
             
             
@@ -194,7 +195,11 @@ def extract_h2(connection, table_name, record, file_name):
 
 # 1 for debug, 0 for extract_headers
 go_ind = 1
-debug_record(go_ind, 332, 'html/dev_contents4.html', True)
+debug_headers(go_ind,
+              332,
+              'html/dev_contents4.html',
+              False
+              )
 extract_headers(go_ind)
 
 

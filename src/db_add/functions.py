@@ -60,7 +60,9 @@ def select_all(connection, table_name):
     qry = 'select * from %s;'
     # Single values in tuples require an extra comma to register as a tuple
     # Multiple values don't, since those are already multiples
-    cur.execute(qry, (AsIs(table_name), ))
+    cur.execute(qry,
+                (AsIs(table_name),
+                 ))
     results = cur.fetchall()
     for i in results:
         print(i)
@@ -82,13 +84,14 @@ def insert_values(connection, table_name, values):
     
 # Drop and create table
 def drop_create_tables(connection, table_name, table_values):
+    cur = connection.cursor()
     qry = 'drop table if exists %s; create table %s %s;'
     # AsIs is required because table names don't require quotes
-    connection.cursor().execute(qry,
-                                (AsIs(table_name),
-                                 AsIs(table_name),
-                                 AsIs(table_values)
-                                 ))
+    cur.execute(qry,
+                (AsIs(table_name),
+                 AsIs(table_name),
+                 AsIs(table_values)
+                 ))
     connection.commit()
 
 
@@ -122,7 +125,7 @@ def add_reg_links():
     cur = dbi()[1]
     tname = 'dev_reg_links'
     values = '(reg varchar, link varchar, order_num integer)'
-    drop_create_tables(cur, tname, values)
+    drop_create_tables(conn, tname, values)
     order_num = 1
     # Start adding values
     for i in res:
@@ -130,7 +133,7 @@ def add_reg_links():
         reg = rtext.strip()
         hrtext = i.attrs['href']
         href = hrtext.strip().replace('/browse/index', '')
-        # Error checks
+        # Skip over the smart regs
         if 'Smart' in reg:
             continue
         lst = [reg,
@@ -147,9 +150,7 @@ def add_reg_links():
 
 
 # Add supplemental AFFARS regulations; used with dev_add_reg_links
-def add_affars_supp(db_conn,
-                    table_name,
-                    order_num):
+def add_affars_supp(db_conn, table_name, order_num):
     lst = ['AFFARS MP',
            '/affars/mp',
            order_num
@@ -188,7 +189,7 @@ def add_all_parts():
                 order_num numeric,
                 import_date varchar)
                 '''
-    drop_create_tables(cur, tname, values)
+    drop_create_tables(conn, tname, values)
     cur.execute('select * from %s;', (AsIs('dev_reg_links'), ))
     res = cur.fetchall()
     # Start adding values
@@ -310,12 +311,12 @@ def final_part(part):
 
 # Adds crucial row numbers to each record
 # Runtime: 0.282 seconds
-def add_row_nums():
+def add_id_nums():
     start_time = start_function('add_row_nums')
     db = dbi()
     conn = db[0]
     cur = db[1]
-    sql_file = 'sql/add_row_nums.sql'
+    sql_file = 'sql/add_id_nums.sql'
     cur.execute(open(sql_file, 'r', encoding = 'utf8').read())
     # Finish
     dbcl(conn, cur)
@@ -338,8 +339,8 @@ def update_affars_mp():
                 )
     results = cur.fetchall()
     for i in results:
-        idnum = i[12]
-        part = i[0]
+        idnum = i[0]
+        part = i[1]
         spart = part.split('.')
         final_part = str(spart[0][2:]).lstrip('0')
         # First split on hyphens
@@ -403,12 +404,12 @@ def update_affars_mp():
                                          field5 = sql.Identifier('paragraph'),
                                          field6 = sql.Identifier('id_num')),
                     (final_part,
-                    final_subpart,
-                    final_section,
-                    final_subsection,
-                    final_paragraph,
-                    idnum
-                    ))
+                     final_subpart,
+                     final_section,
+                     final_subsection,
+                     final_paragraph,
+                     idnum
+                     ))
     # Finish
     dbcl(conn, cur)
     end_function(start_time)
@@ -424,26 +425,28 @@ def add_html():
     cur = db[1]
     tname = 'dev_all_parts2'
     qry = 'select * from %s order by %s;'
-    cur.execute(qry, (AsIs(tname), 
-                      AsIs('id_num')
-                      ))
+    cur.execute(qry,
+                (AsIs(tname), 
+                 AsIs('id_num')
+                 ))
     res = cur.fetchall()
     # Start adding html to the DB
     for i in res:
-        url = i[8]
-        idnum = i[12]
+        url = i[9]
+        idnum = i[0]
         print('%s: Working' % (str(idnum)))
-        # id_num 96 and 144 have ASCII characters in their title
-        # This converts their characters to UTF-8
-        try:
-            html = rq.get(url).text
-        except:
-            print('UTF-8 Problems...')
-            url = str(str(url).encode('utf-8'))
-            url_final = url[2:len(url) - 1]
-            update_one(conn, tname, 'hlink', url_final, idnum)
-            print('%s: Updated' % (str(idnum)))
-            html = rq.get(url).text
+        html = rq.get(url).text
+        # # id_num 96 and 144 have ASCII characters in their title
+        # # This converts their characters to UTF-8
+        # try:
+        #     html = rq.get(url).text
+        # except:
+        #     print('UTF-8 Problems...')
+        #     url = str(str(url).encode('utf-8'))
+        #     url_final = url[2:len(url) - 1]
+        #     update_one(conn, tname, 'hlink', url_final, idnum)
+        #     print('%s: Updated' % (str(idnum)))
+        #     html = rq.get(url).text
         soup = bsp(html, 'html.parser')
         # All the main content is listed under the class below
         hres = soup.find('div', class_ = 'field-items')

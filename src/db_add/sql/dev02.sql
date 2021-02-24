@@ -34,6 +34,10 @@ order by id_num;
 
 
 select *
-from dev_header_counts;
+from dev_header_counts
+where h1 > 1
+order by id_num;
 
-
+select *
+from dev_all_parts2
+order by id_num;

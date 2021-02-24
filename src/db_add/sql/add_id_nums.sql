@@ -110,12 +110,11 @@ order by order_num,
 -- select * from dev_dupes7;
 
 
-
 -- Create new dev_all_parts table that has id numbers
 drop table if exists dev_all_parts2;
 create table dev_all_parts2 as
-select t1.*,
-       row_number() over() as id_num
+select row_number() over() as id_num,
+       t1.*
 from dev_dupes7 t1
 order by t1.order_num,
          substring(t1.part from '([0-9]+)')::numeric;
@@ -131,4 +130,5 @@ drop table if exists dev_dupes5;
 drop table if exists dev_dupes6;
 drop table if exists dev_dupes7;
 drop table if exists dev_all_parts;
+
 

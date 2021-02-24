@@ -24,7 +24,8 @@ def init_write_file(file_name):
 # Start timer for functinos
 def start_function(func_name):
     start_time = time.time()
-    print('\nFunction: %s\nStarting...' % (func_name))
+    print('#' * 80)
+    print('Function: %s\nStarting...' % (func_name))
     return start_time
 
 
@@ -33,16 +34,23 @@ def end_function(start_time):
     print("Function finished in %s seconds" % round(time.time() - start_time, 3))
 
 
-
-# Connect to DB
+################################### DB Tasks ##################################
+# DB Init
 # Credentials loaded to .env file
-def db_connect():
+def dbi():
     load_dotenv('../.env')
     conn = pg2.connect(dbname = os.environ['DB_NAME'],
-                       user = 'postgres',
-                       host = 'localhost',
+                       user = os.environ['DB_USER'],
+                       host = os.environ['DB_HOST'],
                        password = os.environ['DB_PW'])
-    return conn
+    return [conn, conn.cursor()]
+
+
+# DB Close connections
+def dbcl(connection, cursor):
+    connection.commit()
+    cursor.close()
+    connection.close()
 
 
 # Select all for a given table
@@ -56,8 +64,7 @@ def select_all(connection, table_name):
     results = cur.fetchall()
     for i in results:
         print(i)
-    connection.commit()
-    cur.close()
+    dbcl(connection, cur)
 
 
 # Insert all values into a table
@@ -74,15 +81,30 @@ def insert_values(connection, table_name, values):
     
     
 # Drop and create table
-def drop_create_tables(curs, table_name, table_values):
-    qry = 'drop table if exists %s; create table %s %s'
+def drop_create_tables(connection, table_name, table_values):
+    qry = 'drop table if exists %s; create table %s %s;'
     # AsIs is required because table names don't require quotes
-    curs.execute(qry, (AsIs(table_name),
-                       AsIs(table_name),
-                       AsIs(table_values)
-                       ))
+    connection.cursor().execute(qry,
+                                (AsIs(table_name),
+                                 AsIs(table_name),
+                                 AsIs(table_values)
+                                 ))
+    connection.commit()
 
 
+# Updates only one field in a table
+# Maybe later update to include logic to update multiple fields
+def update_one(connection, table_name, field_name, value, id_num):
+    cur = connection.cursor()
+    qry = 'update {table} set {field} = %s where id_num = %s'
+    cur.execute(sql.SQL(qry).format(table = sql.Identifier(table_name),
+                                    field = sql.Identifier(field_name)),
+                (value, id_num)
+                )
+    connection.commit()
+    
+
+################################# Update Data #################################
 # Add links to href sites
 # Runtime: 1.105 seconds
 def add_reg_links():
@@ -90,15 +112,14 @@ def add_reg_links():
     # The following string could have been anywhere on acq.gov
     srch = 'https://www.acquisition.gov/browse/index/far'
     # Open the url and save it as an html object
-    resp = ul.request.urlopen(srch)
-    html_res = resp.read()
+    html_res = rq.get(srch).text
     # Turn it into html and parse out the content
     soup = bsp(html_res, 'html.parser')
     htext = soup.find('div', class_ = 'reg-container clearfix')
     res = htext.find_all('a')
     # Connect to database
-    conn = db_connect()
-    cur = conn.cursor()
+    conn = dbi()[0]
+    cur = dbi()[1]
     tname = 'dev_reg_links'
     values = '(reg varchar, link varchar, order_num integer)'
     drop_create_tables(cur, tname, values)
@@ -121,8 +142,7 @@ def add_reg_links():
         if reg == 'AFFARS':
             order_num = add_affars_supp(conn, tname, order_num)
     # Finish
-    conn.commit()
-    cur.close()
+    dbcl(conn, cur)
     end_function(start_time)
 
 
@@ -151,8 +171,9 @@ def add_affars_supp(db_conn,
 def add_all_parts():
     start_time = start_function('add_all_parts')
     # Connect to database
-    conn = db_connect()
-    cur = conn.cursor()
+    db = dbi()
+    conn = db[0]
+    cur = db[1]
     tname = 'dev_all_parts'
     values = '''(part varchar,
                 subpart varchar,
@@ -177,8 +198,7 @@ def add_all_parts():
         print('Adding data to: ' + reg)
         parts_hrefs(conn, tname, reg, htext, i[2])
     # Finish
-    conn.commit()
-    cur.close()
+    dbcl(conn, cur)
     end_function(start_time)
 
 
@@ -193,14 +213,14 @@ def parts_hrefs(connection,
     reg = reg.strip('_')
     base = 'https://www.acquisition.gov'
     hlink = base + htext
-    #html = ul.request.urlopen(hlink).read()
     html = rq.get(hlink).text
     hsoup = bsp(html, 'html.parser')
     # Finding this div applies to FAR, DFARS, and GSAM
     # If there were no results, it would be a null object
     hres = hsoup.find('div', id = 'parts-wrapper')
     if hres is not None:
-        # All the a tags have our information within the div tag   
+        # All the a tags have our information within the div tag
+        # ind variable used depending on which option we use here
         res = hres.div.find_all('a')
         ind = 1
     # This only gets run for supplementals
@@ -292,12 +312,13 @@ def final_part(part):
 # Runtime: 0.282 seconds
 def add_row_nums():
     start_time = start_function('add_row_nums')
-    conn = db_connect()
-    cur = conn.cursor()
+    db = dbi()
+    conn = db[0]
+    cur = db[1]
     sql_file = 'sql/add_row_nums.sql'
     cur.execute(open(sql_file, 'r', encoding = 'utf8').read())
-    conn.commit()
-    cur.close()
+    # Finish
+    dbcl(conn, cur)
     end_function(start_time)
 
 
@@ -305,8 +326,9 @@ def add_row_nums():
 # Runtime: 0.09 seconds
 def update_affars_mp():
     start_time = start_function('update_affars_mp')
-    conn = db_connect()
-    cur = conn.cursor()
+    db = dbi()
+    conn = db[0]
+    cur = db[1]
     tname = 'dev_all_parts2'
     fname = 'id_num'
     qry = 'select * from {table} where {field} >= %s and {field} <= %s'
@@ -388,8 +410,7 @@ def update_affars_mp():
                     idnum
                     ))
     # Finish
-    conn.commit()
-    cur.close()
+    dbcl(conn, cur)
     end_function(start_time)
 
 
@@ -398,8 +419,9 @@ def update_affars_mp():
 def add_html():
     start_time = start_function('add_html')
     # Connect to database
-    conn = db_connect()
-    cur = conn.cursor()
+    db = dbi()
+    conn = db[0]
+    cur = db[1]
     tname = 'dev_all_parts2'
     qry = 'select * from %s order by %s;'
     cur.execute(qry, (AsIs(tname), 
@@ -414,38 +436,84 @@ def add_html():
         # id_num 96 and 144 have ASCII characters in their title
         # This converts their characters to UTF-8
         try:
-            #html = ul.request.urlopen(url).read()
             html = rq.get(url).text
         except:
-            print('nope')
+            print('UTF-8 Problems...')
             url = str(str(url).encode('utf-8'))
             url_final = url[2:len(url) - 1]
-            update_one(cur, tname, 'hlink', url_final, idnum)
+            update_one(conn, tname, 'hlink', url_final, idnum)
             print('%s: Updated' % (str(idnum)))
-            # html = ul.request.urlopen(url_final).read()
             html = rq.get(url).text
         soup = bsp(html, 'html.parser')
         # All the main content is listed under the class below
         hres = soup.find('div', class_ = 'field-items')
         # For all others, content is listed under 'field-items'
-        update_one(cur, tname, 'htext', str(hres), idnum)
+        update_one(conn, tname, 'htext', str(hres), idnum)
     # Finish
-    conn.commit()
-    cur.close()
+    dbcl(conn, cur)
     end_function(start_time)
-    
-
-# Updates only one field in a table
-# Maybe later update to include logic to update multiple fields
-def update_one(cur, table_name, field_name, value, id_num):
-    qry = 'update {table} set {field} = %s where id_num = %s'
-    cur.execute(sql.SQL(qry).format(table = sql.Identifier(table_name),
-                                    field = sql.Identifier(field_name)),
-                (value, id_num)
-                )
 
 
-
+# Get list of header counts for each reg for easy debugging
+# Runtime: 51.054 seconds
+def add_header_counts():
+    start_time = start_function('add_header_counts')
+    db = dbi()
+    conn = db[0]
+    cur = db[1]
+    tname = 'dev_header_counts'
+    values = '''(id_num numeric,
+                 part varchar,
+                 reg varchar,
+                 h1 numeric,
+                 h2 numeric,
+                 h3 numeric,
+                 h4 numeric,
+                 bld numeric,
+                 hlink varchar
+                 )'''
+    drop_create_tables(conn, tname, values)
+    qry = 'select %s, %s, %s, %s, %s from %s order by %s;'
+    cur.execute(qry,
+                (AsIs('id_num'),
+                 AsIs('part'),
+                 AsIs('reg'),
+                 AsIs('htext'),
+                 AsIs('hlink'),
+                 AsIs('dev_all_parts2'),
+                 AsIs('id_num')
+                 ))
+    results = cur.fetchall()
+    for i in results:
+        print(i[0])
+        soup = bsp(i[3], 'html.parser')
+        h1count = len(soup.find_all('h1'))
+        h2count = len(soup.find_all('h2'))
+        h3count = len(soup.find_all('h3'))
+        h4count = len(soup.find_all('h4'))
+        bcount = len(soup.find_all('b'))
+        # Add values to list, starting with id_num
+        lst = [i[0],
+               # part
+               i[1],
+               # reg
+               i[2],
+               # h1
+               h1count,
+               # h2
+               h2count,
+               # h3
+               h3count,
+               # h4
+               h4count,
+               # b
+               bcount,
+               # hlink
+               i[4]
+               ]
+        insert_values(conn, tname, tuple(lst))
+    dbcl(conn, cur)
+    end_function(start_time)
 
 
 

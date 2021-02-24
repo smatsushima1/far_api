@@ -4,16 +4,19 @@ from functions import *
 
 # Used for debugging specific sections
 # Modify file_name and idnum as appropriate
-def debug_headers(idnum, file_name, heading, search_heading):
+def debug_record(go_ind, idnum, file_name, heading, search_heading):
+    if go_ind == 0:
+        return
     jname = init_write_file(file_name)
     # Connect to database
-    conn = db_connect()
-    cur = conn.cursor()
+    db = dbi()
+    conn = db[0]
+    cur = db[1]
     tname = 'dev_all_parts2'
     qry = 'select * from %s where id_num = %s;'
     cur.execute(qry, (AsIs(tname), idnum))
     res = cur.fetchall()
-    soup = bsp(res[0][8], 'html.parser')
+    soup = bsp(res[0][9], 'html.parser')
     hres = soup.prettify()
     # hres = str(hres)
     with open(jname, 'w', encoding = 'utf8') as jf:
@@ -29,17 +32,21 @@ def debug_headers(idnum, file_name, heading, search_heading):
     if search_heading:
         soup = bsp(contents, 'html.parser')
         headers = soup.find_all(heading)
+        print('Heading: %s\nNumber of headings = %s\n' % (heading, str(len(headers))))
         for i in headers:
             print(i.get_text().strip())
     
 
 # Extracts headers in a separate table
 # Runtime: 100.789 seconds
-def extract_headers():
+def extract_headers(go_ind):
+    if go_ind == 1:
+        return
     start_time = start_function('extract_headers')
     # Connect to database
-    conn = db_connect()
-    cur = conn.cursor()
+    db = dbi()
+    conn = db[0]
+    cur = db[1]
     tname = 'dev_all_parts_headers'
     tname_orig = 'dev_all_parts2'
     # Create new table from original instead of creating it from scratch
@@ -67,15 +74,16 @@ def extract_headers():
     with open(lfile, 'w', encoding = 'utf8') as lf:
         for i in results:
             idnum = str(i[12])
-            print('%s - %s - %s - Working' % (idnum, i[0], i[5]), file = lf)
+            print('%s - %s - %s' % (idnum, i[0], i[5]), end = '', file = lf)
             # Skipped sections: these will take more time to debug
             if idnum in [
                          ]:
-                print("Skipping for now...", file = lf)
+                print(' - Skipping for now...', file = lf)
                 continue
             # Start extracting headers
             extract_h1(conn, tname, i, lf)
             extract_h2(conn, tname, i, lf)
+            #lf.write(pstr)
     # Finish
     conn.commit()
     cur.close()
@@ -85,9 +93,9 @@ def extract_headers():
 # For parts
 def extract_h1(connection, table_name, record, file_name):
     soup = bsp(record[9], 'html.parser')
-    headers = soup.find('h1')
-    if headers is None:
-        print("Leaving: no h1's...", file = file_name)
+    headers = soup.find_all('h1')
+    if len(headers) == 0:
+        print(' - No', end = '', file = file_name)
         return
     # Insert into table, only changing the html and type
     lst = [record[0],
@@ -108,21 +116,22 @@ def extract_h1(connection, table_name, record, file_name):
            # hlink
            record[8],
            # htext
-           str(headers),
+           str(headers[0]),
            # order_num
            record[10],
            # import_date
            datetime.datetime.now()
            ]
     insert_values(connection, table_name, tuple(lst))
+    print(' - +', end = '', file = file_name)
     
 
 # For subparts
 def extract_h2(connection, table_name, record, file_name):
     soup = bsp(record[9], 'html.parser')
     headers = soup.find_all('h2')
-    if headers is None:
-        print("Leaving: no h2's...", file = file_name)
+    if len(headers) == 0:
+        print(' - No', file = file_name)
         return
     for i in headers:
         header = i.get_text().strip()
@@ -168,9 +177,13 @@ def extract_h2(connection, table_name, record, file_name):
                datetime.datetime.now()
                ]
         insert_values(connection, table_name, tuple(lst))
+    print(' - +', file = file_name)
 
-debug_headers(96, 'html/dev_contents4.html', 'h1', False)
-# extract_headers()
+
+# 1 for debug, 0 for extract_headers
+go_ind = 1
+debug_record(go_ind, 240, 'html/dev_contents4.html', 'h4', True)
+extract_headers(go_ind)
 
 
 

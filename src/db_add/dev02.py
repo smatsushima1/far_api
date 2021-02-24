@@ -1,54 +1,14 @@
 
 from functions import *
-import requests as rq
 
-# Let bash do the encoding
-def wget_links():
-    conn = db_connect()
-    cur = conn.cursor()
-    qry = 'select %s from %s where %s = %s order by %s;'
-    cur.execute(qry,
-                (AsIs('hlink'),
-                 AsIs('dev_all_parts2'),
-                 AsIs('htext'),
-                 'None',
-                 AsIs('id_num')
-                 ))
-    results = cur.fetchall()
-    fname = init_write_file('bash/wget_links')
-    with open(fname, 'w', encoding = 'utf8') as fn:
-        for i in results:
-            fn.write(str(i[0]) + '\n')
-        fn.close()
-    conn.commit()
-    cur.close()
+
     
 
-def wget_pull():
-    with open('bash/wget_links.txt', 'r', encoding = 'utf8') as wf:
-        contents = wf.readlines()
-        wf.close()
-        
-    print(contents)
-    for i in contents:
-        print(str(i))
-        results = rq.get('https://www.acquisition.gov/dfarspgi/pgi-part-236-construction-and-architect-%E2%80%94-engineer-contracts').text
-        soup = bsp(results, 'html.parser')
-        hres = soup.find('div', class_ = 'field-items')
-        print(hres.prettify())
-        break
-        
-        # soup = bsp(contents, 'html.parser')
-        # hres = soup.find('div', class_ = 'field-items')
-        # hname = init_write_file('html/dev_contents6.html')
-        # with open(hname, 'w', encoding = 'utf8') as hf:
-        #     hf.write(str(hres))
-        #     hf.close()
 
 
 
-wget_pull()
-wget_links()
+
+add_header_counts()
 
 
 

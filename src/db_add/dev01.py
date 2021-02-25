@@ -31,7 +31,7 @@ def debug_headers(go_ind, idnum, file_name, file_save):
             jf.write(soup.prettify())
             jf.close()
     # Start looping through headers
-    hlist = ['h1', 'h2', 'h3', 'h4', 'b', 'strong']
+    hlist = ['h1', 'h2', 'h3', 'h4', 'b', 'strong', 'li']
     for i in hlist:
         headers = soup.find_all(i)
         print('\n')
@@ -196,9 +196,9 @@ def extract_h2(connection, table_name, record, file_name):
 # 1 for debug, 0 for extract_headers
 go_ind = 1
 debug_headers(go_ind,
-              5,
+              447,
               'html/dev_contents.html',
-              True
+              False
               )
 extract_headers(go_ind)
 
@@ -225,6 +225,14 @@ extract_headers(go_ind)
 #     - strong headings (why...)
 #     - missplaced h2 headings
 # - all these should add up to the total amount of records we have to parse
+
+##############################################################################
+# Desired format:
+# - only headers in the regular format
+# - only paragraphs
+#     - first isolate all sections, remove all formatting, convert to paragraphs
+#     - no lists
+# - no unaltered
 
 ##############################################################################
 # Add attributes to tags

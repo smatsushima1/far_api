@@ -1,5 +1,6 @@
 
 -- First, find all the dupes
+-- Leave out nmcars since those will come in dev_dupes4
 drop table if exists dev_dupes1;
 create table dev_dupes1 as
 select part,
@@ -7,6 +8,7 @@ select part,
 	   order_num,
 	   count(*) as cnt
 from dev_all_parts
+where reg != 'nmcars'
 group by part,
          reg,
 		 order_num
@@ -48,14 +50,14 @@ order by order_num,
 -- select * from dev_dupes3;
 
 
--- Fix the dupes in the nmcars regs
+-- Find all annexes in nmcars
 drop table if exists dev_dupes4;
 create table dev_dupes4 as
 select part,
        'nmcarsannex' as reg,
        hlink,
 	   (order_num + .1) as order_num
-from dev_dupes2
+from dev_all_parts
 where reg = 'nmcars' and
       hlink like '%annex%'
 order by order_num,
@@ -122,13 +124,12 @@ order by t1.order_num,
 
 
 -- Drop all tables when done
-drop table if exists dev_dupes1;
-drop table if exists dev_dupes2;
-drop table if exists dev_dupes3;
-drop table if exists dev_dupes4;
-drop table if exists dev_dupes5;
-drop table if exists dev_dupes6;
-drop table if exists dev_dupes7;
-drop table if exists dev_all_parts;
+--drop table if exists dev_dupes1;
+--drop table if exists dev_dupes2;
+--drop table if exists dev_dupes3;
+--drop table if exists dev_dupes4;
+--drop table if exists dev_dupes5;
+--drop table if exists dev_dupes6;
+--drop table if exists dev_dupes7;
 
 

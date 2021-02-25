@@ -1,7 +1,7 @@
 
 from functions import *
 
-add_header_counts()
+tag_counts()
 
 
 

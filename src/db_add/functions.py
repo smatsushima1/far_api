@@ -478,7 +478,7 @@ def add_html():
 
 # Get list of header counts for each reg for easy debugging
 # Runtime: 51.054 seconds
-def add_header_counts():
+def tag_counts():
     start_time = start_function('add_header_counts')
     db = dbi()
     conn = db[0]
@@ -493,6 +493,7 @@ def add_header_counts():
                  h4 numeric,
                  bld numeric,
                  strong numeric,
+                 li numeric,
                  htext varchar
                  )'''
     drop_create_tables(conn, tname, values)
@@ -515,6 +516,7 @@ def add_header_counts():
         h4count = len(soup.find_all('h4'))
         bcount = len(soup.find_all('b'))
         strcount = len(soup.find_all('strong'))
+        licount = len(soup.find_all('li'))
         # Add values to list, starting with id_num
         lst = [i[0],
                # part
@@ -533,6 +535,8 @@ def add_header_counts():
                bcount,
                # strong
                strcount,
+               # lists
+               licount,
                # htext
                i[3]
                ]

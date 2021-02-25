@@ -50,6 +50,14 @@ where strong > 1
 order by id_num;
 
 
+select * from dev_all_parts where reg = 'nmcars';
+select * from dev_dupes1;
+select * from dev_dupes2;
+select * from dev_dupes4;
+select * from dev_dupes5;
+select * from dev_dupes6 where reg like 'nmcars%';
+
+select * from dev_all_parts2 where hlink like '%annex%';
 
 --------------------------------------------------------------------------------
 -- Things to look out for:

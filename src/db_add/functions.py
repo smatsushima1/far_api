@@ -37,9 +37,9 @@ def end_function(start_time):
         res_spl = str(res).split('.')
         mins = res_spl[0]
         secs = round(float('.' + res_spl[1]) * 60, 3)
-        print('Function finished in %s minutes %s seconds' % (mins, secs))
+        print('''Function finished in %s' %s"''' % (mins, secs))
     else:
-        print("Function finished in %s seconds" % round(time.time() - start_time, 3))
+        print('Function finished in %s"' % round(time.time() - start_time, 3))
 
 
 ################################### DB Tasks ##################################
@@ -128,7 +128,7 @@ def update_one(connection, table_name, field_name, value, id_num):
 
 ################################# Update Data #################################
 # Add links to href sites
-# Runtime: 1.105 seconds
+# Runtime: 1.105"
 def add_reg_links():
     start_time = start_function('add_reg_links')
     # The following string could have been anywhere on acq.gov
@@ -175,6 +175,7 @@ def add_affars_supp(db_conn, table_name, order_num):
            order_num
            ]
     insert_values(db_conn, table_name, tuple(lst))
+    # order_num gets added by 1 in order to add another level of affars regs
     order_num += 1
     lst.clear()
     lst = ['AFFARS PGI',
@@ -187,7 +188,7 @@ def add_affars_supp(db_conn, table_name, order_num):
 
 
 # Start extracting links to the Parts and save href in json file
-# Runtime: 13.891 seconds
+# Runtime: 13.891"
 def add_all_parts():
     start_time = start_function('add_all_parts')
     # Connect to database
@@ -329,7 +330,7 @@ def final_part(part):
 
 
 # Adds crucial row numbers to each record
-# Runtime: 0.282 seconds
+# Runtime: 0.282"
 def add_id_nums():
     start_time = start_function('add_row_nums')
     db = dbi()
@@ -343,7 +344,7 @@ def add_id_nums():
 
 
 # Update the AFFARS MP parts; performed after add_row_nums
-# Runtime: 0.09 seconds
+# Runtime: 0.09"
 def update_affars_mp():
     start_time = start_function('update_affars_mp')
     db = dbi()
@@ -435,7 +436,7 @@ def update_affars_mp():
 
 
 # Updates table to include html portion of the web link provided
-# Total run time: 1595.066 seconds
+# Runtime: 21' 14.195"
 def add_html():
     start_time = start_function('add_html')
     # Connect to database
@@ -454,7 +455,13 @@ def add_html():
         url = i[9]
         idnum = i[0]
         print('%s: Working' % (str(idnum)))
-        html = rq.get(url).text
+        try:
+            html = rq.get(url).text
+        except:
+            print("Can't read URL - skipping for now...")
+            continue
+        # The following is the old method to convert non-ascii characters
+        # Using requests instead of urllib solves this but keeping the below anyway
         # # id_num 96 and 144 have ASCII characters in their title
         # # This converts their characters to UTF-8
         # try:
@@ -476,14 +483,14 @@ def add_html():
     end_function(start_time)
 
 
-# Get list of header counts for each reg for easy debugging
-# Runtime: 51.054 seconds
+# Count the amount of tags for each reg
+# Runtime: 1' 2.646"
 def tag_counts():
-    start_time = start_function('add_header_counts')
+    start_time = start_function('tag_counts')
     db = dbi()
     conn = db[0]
     cur = db[1]
-    tname = 'dev_header_counts'
+    tname = 'dev_tag_counts'
     values = '''(id_num numeric,
                  part varchar,
                  reg varchar,

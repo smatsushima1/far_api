@@ -45,7 +45,7 @@ order by id_num;
 
 
 select *
-from dev_header_counts
+from dev_tag_counts
 where strong > 1
 order by id_num;
 

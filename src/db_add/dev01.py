@@ -196,7 +196,7 @@ def extract_h2(connection, table_name, record, file_name):
 # 1 for debug, 0 for extract_headers
 go_ind = 1
 debug_headers(go_ind,
-              447,
+              166,
               'html/dev_contents.html',
               False
               )
@@ -225,6 +225,9 @@ extract_headers(go_ind)
 #     - strong headings (why...)
 #     - missplaced h2 headings
 # - all these should add up to the total amount of records we have to parse
+# - maybe first iterate through each reg and fix headings, then worry about
+#       other stuff within
+#     - headings will serve as the basis to grab the other information
 
 ##############################################################################
 # Desired format:
@@ -302,116 +305,6 @@ extract_headers(go_ind)
 # - body: sections and subsections
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Updates table to include html portion of the web link provided
-def split_sections2():
-    jname = rem_file('contents_dev7', 'html')
-    # Connect to database
-    conn = db_connect()
-    cur = conn.cursor()
-    tname = 'all_parts_dev_2'
-    qry = 'select * from %s where part = %s and reg = %s;'
-    cur.execute(qry, (AsIs(tname), '1', 'dtar'))
-    res = cur.fetchall()
-    soup = bsp(res[0][8], 'html.parser')
-    hres = soup.prettify()
-    #hres = str(soup)
-    
-    with open(jname, 'w', encoding = 'utf8') as jf:
-        jf.write(hres)
-        jf.close()
-    # Finish
-    conn.commit()
-    cur.close()
-
-
-def read_html2():
-    # jname = rem_file('contents_dev', 'html')
-    with open('html/contents_dev6.html', 'r', encoding = 'utf8') as jf:
-        rhtml = jf.read()
-    soup = bsp(rhtml, 'html.parser')
-    soup2 = soup.find('main')
-    # Remove all span classes
-    for i in soup2.find_all('span'):
-        i.unwrap()
-    # Separate each article by section and save this into another table
-    for j in soup2.find_all('article'):
-        print(j)    
-    
-# split_sections2()
-# read_html2()    
-
-
-
-
-
-# # Remove file if already there
-# fname = 'contents_dev'
-# hname = rem_file('contents_dev', 'html')
-
-# conn = db_connect()
-# cur = conn.cursor()
-# tname = 'all_parts_dev1'
-# qry = 'select * from %s order by id_num;'
-# cur.execute(qry, (AsIs(tname), ))
-# res = cur.fetchall()
-
-# with open(hname, 'w', encoding = 'utf8') as hw:
-#     hw.write(res[0][8])
-#     hw.close()
-
-
-
-# conn = db_connect()
-# cur = conn.cursor()
-# t = 'temp_dd_data'
-# qry = 'select * from %s' % t
-# qry2 = qry + ' where reg = %s;'
-# cur.execute(qry2, ('far', ))
-# res = cur.fetchall()
-# print(res)
-
-
-
-
-
-
-# with open(hname2, 'w', encoding = 'utf8') as hn2:
-#   soup = bsp(contents, 'html.parser')
-#   res = soup.find_all('tbody')
-#   for i in res:
-#     hn2.write(str(i.prettify()))
-#     break
-
-
-
-
-
 # Steps:
 # 1) Save current TOC into json file, links to each section
 # 1a) Possibly save TOC and reformat structure, along with each a href
@@ -465,58 +358,4 @@ def read_html2():
 # regulation-index-browse_wrapper
 # look into .extrar() for beautiful soup to extract contents in between tags
 # changin the names of tags and attributes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

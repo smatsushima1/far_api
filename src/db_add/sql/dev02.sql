@@ -27,9 +27,8 @@ order by id_num;
 
 
 select *
-from dev_header_counts
-where h1 = 0 and
-      bld > 0
+from dev_tag_counts
+where h1 = 0
 order by id_num;
 
 
@@ -45,19 +44,21 @@ order by id_num;
 
 
 select *
-from dev_tag_counts
-where strong > 1
+from dev_all_parts2
+where reg = 'afars'
+order by part;
+
+select *
+from dev_all_parts2
+where reg = 'afars' and
+      id_num between 212 and 219
+order by part;
+
+select *
+from dev_all_parts2
+where reg like 'afars%'
 order by id_num;
 
-
-select * from dev_all_parts where reg = 'nmcars';
-select * from dev_dupes1;
-select * from dev_dupes2;
-select * from dev_dupes4;
-select * from dev_dupes5;
-select * from dev_dupes6 where reg like 'nmcars%';
-
-select * from dev_all_parts2 where hlink like '%annex%';
 
 --------------------------------------------------------------------------------
 -- Things to look out for:

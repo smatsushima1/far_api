@@ -1,8 +1,8 @@
 
 -- First, find all the dupes
--- Leave out nmcars since those will come in dev_dupes4
-drop table if exists dev_dupes1;
-create table dev_dupes1 as
+-- Leave out nmcars since those will come in dev_dupes04
+drop table if exists dev_dupes01;
+create table dev_dupes01 as
 select part,
        reg,
 	   order_num,
@@ -15,46 +15,44 @@ group by part,
     having count(*) > 1
 order by order_num,
          substring(part from '([0-9]+)')::numeric;
--- select * from dev_dupes1;
+-- select * from dev_dupes01;
 
 
 -- Inner join all values to include the hlinks
-drop table if exists dev_dupes2;
-create table dev_dupes2 as
+drop table if exists dev_dupes02;
+create table dev_dupes02 as
 select d0.part,
        d0.reg,
 	   d0.hlink,
 	   d0.order_num
 from dev_all_parts d0
-join dev_dupes1 d1 on d0.part = d1.part and
+join dev_dupes01 d1 on d0.part = d1.part and
                       d0.reg = d1.reg and
 					  d0.order_num = d1.order_num
 order by d0.order_num,
          substring(d0.part from '([0-9]+)')::numeric;
--- select * from dev_dupes2;
+-- select * from dev_dupes02;
 
 
 -- Fix the dupes in the dlad regs
-drop table if exists dev_dupes3;
-create table dev_dupes3 as
-select part,
-       'dladpgi' as reg,
+drop table if exists dev_dupes03;
+create table dev_dupes03 as
+select 'dladpgi' as reg,
        hlink,
 	   (order_num + .1) as order_num
-from dev_dupes2
+from dev_dupes02
 where reg = 'dlad' and
       (hlink like '%acquisitions%' or
 	   hlink like '%-0')
 order by order_num,
          substring(part from '([0-9]+)')::numeric;
--- select * from dev_dupes3;
+-- select * from dev_dupes03;
 
 
 -- Find all annexes in nmcars
-drop table if exists dev_dupes4;
-create table dev_dupes4 as
-select part,
-       'nmcarsannex' as reg,
+drop table if exists dev_dupes04;
+create table dev_dupes04 as
+select 'nmcarsannex' as reg,
        hlink,
 	   (order_num + .1) as order_num
 from dev_all_parts
@@ -62,23 +60,37 @@ where reg = 'nmcars' and
       hlink like '%annex%'
 order by order_num,
          substring(part from '([0-9]+)')::numeric;
--- select * from dev_dupes4;
+-- select * from dev_dupes04;
+
+
+-- Update the annexes for the afars
+drop table if exists dev_af_annex01;
+create table dev_af_annex01 as
+select 'afarsannex' as reg,
+       hlink,
+       (order_num + .1) as order_num
+from dev_all_parts
+where part in ('AA', 'BB', 'CC', 'DD', 'EE', 'FF', 'GG', 'HH');
+-- select * from dev_af_annex01;
 
 
 -- Combine the changes in one table
-drop table if exists dev_dupes5;
-create table dev_dupes5 as
+drop table if exists dev_dupes05;
+create table dev_dupes05 as
 select *
-from dev_dupes3
+from dev_dupes03
 union
 select *
-from dev_dupes4;
--- select * from dev_dupes5;
+from dev_dupes04
+union
+select *
+from dev_af_annex01;
+-- select * from dev_dupes05;
 
 
 -- Create new dev_all_parts table that has the updated values
-drop table if exists dev_dupes6;
-create table dev_dupes6 as
+drop table if exists dev_dupes06;
+create table dev_dupes06 as
 select t1.part,
        t1.subpart,
        t1.section,
@@ -98,18 +110,18 @@ select t1.part,
 		end) as order_num,
        t1.import_date
 from dev_all_parts t1
-left join dev_dupes5 t2 on t1.hlink = t2.hlink;
--- select * from dev_dupes6;
+left join dev_dupes05 t2 on t1.hlink = t2.hlink;
+-- select * from dev_dupes06;
 
 
 -- Create last dupes table to sort everything
-drop table if exists dev_dupes7;
-create table dev_dupes7 as
+drop table if exists dev_dupes07;
+create table dev_dupes07 as
 select *
-from dev_dupes6
+from dev_dupes06
 order by order_num,
          substring(part from '([0-9]+)')::numeric;
--- select * from dev_dupes7;
+-- select * from dev_dupes07;
 
 
 -- Create new dev_all_parts table that has id numbers
@@ -117,19 +129,18 @@ drop table if exists dev_all_parts2;
 create table dev_all_parts2 as
 select row_number() over() as id_num,
        t1.*
-from dev_dupes7 t1
+from dev_dupes07 t1
 order by t1.order_num,
          substring(t1.part from '([0-9]+)')::numeric;
--- select * from dev_all_parts2;
+-- select * from dev_all_parts2 order by id_num;
 
 
 -- Drop all tables when done
---drop table if exists dev_dupes1;
---drop table if exists dev_dupes2;
---drop table if exists dev_dupes3;
---drop table if exists dev_dupes4;
---drop table if exists dev_dupes5;
---drop table if exists dev_dupes6;
---drop table if exists dev_dupes7;
-
+--drop table if exists dev_dupes01;
+--drop table if exists dev_dupes02;
+--drop table if exists dev_dupes03;
+--drop table if exists dev_dupes04;
+--drop table if exists dev_dupes05;
+--drop table if exists dev_dupes06;
+--drop table if exists dev_dupes07;
 

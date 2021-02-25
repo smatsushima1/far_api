@@ -1,5 +1,17 @@
 
+
+SELECT table_schema,table_name
+FROM information_schema.tables
+where table_schema = 'public'
+ORDER BY table_schema,table_name;
+
+drop table dev_drop_down_data;
+
+select * from dev_all_parts03;
+
 select * from dev_psql_update;
+
+select * from dev_add_html01 where htext = 'None';
 
 select part,
        subpart
@@ -45,7 +57,13 @@ order by id_num;
 
 select *
 from dev_all_parts2
-where reg = 'afars'
+where reg = 'affarsmp'
+order by part;
+
+select *
+from dev_all_parts03
+order by id_num;
+where length(part) > 2
 order by part;
 
 select *

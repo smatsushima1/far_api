@@ -114,18 +114,6 @@ def drop_create_tables(connection, table_name, table_values):
     connection.commit()
 
 
-# Updates only one field in a table
-# Maybe later update to include logic to update multiple fields
-def update_one(connection, table_name, field_name, value, id_num):
-    cur = connection.cursor()
-    qry = 'update {table} set {field} = %s where id_num = %s'
-    cur.execute(sql.SQL(qry).format(table = sql.Identifier(table_name),
-                                    field = sql.Identifier(field_name)),
-                (value, id_num)
-                )
-    connection.commit()
-
-
 # Main query execution function; captures errors
 def qry_execute(connection, qry, values, fetch_ind):
     cur = connection.cursor()
@@ -156,7 +144,7 @@ def add_reg_links():
     # Connect to database
     conn = dbi()[0]
     cur = dbi()[1]
-    tname = 'dev_reg_links'
+    tname = 'dev_reg_links01'
     values = '(reg varchar, link varchar, order_num integer)'
     drop_create_tables(conn, tname, values)
     order_num = 1
@@ -209,7 +197,7 @@ def add_all_parts():
     db = dbi()
     conn = db[0]
     cur = db[1]
-    tname = 'dev_all_parts'
+    tname = 'dev_all_parts01'
     values = '''(part varchar,
                 subpart varchar,
                 section varchar,
@@ -224,7 +212,7 @@ def add_all_parts():
                 import_date varchar)
                 '''
     drop_create_tables(conn, tname, values)
-    cur.execute('select * from %s;', (AsIs('dev_reg_links'), ))
+    cur.execute('select * from %s;', (AsIs('dev_reg_links01'), ))
     res = cur.fetchall()
     # Start adding values
     for i in res:
@@ -365,11 +353,11 @@ def update_affars_mp():
     conn = db[0]
     cur = db[1]
     # First create another table just in case we need to use the other
-    tname = 'dev_all_parts3'
+    tname = 'dev_all_parts03'
     qry_str1 = 'drop table if exists %s; create table %s as select * from %s;'
     values1 = (AsIs(tname),
                AsIs(tname),
-               AsIs('dev_all_parts2')
+               AsIs('dev_all_parts02')
                )
     qry_execute(conn, qry_str1, values1, False)
     # Run a separate query for just the affars mp regs
@@ -424,6 +412,7 @@ def update_affars_mp():
             final_subsection = 0
         find_para = part.find('(')
         final_paragraph = 0
+        # Take the rest of the paragraph sring at the leftmost point
         if find_para != -1:
             final_paragraph = part[find_para:]
         print('%s: %s - %s - %s - %s - %s' % (part,
@@ -449,14 +438,14 @@ def update_affars_mp():
                                         field4 = sql.Identifier('subsection'),
                                         field5 = sql.Identifier('paragraph'),
                                         field6 = sql.Identifier('id_num'))
-        values = (final_part,
+        values3 = (final_part,
                   final_subpart,
                   final_section,
                   final_subsection,
                   final_paragraph,
                   idnum
                   )
-        qry_execute(conn, qry3, values, False)
+        qry_execute(conn, qry3, values3, False)
     # Finish
     dbcl(conn, cur)
     end_function(start_time)
@@ -470,16 +459,30 @@ def add_html():
     db = dbi()
     conn = db[0]
     cur = db[1]
-    tname = 'dev_all_parts2'
-    qry = 'select * from %s order by %s;'
-    cur.execute(qry,
-                (AsIs(tname), 
-                 AsIs('id_num')
-                 ))
-    res = cur.fetchall()
+    tname = 'dev_add_html01'
+    old_tname = 'dev_all_parts03'
+    # Need select * statement since it will be what we fetch
+    qry_str1 = '''drop table if exists %s;
+                  create table %s as
+                  select %s,
+                         %s,
+                         %s
+                  from %s
+                  order by %s;
+                  select * from %s;'''
+    values1 = (AsIs(tname),
+               AsIs(tname),
+               AsIs('id_num'),
+               AsIs('hlink'),
+               AsIs('htext'),
+               AsIs(old_tname),
+               AsIs('id_num'),
+               AsIs(tname)
+               )
+    res = qry_execute(conn, qry_str1, values1, True)
     # Start adding html to the DB
     for i in res:
-        url = i[9]
+        url = i[1]
         idnum = i[0]
         print('%s: Working' % (str(idnum)))
         try:
@@ -487,28 +490,30 @@ def add_html():
         except:
             print("Can't read URL - skipping for now...")
             continue
-        # The following is the old method to convert non-ascii characters
-        # Using requests instead of urllib solves this but keeping the below anyway
-        # # id_num 96 and 144 have ASCII characters in their title
-        # # This converts their characters to UTF-8
-        # try:
-        #     html = rq.get(url).text
-        # except:
-        #     print('UTF-8 Problems...')
-        #     url = str(str(url).encode('utf-8'))
-        #     url_final = url[2:len(url) - 1]
-        #     update_one(conn, tname, 'hlink', url_final, idnum)
-        #     print('%s: Updated' % (str(idnum)))
-        #     html = rq.get(url).text
         soup = bsp(html, 'html.parser')
         # All the main content is listed under the class below
         hres = soup.find('div', class_ = 'field-items')
         # For all others, content is listed under 'field-items'
-        update_one(conn, tname, 'htext', str(hres), idnum)
+        qry_str2 = 'update {table} set {field} = %s where id_num = %s'
+        qry2 = sql.SQL(qry_str2).format(table = sql.Identifier(tname),
+                                        field = sql.Identifier('htext'))
+        values2 = (str(hres), idnum)
+        qry_execute(conn, qry2, values2, False)
     # Finish
     dbcl(conn, cur)
     end_function(start_time)
-
+    # The following is the old method to convert non-ascii characters
+    # Using requests instead of urllib solves this but keeping the below anyway
+    # try:
+    #     html = rq.get(url).text
+    # except:
+    #     print('UTF-8 Problems...')
+    #     url = str(str(url).encode('utf-8'))
+    #     url_final = url[2:len(url) - 1]
+    #     update_one(conn, tname, 'hlink', url_final, idnum)
+    #     print('%s: Updated' % (str(idnum)))
+    #     html = rq.get(url).text
+    
 
 # Count the amount of tags for each reg
 # Runtime: 1' 2.646"
@@ -517,7 +522,7 @@ def tag_counts():
     db = dbi()
     conn = db[0]
     cur = db[1]
-    tname = 'dev_tag_counts'
+    tname = 'dev_tag_counts01'
     values = '''(id_num numeric,
                  part varchar,
                  reg varchar,
@@ -528,19 +533,19 @@ def tag_counts():
                  bld numeric,
                  strong numeric,
                  li numeric,
+                 article numeric,
                  htext varchar
                  )'''
     drop_create_tables(conn, tname, values)
-    qry = 'select %s, %s, %s, %s from %s order by %s;'
-    cur.execute(qry,
-                (AsIs('id_num'),
-                 AsIs('part'),
-                 AsIs('reg'),
-                 AsIs('htext'),
-                 AsIs('dev_all_parts2'),
-                 AsIs('id_num')
-                 ))
-    results = cur.fetchall()
+    qry_str1 = 'select %s, %s, %s, %s from %s order by %s;'
+    values1 = (AsIs('id_num'),
+               AsIs('part'),
+               AsIs('reg'),
+               AsIs('htext'),
+               AsIs('dev_all_parts02'),
+               AsIs('id_num')
+               )
+    results = qry_execute(conn, qry_str1, values1, True)
     for i in results:
         print(i[0])
         soup = bsp(i[3], 'html.parser')
@@ -551,6 +556,7 @@ def tag_counts():
         bcount = len(soup.find_all('b'))
         strcount = len(soup.find_all('strong'))
         licount = len(soup.find_all('li'))
+        artcount = len(soup.find_all('article'))
         # Add values to list, starting with id_num
         lst = [i[0],
                # part
@@ -571,6 +577,8 @@ def tag_counts():
                strcount,
                # lists
                licount,
+               # articles
+               artcount,
                # htext
                i[3]
                ]

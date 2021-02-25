@@ -56,7 +56,7 @@ order by part;
 
 select *
 from dev_all_parts2
-where reg like 'afars%'
+where hlink like '%app%'
 order by id_num;
 
 

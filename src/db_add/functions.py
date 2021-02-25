@@ -24,7 +24,7 @@ def init_write_file(file_name):
 # Start timer for functinos
 def start_function(func_name):
     start_time = time.time()
-    print('#' * 80)
+    print('\n' + ('#' * 80))
     print('Function: %s\nStarting...' % (func_name))
     return start_time
 
@@ -124,6 +124,20 @@ def update_one(connection, table_name, field_name, value, id_num):
                 (value, id_num)
                 )
     connection.commit()
+
+
+# Main query execution function; captures errors
+def qry_execute(connection, qry, values, fetch_ind):
+    cur = connection.cursor()
+    try:
+        cur.execute(qry, values)
+    except Exception as err:
+        print('Error: ', err)
+        print('Error Type: ', type(err))
+        return
+    connection.commit()
+    if fetch_ind:
+        return cur.fetchall()
     
 
 ################################# Update Data #################################
@@ -332,7 +346,7 @@ def final_part(part):
 # Adds crucial row numbers to each record
 # Runtime: 0.282"
 def add_id_nums():
-    start_time = start_function('add_row_nums')
+    start_time = start_function('add_id_nums')
     db = dbi()
     conn = db[0]
     cur = db[1]
@@ -350,21 +364,33 @@ def update_affars_mp():
     db = dbi()
     conn = db[0]
     cur = db[1]
-    tname = 'dev_all_parts2'
-    fname = 'id_num'
-    qry = 'select * from {table} where {field} >= %s and {field} <= %s'
-    cur.execute(sql.SQL(qry).format(table = sql.Identifier(tname),
-                                    field = sql.Identifier(fname)),
-                (277, 296)
-                )
-    results = cur.fetchall()
+    # First create another table just in case we need to use the other
+    tname = 'dev_all_parts3'
+    qry_str1 = 'drop table if exists %s; create table %s as select * from %s;'
+    values1 = (AsIs(tname),
+               AsIs(tname),
+               AsIs('dev_all_parts2')
+               )
+    qry_execute(conn, qry_str1, values1, False)
+    # Run a separate query for just the affars mp regs
+    qry_str2 = 'select * from %s where %s = %s'
+    values2 = (AsIs(tname),
+               AsIs('reg'),
+               ('affarsmp',
+               ))
+    results = qry_execute(conn, qry_str2, values2, True)
     for i in results:
         idnum = i[0]
         part = i[1]
+
         spart = part.split('.')
         final_part = str(spart[0][2:]).lstrip('0')
+        # Most, not all, affarsmp parts are citations to be parsed        
         # First split on hyphens
-        spart2 = spart[1].split('-')
+        try:
+            spart2 = spart[1].split('-')
+        except:
+            continue
         spl2_1 = spart2[0]
         num_spart2 = len(spart2)
         lspart2 = len(spl2_1)
@@ -377,7 +403,7 @@ def update_affars_mp():
                 final_section = spl2_1[1:].lstrip('0')
         # Also a regular reference but 4 characters long
         elif lspart2 == 4:
-            final_subpart = spl2_1[:1]
+            final_subpart = spl2_1[:2]
             final_section = spl2_1[2:].lstrip('0')
         # These never had a - and are much longer
         else:
@@ -386,7 +412,7 @@ def update_affars_mp():
                 final_subpart = spl_spart2[0]
                 final_section = spl_spart2[1:].lstrip('0')
             else:
-                final_subpart = spl_spart2[:1]
+                final_subpart = spl_spart2[:2]
                 final_section = spl_spart2[2:].lstrip('0')
         # Pull subsections
         if num_spart2 == 2:
@@ -408,28 +434,29 @@ def update_affars_mp():
                                               final_paragraph
                                               ))
         # Updates all values in table
-        qry2 = '''update {table}
-                  set {field1} = %s,
-                      {field2} = %s,
-                      {field3} = %s,
-                      {field4} = %s,
-                      {field5} = %s
-                  where {field6} = %s
-                  '''
-        cur.execute(sql.SQL(qry2).format(table = sql.Identifier(tname),
-                                         field1 = sql.Identifier('part'),
-                                         field2 = sql.Identifier('subpart'),
-                                         field3 = sql.Identifier('section'),
-                                         field4 = sql.Identifier('subsection'),
-                                         field5 = sql.Identifier('paragraph'),
-                                         field6 = sql.Identifier('id_num')),
-                    (final_part,
-                     final_subpart,
-                     final_section,
-                     final_subsection,
-                     final_paragraph,
-                     idnum
-                     ))
+        qry_str3 = '''update {table}
+                      set {field1} = %s,
+                          {field2} = %s,
+                          {field3} = %s,
+                          {field4} = %s,
+                          {field5} = %s
+                          where {field6} = %s
+                     '''
+        qry3 = sql.SQL(qry_str3).format(table = sql.Identifier(tname),
+                                        field1 = sql.Identifier('part'),
+                                        field2 = sql.Identifier('subpart'),
+                                        field3 = sql.Identifier('section'),
+                                        field4 = sql.Identifier('subsection'),
+                                        field5 = sql.Identifier('paragraph'),
+                                        field6 = sql.Identifier('id_num'))
+        values = (final_part,
+                  final_subpart,
+                  final_section,
+                  final_subsection,
+                  final_paragraph,
+                  idnum
+                  )
+        qry_execute(conn, qry3, values, False)
     # Finish
     dbcl(conn, cur)
     end_function(start_time)

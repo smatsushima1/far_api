@@ -21,16 +21,16 @@ order by order_num,
 -- Inner join all values to include the hlinks
 drop table if exists dev_dupes02;
 create table dev_dupes02 as
-select d0.part,
-       d0.reg,
-	   d0.hlink,
-	   d0.order_num
-from dev_all_parts d0
-join dev_dupes01 d1 on d0.part = d1.part and
-                      d0.reg = d1.reg and
-					  d0.order_num = d1.order_num
-order by d0.order_num,
-         substring(d0.part from '([0-9]+)')::numeric;
+select t1.part,
+       t1.reg,
+	   t1.hlink,
+	   t1.order_num
+from dev_all_parts t1
+join dev_dupes01 t2 on t1.part = t2.part and
+                      t1.reg = t2.reg and
+					  t1.order_num = t2.order_num
+order by t1.order_num,
+         substring(t1.part from '([0-9]+)')::numeric;
 -- select * from dev_dupes02;
 
 
@@ -63,15 +63,16 @@ order by order_num,
 -- select * from dev_dupes04;
 
 
--- Update the annexes for the afars
-drop table if exists dev_af_annex01;
-create table dev_af_annex01 as
-select 'afarsannex' as reg,
+-- Update all appendixes
+drop table if exists dev_app01;
+create table dev_app01 as
+select reg || 'appendix' as reg,
        hlink,
        (order_num + .1) as order_num
 from dev_all_parts
-where part in ('AA', 'BB', 'CC', 'DD', 'EE', 'FF', 'GG', 'HH');
--- select * from dev_af_annex01;
+where hlink like '%appendix%' or
+      part in ('AA', 'BB', 'CC', 'DD', 'EE', 'FF', 'GG', 'HH');
+-- select * from dev_app01;
 
 
 -- Combine the changes in one table
@@ -84,7 +85,7 @@ select *
 from dev_dupes04
 union
 select *
-from dev_af_annex01;
+from dev_app01;
 -- select * from dev_dupes05;
 
 

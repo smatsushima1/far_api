@@ -45,7 +45,7 @@ def end_function(start_time):
 ################################### DB Tasks ##################################
 # DB Init
 # Credentials loaded from .env file
-def dbi():
+def db_init():
     load_dotenv('../.env')
     conn = pg2.connect(dbname = os.environ['PG_DATABASE'],
                        user = os.environ['PG_USER'],
@@ -56,7 +56,7 @@ def dbi():
 
 
 # Credentials loaded from the command line
-def dbi2():
+def db_init2():
     conn = pg2.connect(dbname = os.environ.get('PG_DATABASE'),
                        user = os.environ.get('PG_USER'),
                        host = os.environ.get('PG_HOST'),
@@ -66,52 +66,31 @@ def dbi2():
 
 
 # DB Close connections
-def dbcl(connection, cursor):
+def db_close(connection, cursor):
     connection.commit()
     cursor.close()
     connection.close()
 
 
-# Select all for a given table
-def select_all(connection, table_name):
-    # Tables can be concatenated in, but not the arguments
-    cur = connection.cursor()
-    qry = 'select * from %s;'
-    # Single values in tuples require an extra comma to register as a tuple
-    # Multiple values don't, since those are already multiples
-    cur.execute(qry,
-                (AsIs(table_name),
-                 ))
-    results = cur.fetchall()
-    for i in results:
-        print(i)
-    dbcl(connection, cur)
-
-
 # Insert all values into a table
 def insert_values(connection, table_name, values):
-    cur = connection.cursor()
     len_values = len(values)
     values_string = '%s' + (', %s' * (len_values - 1))
-    qry = 'insert into {table} values (' + values_string + ');'
+    qry_str = 'insert into {table} values (' + values_string + ');'
     # Identifier is required here because there are other values to be inserted
-    cur.execute(sql.SQL(qry).format(table = sql.Identifier(table_name)),
-                values
-                )
-    connection.commit()
+    qry = sql.SQL(qry_str).format(table = sql.Identifier(table_name))
+    qry_execute(connection, qry, values, False)
     
     
 # Drop and create table
 def drop_create_tables(connection, table_name, table_values):
-    cur = connection.cursor()
     qry = 'drop table if exists %s; create table %s %s;'
     # AsIs is required because table names don't require quotes
-    cur.execute(qry,
-                (AsIs(table_name),
-                 AsIs(table_name),
-                 AsIs(table_values)
-                 ))
-    connection.commit()
+    values = (AsIs(table_name),
+              AsIs(table_name),
+              AsIs(table_values)
+              )
+    qry_execute(connection, qry, values, False)
 
 
 # Main query execution function; captures errors
@@ -142,8 +121,9 @@ def add_reg_links():
     htext = soup.find('div', class_ = 'reg-container clearfix')
     res = htext.find_all('a')
     # Connect to database
-    conn = dbi()[0]
-    cur = dbi()[1]
+    db = db_init()
+    conn = db[0]
+    cur = db[1]
     tname = 'dev_reg_links01'
     values = '(reg varchar, link varchar, order_num integer)'
     drop_create_tables(conn, tname, values)
@@ -166,7 +146,7 @@ def add_reg_links():
         if reg == 'AFFARS':
             order_num = add_affars_supp(conn, tname, order_num)
     # Finish
-    dbcl(conn, cur)
+    db_close(conn, cur)
     end_function(start_time)
 
 
@@ -194,26 +174,27 @@ def add_affars_supp(db_conn, table_name, order_num):
 def add_all_parts():
     start_time = start_function('add_all_parts')
     # Connect to database
-    db = dbi()
+    db = db_init()
     conn = db[0]
     cur = db[1]
     tname = 'dev_all_parts01'
-    values = '''(part varchar,
-                subpart varchar,
-                section varchar,
-                subsection varchar,
-                paragraph varchar,
-                reg varchar,
-                htype varchar,
-                fac varchar,
-                hlink varchar,
-                htext varchar,
-                order_num numeric,
-                import_date varchar)
-                '''
-    drop_create_tables(conn, tname, values)
-    cur.execute('select * from %s;', (AsIs('dev_reg_links01'), ))
-    res = cur.fetchall()
+    values1 = '''(part varchar,
+                  subpart varchar,
+                  section varchar,
+                  subsection varchar,
+                  paragraph varchar,
+                  reg varchar,
+                  htype varchar,
+                  fac varchar,
+                  hlink varchar,
+                  htext varchar,
+                  order_num numeric,
+                  import_date varchar)
+                  '''
+    drop_create_tables(conn, tname, values1)
+    qry = 'select * from %s;'
+    values2 = (AsIs('dev_reg_links01'), )
+    res = qry_execute(conn, qry, values2, True)
     # Start adding values
     for i in res:
         htext = str(i[1])
@@ -221,7 +202,7 @@ def add_all_parts():
         print('Adding data to: ' + reg)
         parts_hrefs(conn, tname, reg, htext, i[2])
     # Finish
-    dbcl(conn, cur)
+    db_close(conn, cur)
     end_function(start_time)
 
 
@@ -335,13 +316,13 @@ def final_part(part):
 # Runtime: 0.282"
 def add_id_nums():
     start_time = start_function('add_id_nums')
-    db = dbi()
+    db = db_init()
     conn = db[0]
     cur = db[1]
     sql_file = 'sql/add_id_nums.sql'
     cur.execute(open(sql_file, 'r', encoding = 'utf8').read())
     # Finish
-    dbcl(conn, cur)
+    db_close(conn, cur)
     end_function(start_time)
 
 
@@ -349,7 +330,7 @@ def add_id_nums():
 # Runtime: 0.09"
 def update_affars_mp():
     start_time = start_function('update_affars_mp')
-    db = dbi()
+    db = db_init()
     conn = db[0]
     cur = db[1]
     # First create another table just in case we need to use the other
@@ -447,7 +428,7 @@ def update_affars_mp():
                   )
         qry_execute(conn, qry3, values3, False)
     # Finish
-    dbcl(conn, cur)
+    db_close(conn, cur)
     end_function(start_time)
 
 
@@ -456,7 +437,7 @@ def update_affars_mp():
 def add_html():
     start_time = start_function('add_html')
     # Connect to database
-    db = dbi()
+    db = db_init()
     conn = db[0]
     cur = db[1]
     tname = 'dev_add_html01'
@@ -500,7 +481,7 @@ def add_html():
         values2 = (str(hres), idnum)
         qry_execute(conn, qry2, values2, False)
     # Finish
-    dbcl(conn, cur)
+    db_close(conn, cur)
     end_function(start_time)
     # The following is the old method to convert non-ascii characters
     # Using requests instead of urllib solves this but keeping the below anyway
@@ -519,7 +500,7 @@ def add_html():
 # Runtime: 1' 2.646"
 def tag_counts():
     start_time = start_function('tag_counts')
-    db = dbi()
+    db = db_init()
     conn = db[0]
     cur = db[1]
     tname = 'dev_tag_counts01'
@@ -583,7 +564,7 @@ def tag_counts():
                i[3]
                ]
         insert_values(conn, tname, tuple(lst))
-    dbcl(conn, cur)
+    db_close(conn, cur)
     end_function(start_time)
 
 

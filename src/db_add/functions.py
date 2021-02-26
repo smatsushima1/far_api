@@ -94,7 +94,7 @@ def drop_create_tables(connection, table_name, table_values):
 
 
 # Main query execution function; captures errors
-def qry_execute(connection, qry, values, fetch_ind):
+def qry_execute(connection, qry, values, fetch_all):
     cur = connection.cursor()
     try:
         cur.execute(qry, values)
@@ -103,7 +103,7 @@ def qry_execute(connection, qry, values, fetch_ind):
         print('Error Type: ', type(err))
         return
     connection.commit()
-    if fetch_ind:
+    if fetch_all:
         return cur.fetchall()
     
 
@@ -170,19 +170,18 @@ def add_all_parts():
     conn = db[0]
     cur = db[1]
     tname = 'dev_all_parts01'
-    values1 = '''(part varchar,
-                  subpart varchar,
-                  section varchar,
-                  subsection varchar,
-                  paragraph varchar,
+    values1 = '''(rpart varchar,
+                  rsubpart varchar,
+                  rsection varchar,
+                  rsubsection varchar,
+                  rparagraph varchar,
                   reg varchar,
                   htype varchar,
                   fac varchar,
                   hlink varchar,
                   htext varchar,
-                  order_num numeric,
-                  import_date varchar)
-                  '''
+                  order_num numeric
+                  )'''
     drop_create_tables(conn, tname, values1)
     qry = 'select * from %s;'
     values2 = (AsIs('dev_reg_links01'), )
@@ -250,9 +249,7 @@ def add_to_list(connection, table_name, regulation, rlist, addr, order):
                    # htext
                    'N/A',
                    # order_num
-                   order,
-                   # import_date
-                   datetime.datetime.now()
+                   order
                    ]
             insert_values(connection, table_name, tuple(lst))
 
@@ -382,11 +379,11 @@ def update_affars_mp():
                           where {field6} = %s
                      '''
         qry3 = sql.SQL(qry_str3).format(table = sql.Identifier(tname),
-                                        field1 = sql.Identifier('part'),
-                                        field2 = sql.Identifier('subpart'),
-                                        field3 = sql.Identifier('section'),
-                                        field4 = sql.Identifier('subsection'),
-                                        field5 = sql.Identifier('paragraph'),
+                                        field1 = sql.Identifier('rpart'),
+                                        field2 = sql.Identifier('rsubpart'),
+                                        field3 = sql.Identifier('rsection'),
+                                        field4 = sql.Identifier('rsubsection'),
+                                        field5 = sql.Identifier('rparagraph'),
                                         field6 = sql.Identifier('id_num'))
         values3 = (final_part,
                    final_subpart,
@@ -466,8 +463,22 @@ def add_html():
     #     html = rq.get(url).text
     
 
+# Add the main html to the main table
+# Runtime: 0.829"
+def add_main_html():
+    start_time = start_function('add_main_html')
+    db = db_init()
+    conn = db[0]
+    cur = db[1]
+    sql_file = 'sql/add_main_html.sql'
+    cur.execute(open(sql_file, 'r', encoding = 'utf8').read())
+    # Finish
+    db_close(conn, cur)
+    end_function(start_time)
+
+
 # Count the amount of tags for each reg
-# Runtime: 1' 2.646"
+# Runtime: 1' 1.184"
 def tag_counts():
     start_time = start_function('tag_counts')
     db = db_init()
@@ -475,7 +486,7 @@ def tag_counts():
     cur = db[1]
     tname = 'dev_tag_counts01'
     values = '''(id_num numeric,
-                 part varchar,
+                 rpart varchar,
                  reg varchar,
                  h1 numeric,
                  h2 numeric,
@@ -484,16 +495,15 @@ def tag_counts():
                  bld numeric,
                  strong numeric,
                  li numeric,
-                 article numeric,
-                 htext varchar
+                 article numeric
                  )'''
     drop_create_tables(conn, tname, values)
     qry_str1 = 'select %s, %s, %s, %s from %s order by %s;'
     values1 = (AsIs('id_num'),
-               AsIs('part'),
+               AsIs('rpart'),
                AsIs('reg'),
                AsIs('htext'),
-               AsIs('dev_all_parts02'),
+               AsIs('dev_all_parts04'),
                AsIs('id_num')
                )
     results = qry_execute(conn, qry_str1, values1, True)
@@ -529,9 +539,7 @@ def tag_counts():
                # lists
                licount,
                # articles
-               artcount,
-               # htext
-               i[3]
+               artcount
                ]
         insert_values(conn, tname, tuple(lst))
     db_close(conn, cur)

@@ -137,9 +137,7 @@ def add_reg_links():
         # Skip over the smart regs
         if 'Smart' in reg:
             continue
-        lst = [reg,
-               str(href),
-               order_num]
+        lst = [reg, str(href), order_num]
         insert_values(conn, tname, tuple(lst))
         order_num += 1        
         # The supplemental AFFARS regs aren't normally found
@@ -152,18 +150,12 @@ def add_reg_links():
 
 # Add supplemental AFFARS regulations; used with dev_add_reg_links
 def add_affars_supp(db_conn, table_name, order_num):
-    lst = ['AFFARS MP',
-           '/affars/mp',
-           order_num
-           ]
+    lst = ['AFFARS MP', '/affars/mp', order_num]
     insert_values(db_conn, table_name, tuple(lst))
     # order_num gets added by 1 in order to add another level of affars regs
     order_num += 1
     lst.clear()
-    lst = ['AFFARS PGI',
-           '/affars/pgi',
-           order_num
-           ]
+    lst = ['AFFARS PGI', '/affars/pgi', order_num]
     insert_values(db_conn, table_name, tuple(lst))
     order_num += 1
     return order_num
@@ -207,78 +199,62 @@ def add_all_parts():
 
 
 # Parse each part for each regulation; used with db_add_all_parts
-def parts_hrefs(connection,
-                table_name,
-                regulation,
-                htext,
-                order):
+def parts_hrefs(connection, table_name, regulation, htext, order):
     # Open the url and save it as an html object
     reg = regulation.strip()
     reg = reg.strip('_')
     base = 'https://www.acquisition.gov'
     hlink = base + htext
     html = rq.get(hlink).text
-    hsoup = bsp(html, 'html.parser')
+    soup = bsp(html, 'html.parser')
     # Finding this div applies to FAR, DFARS, and GSAM
-    # If there were no results, it would be a null object
-    hres = hsoup.find('div', id = 'parts-wrapper')
+    hres = soup.find('div', id = 'parts-wrapper')
     if hres is not None:
-        # All the a tags have our information within the div tag
-        # ind variable used depending on which option we use here
-        res = hres.div.find_all('a')
-        ind = 1
+        # The clearfix tag has all the links
+        res = hres.find_all('div', class_ = 'clearfix')
     # This only gets run for supplementals
     # The tbody tag will always have our information
     # The td tags have long class names, so regex was needed to parse it
     else:
-        res = hsoup.tbody.find_all('td', class_ = re.compile('.*part-number'))
-        ind = 0
-    add_to_list(connection, table_name, reg, res, base, ind, order)
+        res = soup.tbody.find_all('td', class_ = re.compile('.*part-number'))
+    add_to_list(connection, table_name, reg, res, base, order)
 
 
-# Adds everything to db; used with db_parts_hrefs
-def add_to_list(connection,
-                table_name,
-                regulation,
-                rlist,
-                addr,
-                reg_ind,
-                order):
+# Adds everything to db; used with parts_hrefs
+def add_to_list(connection, table_name, regulation, rlist, addr, order):
+    # This first for loop is only really used the DFARS Appendix's
+    # The DFARS Appendix gets run twice, everything else runs once
     for i in rlist:
-        # The part numbers will always just be the text
-        hpart = return_part(i.get_text()).strip()
-        part_final = final_part(hpart)
-        # If its for the main regs, 'href' will be in the 'attrs'
-        if reg_ind == 1:
-            hlnk = addr + i.attrs['href'].strip()
-        else:
-            hlnk = addr + i.a['href'].strip()
-        # Start populating list with part
-        lst = [part_final,
-               # subpart
-               0,
-               # section
-               0,
-               # subsection
-               0,
-               # paragraph
-               0,
-               # reg
-               regulation.replace('/', ''),
-               # htype
-               'main',
-               # fac
-               '2021-04',
-               # hlink
-               hlnk,
-               # htext
-               'N/A',
-               # order_num
-               order,
-               # import_date
-               datetime.datetime.now()
-               ]
-        insert_values(connection, table_name, tuple(lst))
+        for j in i.find_all('a'):
+            hpart = return_part(j.get_text()).strip()
+            part_final = final_part(hpart)
+            hlnk = addr + j['href'].strip()
+            # Start populating list with part
+            lst = [part_final,
+                   # subpart
+                   0,
+                   # section
+                   0,
+                   # subsection
+                   0,
+                   # paragraph
+                   0,
+                   # reg
+                   regulation.replace('/', ''),
+                   # htype
+                   'main',
+                   # fac
+                   '2021-04',
+                   # hlink
+                   hlnk,
+                   # htext
+                   'N/A',
+                   # order_num
+                   order,
+                   # import_date
+                   datetime.datetime.now()
+                   ]
+            insert_values(connection, table_name, tuple(lst))
 
 
 # Returns the part number regardless of what type it is; used with parts_href
@@ -336,22 +312,15 @@ def update_affars_mp():
     # First create another table just in case we need to use the other
     tname = 'dev_all_parts03'
     qry_str1 = 'drop table if exists %s; create table %s as select * from %s;'
-    values1 = (AsIs(tname),
-               AsIs(tname),
-               AsIs('dev_all_parts02')
-               )
+    values1 = (AsIs(tname), AsIs(tname), AsIs('dev_all_parts02'))
     qry_execute(conn, qry_str1, values1, False)
     # Run a separate query for just the affars mp regs
     qry_str2 = 'select * from %s where %s = %s'
-    values2 = (AsIs(tname),
-               AsIs('reg'),
-               ('affarsmp',
-               ))
+    values2 = (AsIs(tname), AsIs('reg'), ('affarsmp',))
     results = qry_execute(conn, qry_str2, values2, True)
     for i in results:
         idnum = i[0]
         part = i[1]
-
         spart = part.split('.')
         final_part = str(spart[0][2:]).lstrip('0')
         # Most, not all, affarsmp parts are citations to be parsed        
@@ -420,12 +389,12 @@ def update_affars_mp():
                                         field5 = sql.Identifier('paragraph'),
                                         field6 = sql.Identifier('id_num'))
         values3 = (final_part,
-                  final_subpart,
-                  final_section,
-                  final_subsection,
-                  final_paragraph,
-                  idnum
-                  )
+                   final_subpart,
+                   final_section,
+                   final_subsection,
+                   final_paragraph,
+                   idnum
+                   )
         qry_execute(conn, qry3, values3, False)
     # Finish
     db_close(conn, cur)
@@ -450,7 +419,8 @@ def add_html():
                          %s
                   from %s
                   order by %s;
-                  select * from %s;'''
+                  select * from %s;
+                  '''
     values1 = (AsIs(tname),
                AsIs(tname),
                AsIs('id_num'),

@@ -72,7 +72,7 @@ select part,
        (order_num + .1) as order_num
 from dev_all_parts01
 where hlink like '%appendix%' or
-      part in ('AA', 'BB', 'CC', 'DD', 'EE', 'FF', 'GG', 'HH') or
+      lower(part) in ('aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh') or
       lower(part) like ('app%');
 --select * from dev_app01;
 

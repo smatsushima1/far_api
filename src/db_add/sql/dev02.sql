@@ -5,13 +5,15 @@ FROM information_schema.tables
 where table_schema = 'public'
 ORDER BY table_schema,table_name;
 
-drop table dev_drop_down_data;
+drop table ;
 
-select * from dev_all_parts03;
+select * from dev_reg_links01;
 
-select * from dev_psql_update;
+select count(*) from dev_all_parts01;
 
 select * from dev_add_html01 where htext = 'None';
+
+select * from dev_all_parts01 where reg like '%dfar%';
 
 select part,
        subpart

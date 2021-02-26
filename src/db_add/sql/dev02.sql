@@ -1,15 +1,32 @@
 
-
-SELECT table_schema,table_name
-FROM information_schema.tables
+-- Check for all tables
+select table_schema,table_name
+from information_schema.tables
 where table_schema = 'public'
-ORDER BY table_schema,table_name;
+order by table_schema,table_name;
 
-drop table ;
+
+-- View all
+select * from dev_reg_links01;
+select * from dev_add_html01 order by id_num;
+select * from dev_all_parts04 order by id_num;
+select * from dev_tag_counts01 order by id_num;
+
+
+--------------------------------------------------------------------------------
+-- Things to look out for:
+-- - nfs: literally no formatting except for paragraphs
+--     - p class="p-Normal" and go to next siblings for each section
+-- - vaar: h2's are actually h1's
+--     - h3's are h2's
+--     - strong are the main tags (why...)
+
+
+
+drop table dev_dupes07;
+
 
 select * from dev_tag_counts01 order by id_num;
-select * from dev_tag_counts01 where reg like '%annex%' or reg like '%app%' order by id_num;
-
 select * from dev_reg_links01;
 
 select count(*) from dev_all_parts01;
@@ -56,13 +73,6 @@ order by part;
 
 
 
---------------------------------------------------------------------------------
--- Things to look out for:
--- - nfs: literally no formatting except for paragraphs
---     - p class="p-Normal" and go to next siblings for each section
--- - vaar: h2's are actually h1's
---     - h3's are h2's
---     - strong are the main tags (why...)
 
 
 

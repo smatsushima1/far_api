@@ -170,14 +170,13 @@ def add_all_parts():
     conn = db[0]
     cur = db[1]
     tname = 'dev_all_parts01'
-    values1 = '''(rpart varchar,
-                  rsubpart varchar,
-                  rsection varchar,
-                  rsubsection varchar,
-                  rparagraph varchar,
+    values1 = '''(part varchar,
+                  subpart varchar,
+                  sction varchar,
+                  subsction varchar,
+                  paragraph varchar,
                   reg varchar,
                   htype varchar,
-                  fac varchar,
                   hlink varchar,
                   htext varchar,
                   order_num numeric
@@ -242,8 +241,6 @@ def add_to_list(connection, table_name, regulation, rlist, addr, order):
                    regulation.replace('/', ''),
                    # htype
                    'main',
-                   # fac
-                   '2021-04',
                    # hlink
                    hlnk,
                    # htext
@@ -379,11 +376,11 @@ def update_affars_mp():
                           where {field6} = %s
                      '''
         qry3 = sql.SQL(qry_str3).format(table = sql.Identifier(tname),
-                                        field1 = sql.Identifier('rpart'),
-                                        field2 = sql.Identifier('rsubpart'),
-                                        field3 = sql.Identifier('rsection'),
-                                        field4 = sql.Identifier('rsubsection'),
-                                        field5 = sql.Identifier('rparagraph'),
+                                        field1 = sql.Identifier('part'),
+                                        field2 = sql.Identifier('subpart'),
+                                        field3 = sql.Identifier('sction'),
+                                        field4 = sql.Identifier('subsction'),
+                                        field5 = sql.Identifier('paragraph'),
                                         field6 = sql.Identifier('id_num'))
         values3 = (final_part,
                    final_subpart,
@@ -495,12 +492,13 @@ def tag_counts():
                  bld numeric,
                  strong numeric,
                  li numeric,
-                 article numeric
+                 article numeric,
+                 protocol numeric
                  )'''
     drop_create_tables(conn, tname, values)
     qry_str1 = 'select %s, %s, %s, %s from %s order by %s;'
     values1 = (AsIs('id_num'),
-               AsIs('rpart'),
+               AsIs('part'),
                AsIs('reg'),
                AsIs('htext'),
                AsIs('dev_all_parts04'),
@@ -539,7 +537,9 @@ def tag_counts():
                # lists
                licount,
                # articles
-               artcount
+               artcount,
+               # protocol
+               999
                ]
         insert_values(conn, tname, tuple(lst))
     db_close(conn, cur)

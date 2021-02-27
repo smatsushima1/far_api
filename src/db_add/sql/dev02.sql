@@ -22,10 +22,13 @@ select * from dev_tag_counts01 order by id_num;
 --     - h3's are h2's
 --     - strong are the main tags (why...)
 
-drop table if exists dev_tag_counts02;
-create table dev_tag_counts02 as
+
+
 select *
-from dev_tag_counts01
+from dev_all_parts04
+where part like '%-%';
+
+select reg from dev_tag_counts03 group by reg;
 
 
 select *
@@ -59,7 +62,8 @@ select * from dev_add_html01 order by id_num;
 
 select * from dev_all_parts01 where reg like '%dfar%';
 
-select * from dev_all_parts02 limit 1;
+select
+select * from dev_all_parts04 where reg = 'affarsmp';
 
 
 

@@ -25,10 +25,20 @@ select * from dev_tag_counts01 order by id_num;
 
 
 select *
-from dev_all_parts04
-where part like '%-%';
+from dev_all_parts04;
+where part = '20';
 
 select reg from dev_tag_counts03 group by reg;
+select *
+from dev_tag_counts01
+where reg = 'far'
+order by id_num;
+-- 20, 21, 40
+
+select *
+from dev_tag_counts01
+where part in ('20', '21', '40')
+order by id_num;
 
 
 select *

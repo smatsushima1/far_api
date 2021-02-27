@@ -468,7 +468,7 @@ def add_main_html():
 
 
 # Count the amount of tags for each reg
-# Runtime: 1' 1.184"
+# Runtime: 57.325"
 def tag_counts():
     start_time = start_function('tag_counts')
     db = db_init()
@@ -532,9 +532,6 @@ def tag_counts():
                artcount
                ]
         insert_values(conn, tname, tuple(lst))
-    # Run sql file to separate results
-    sql_file = 'sql/update_tag_counts.sql'
-    cur.execute(open(sql_file, 'r', encoding = 'utf8').read())
     db_close(conn, cur)
     end_function(start_time)
 
@@ -575,4 +572,16 @@ def debug_headers(idnum, file_name, file_save):
             print(hstr2 + '\n')
 
 
-
+# Add protocols as a result of the tag counts, respective of their reg
+# Also update the all_parts table to include their new protocol
+# Runtime: 0.234"
+def add_protocols():
+    start_time = start_function('add_protocols')
+    db = db_init()
+    conn = db[0]
+    cur = db[1]
+    sql_file = 'sql/add_protocols.sql'
+    cur.execute(open(sql_file, 'r', encoding = 'utf8').read())
+    db_close(conn, cur)
+    end_function(start_time)
+    

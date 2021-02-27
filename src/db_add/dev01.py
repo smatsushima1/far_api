@@ -40,11 +40,6 @@ def extract_headers(go_ind):
         for i in results:
             idnum = str(i[12])
             print('%s - %s - %s' % (idnum, i[0], i[5]), end = '', file = lf)
-            # Skipped sections: these will take more time to debug
-            if idnum in [
-                         ]:
-                print(' - Skipping for now...', file = lf)
-                continue
             # Start extracting headers
             extract_h1(conn, tname, i, lf)
             extract_h2(conn, tname, i, lf)

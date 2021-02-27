@@ -7,5 +7,6 @@ from functions import *
 # update_affars_mp()
 # # add_html()
 # add_main_html()
-tag_counts()
+# tag_counts()
+add_protocols()
 

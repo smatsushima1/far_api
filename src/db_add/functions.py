@@ -10,7 +10,6 @@ import psycopg2 as pg2
 from psycopg2 import sql
 from psycopg2.extensions import AsIs
 import time
-import datetime
 
 
 #################################### Basics ###################################
@@ -143,7 +142,6 @@ def add_reg_links():
         # The supplemental AFFARS regs aren't normally found
         if reg == 'AFFARS':
             order_num = add_affars_supp(conn, tname, order_num)
-    # Finish
     db_close(conn, cur)
     end_function(start_time)
 
@@ -191,7 +189,6 @@ def add_all_parts():
         reg = htext.strip('/')
         print('Adding data to: ' + reg)
         parts_hrefs(conn, tname, reg, htext, i[2])
-    # Finish
     db_close(conn, cur)
     end_function(start_time)
 
@@ -291,7 +288,6 @@ def add_id_nums():
     cur = db[1]
     sql_file = 'sql/add_id_nums.sql'
     cur.execute(open(sql_file, 'r', encoding = 'utf8').read())
-    # Finish
     db_close(conn, cur)
     end_function(start_time)
 
@@ -390,7 +386,6 @@ def update_affars_mp():
                    idnum
                    )
         qry_execute(conn, qry3, values3, False)
-    # Finish
     db_close(conn, cur)
     end_function(start_time)
 
@@ -444,7 +439,6 @@ def add_html():
                                         field = sql.Identifier('htext'))
         values2 = (str(hres), idnum)
         qry_execute(conn, qry2, values2, False)
-    # Finish
     db_close(conn, cur)
     end_function(start_time)
     # The following is the old method to convert non-ascii characters
@@ -469,7 +463,6 @@ def add_main_html():
     cur = db[1]
     sql_file = 'sql/add_main_html.sql'
     cur.execute(open(sql_file, 'r', encoding = 'utf8').read())
-    # Finish
     db_close(conn, cur)
     end_function(start_time)
 
@@ -483,7 +476,7 @@ def tag_counts():
     cur = db[1]
     tname = 'dev_tag_counts01'
     values = '''(id_num numeric,
-                 rpart varchar,
+                 part varchar,
                  reg varchar,
                  h1 numeric,
                  h2 numeric,
@@ -492,8 +485,7 @@ def tag_counts():
                  bld numeric,
                  strong numeric,
                  li numeric,
-                 article numeric,
-                 protocol numeric
+                 article numeric
                  )'''
     drop_create_tables(conn, tname, values)
     qry_str1 = 'select %s, %s, %s, %s from %s order by %s;'
@@ -537,16 +529,50 @@ def tag_counts():
                # lists
                licount,
                # articles
-               artcount,
-               # protocol
-               999
+               artcount
                ]
         insert_values(conn, tname, tuple(lst))
+    # Run sql file to separate results
+    sql_file = 'sql/update_tag_counts.sql'
+    cur.execute(open(sql_file, 'r', encoding = 'utf8').read())
     db_close(conn, cur)
     end_function(start_time)
 
 
-
+# Used for debugging specific sections
+# Modify file_name and idnum as appropriate
+def debug_headers(idnum, file_name, file_save):
+    jname = init_write_file(file_name)
+    # Connect to database
+    db = db_init()
+    conn = db[0]
+    cur = db[1]
+    tname = 'dev_all_parts04'
+    qry = 'select %s from %s where %s = %s;'
+    values = (AsIs('htext'), AsIs(tname), AsIs('id_num'), idnum)
+    res = qry_execute(conn, qry, values, True)
+    soup = bsp(res[0][0], 'html.parser')
+    db_close(conn, cur)
+    # Save to file only if specified
+    if file_save:
+        with open(jname, 'w', encoding = 'utf8') as jf:
+            jf.write(soup.prettify())
+            jf.close()
+    # Start looping through headers
+    hlist = ['h1', 'h2', 'h3', 'h4', 'b', 'strong', 'li', 'article']
+    for i in hlist:
+        headers = soup.find_all(i)
+        print('\n')
+        print('#' * 80)
+        print('Heading: %s\nNumber of headings = %s\n' % (i, str(len(headers))))
+        for j in headers:
+            # Make all the text look pretty
+            hstr1 = j.get_text().strip()
+            hsplit = hstr1.split()
+            hstr2 = ''
+            for k in hsplit:
+                hstr2 += k + ' '
+            print(hstr2 + '\n')
 
 
 

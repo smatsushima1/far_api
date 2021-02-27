@@ -2,54 +2,6 @@
 from functions import *
 
 
-# Used for debugging specific sections
-# Modify file_name and idnum as appropriate
-def debug_headers(go_ind, idnum, file_name, file_save):
-    if go_ind == 0:
-        return
-    jname = init_write_file(file_name)
-    # Connect to database
-    db = dbi()
-    conn = db[0]
-    cur = db[1]
-    tname = 'dev_all_parts2'
-    qry = 'select %s from %s where %s = %s;'
-    cur.execute(qry,
-                (AsIs('htext'),
-                 AsIs(tname),
-                 AsIs('id_num'),
-                 idnum
-                 ))
-    
-    res = cur.fetchall()
-    soup = bsp(res[0][0], 'html.parser')
-    # Finish
-    dbcl(conn, cur)
-    # Save to file only if specified
-    if file_save:
-        with open(jname, 'w', encoding = 'utf8') as jf:
-            jf.write(soup.prettify())
-            jf.close()
-    # Start looping through headers
-    hlist = ['h1', 'h2', 'h3', 'h4', 'b', 'strong', 'li']
-    for i in hlist:
-        headers = soup.find_all(i)
-        print('\n')
-        print('#' * 80)
-        print('Heading: %s\nNumber of headings = %s\n' % (i, str(len(headers))))
-        for j in headers:
-            # Make all the text look pretty
-            hstr1 = j.get_text().strip()
-            hsplit = hstr1.split()
-            hstr2 = ''
-            for k in hsplit:
-                hstr2 += k + ' '
-            print(hstr2)
-
-            
-            
-            
-
 # Extracts headers in a separate table
 # Runtime: 100.789 seconds
 def extract_headers(go_ind):
@@ -195,11 +147,7 @@ def extract_h2(connection, table_name, record, file_name):
 
 # 1 for debug, 0 for extract_headers
 go_ind = 1
-debug_headers(go_ind,
-              166,
-              'html/dev_contents.html',
-              False
-              )
+debug_headers(1088,'html/dev_contents.html', False)
 extract_headers(go_ind)
 
 

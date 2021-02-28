@@ -175,25 +175,35 @@ def mod_protocol0(idnum, file_name, file_save):
         div_toc = soup.find('div', class_ = 'body')
         if div_toc is not None:
             # Change the class name to toc
-            div_toc['class'] = 'toc'
+            div_toc['id'] = 'toc'
+            # Remove all id tags in paragraphs, theyre only needed in a tags
             for i in div_toc.find_all('p'):
+                del i['id']
+            # Reformat the text in the a tags and modify the href's
+            for i in div_toc.find_all('a'):
                 txt = i.get_text().strip()
                 i.string = txt
+                i['href'] = header_ids(reg, part, txt, True)
         else:
             print('No div body', file = lf)
         # Try to add div class for the remaining text
+        new_div_toc = soup.find('div', id = 'toc')
+        # print(new_div_toc, file = lf)
+        # print(soup.find_all(recursive = False), file = lf)
+        
+        # return
         # new_div = soup.new_tag('div', class_ = 'text')
         # div_ntoc = soup.find('div', class_ = 'toc')
         # div_ntoc.insert_after('', new_div)
         
-        if file_save:
-            with open(jname, 'w', encoding = 'utf8') as jf:
-                jf.write(soup.prettify())
-                jf.close()
+        # if file_save:
+        #     with open(jname, 'w', encoding = 'utf8') as jf:
+        #         jf.write(soup.prettify())
+        #         jf.close()
         
         
         
-        return
+        # return
 ###############################################################################
         # List all headers
         for i in soup.find_all(re.compile('^h[1-6]$')):
@@ -201,36 +211,46 @@ def mod_protocol0(idnum, file_name, file_save):
             del i['class']
             hstr = i.get_text().strip()
             orig_id = i['id']
-            new_id = header_ids(reg, part, hstr, False)       
+            new_id = header_ids(reg, part, hstr, False)   
+            i['id'] = new_id
         # Remove all links to the FAR - they won't work anyway in the app
         for i in soup.find_all('a'):
+            break
             if not i['href'].startswith('http'):
                 i.unwrap()
-        return
-        # Start looping through the text
-        #div_text = soup.find('div', class_ = )
-        lst = []
-        for i in soup.find_all('p'):
-            if i.find('article') or len(i.get_text()) <= 1:
+            elif not i['href'].startswith('#far'):
                 i.unwrap()
-                continue
-            del i['id']
-            #print('\n' + ('#' * 80), file = lf)
-            txt = i.get_text().strip()
-            tspl = txt.split()
-            jstr2 = ''
-            for j in tspl:
-                jstr2 += j + ' '
-            i.string = jstr2
-            #print(i, file = lf)
-            para_cit = i.string.split()[0]
-            if para_cit[0] == '(':
-                lst.append(para_cit[1])
-                #print(para_cit, file = lf)
-            else:
-                lst.append('Skipping')
-                #print('%s %s' % ('+' * 40, para_cit), file = lf)
-        print(lst, file = lf)
+                
+        
+        
+        
+        # return
+        # # Start looping through the text
+        # #div_text = soup.find('div', class_ = )
+        # lst = []
+        # for i in soup.find_all('p'):
+        #     if i.find('article') or len(i.get_text()) <= 1:
+        #         i.unwrap()
+        #         continue
+        #     del i['id']
+        #     #print('\n' + ('#' * 80), file = lf)
+        #     txt = i.get_text().strip()
+        #     tspl = txt.split()
+        #     jstr2 = ''
+        #     for j in tspl:
+        #         jstr2 += j + ' '
+        #     i.string = jstr2
+        #     #print(i, file = lf)
+        #     para_cit = i.string.split()[0]
+        #     if para_cit[0] == '(':
+        #         lst.append(para_cit[1])
+        #         #print(para_cit, file = lf)
+        #     else:
+        #         lst.append('Skipping')
+        #         #print('%s %s' % ('+' * 40, para_cit), file = lf)
+        # print(lst, file = lf)
+        
+        
     # Save to file only if specified
     if file_save:
         with open(jname, 'w', encoding = 'utf8') as jf:

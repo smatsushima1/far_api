@@ -19,7 +19,16 @@ create table dev_tag_prot0 as
 select t1.*,
        0 as protocol
 from dev_tag_counts02 t1
-where t1.article > 0;
+where t1.article > 0 and
+      reg in ('far',
+              'dfars',
+              'dfarspgi',
+              'diar',
+              'gsam',
+              'epaar',
+              'hsar',
+              'hudar'
+              );
 --select * from dev_tag_prot0;
 
 

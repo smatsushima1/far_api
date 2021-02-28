@@ -81,14 +81,10 @@ def insert_values(connection, table_name, values):
     
     
 # Drop and create table
-def drop_create_tables(connection, table_name, table_values):
-    qry = 'drop table if exists %s; create table %s %s;'
-    # AsIs is required because table names don't require quotes
-    values = (AsIs(table_name),
-              AsIs(table_name),
-              AsIs(table_values)
-              )
-    qry_execute(connection, qry, values, False)
+def drop_create_tables(connection, table_name, fields):
+    qry_str = 'drop table if exists {table}; create table {table} %s;' % fields
+    qry = sql.SQL(qry_str).format(table = sql.Identifier(table_name))
+    qry_execute(connection, qry, '', False)
 
 
 # Main query execution function; captures errors
@@ -141,8 +137,8 @@ def tag_counts():
     cur = db[1]
     tname = 'dev_tag_counts01'
     values = '''(id_num numeric,
-                 part varchar,
                  reg varchar,
+                 part varchar,
                  h1 numeric,
                  h2 numeric,
                  h3 numeric,
@@ -155,8 +151,8 @@ def tag_counts():
     drop_create_tables(conn, tname, values)
     qry_str1 = 'select %s, %s, %s, %s from %s order by %s;'
     values1 = (AsIs('id_num'),
-               AsIs('part'),
                AsIs('reg'),
+               AsIs('part'),
                AsIs('htext'),
                AsIs('dev_all_parts04'),
                AsIs('id_num')
@@ -175,9 +171,9 @@ def tag_counts():
         artcount = len(soup.find_all('article'))
         # Add values to list, starting with id_num
         lst = [i[0],
-               # part
-               i[1],
                # reg
+               i[1],
+               # part
                i[2],
                # h1
                h1count,
@@ -227,7 +223,7 @@ def debug_headers(idnum, file_name, file_save):
         print('\n')
         print('#' * 80)
         print('Heading: %s\nNumber of headings = %s\n' % (i, str(len(headers))))
-        for j in headers:
+        for x, j in enumerate(headers):
             # Make all the text look pretty
             hstr1 = j.get_text().strip()
             hsplit = hstr1.split()
@@ -235,6 +231,8 @@ def debug_headers(idnum, file_name, file_save):
             for k in hsplit:
                 hstr2 += k + ' '
             print(hstr2 + '\n')
+            if x == 4:
+                break
 
 
 # Add protocols as a result of the tag counts, respective of their reg

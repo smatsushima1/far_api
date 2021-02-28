@@ -11,6 +11,12 @@ from psycopg2.extensions import AsIs
 import time
 
 
+# Tables to be used after running these functions:
+# - dev_all_parts02
+# - all_html01
+# - reg_links01
+
+
 #################################### Basics ###################################
 # Start timer for functinos
 def start_function(func_name):
@@ -92,7 +98,8 @@ def qry_execute(connection, qry, values, fetch_all):
     connection.commit()
     if fetch_all:
         return cur.fetchall()
-    
+
+
 ################################## Add Data ##################################
 # Add links to href sites
 # Runtime: 1.105"
@@ -416,7 +423,7 @@ def add_html():
                                         field1 = sql.Identifier('htext'),
                                         field2 = sql.Identifier('hlink')
                                         )
-        values2 = (str(hres), html)
+        values2 = (str(hres), url)
         qry_execute(conn, qry2, values2, False)
     db_close(conn, cur)
     end_function(start_time)
@@ -431,5 +438,4 @@ def add_html():
     #     update_one(conn, tname, 'hlink', url_final, idnum)
     #     print('%s: Updated' % (str(idnum)))
     #     html = rq.get(url).text
-    
-    
+

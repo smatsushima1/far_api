@@ -3,14 +3,14 @@
 -- Leave out nmcars since those will come in dev_dupes04
 drop table if exists dev_idnum01;
 create table dev_idnum01 as
-select part,
-       reg,
+select reg,
+       part,
 	   order_num,
 	   count(*) as cnt
-from dev_all_parts01
+from dev_all_parts02
 where reg != 'nmcars'
-group by part,
-         reg,
+group by reg,
+         part,
 		 order_num
     having count(*) > 1
 order by order_num,
@@ -21,13 +21,13 @@ order by order_num,
 -- Inner join all values to include the hlinks
 drop table if exists dev_idnum02;
 create table dev_idnum02 as
-select t1.part,
-       t1.reg,
+select t1.reg,
+       t1.part,
 	   t1.hlink,
 	   t1.order_num
-from dev_all_parts01 t1
-join dev_idnum01 t2 on t1.part = t2.part and
-                      t1.reg = t2.reg and
+from dev_all_parts02 t1
+join dev_idnum01 t2 on t1.reg = t2.reg and
+                      t1.part = t2.part and
 					  t1.order_num = t2.order_num
 order by t1.order_num,
          substring(t1.part from '([0-9]+)')::numeric;
@@ -55,7 +55,7 @@ create table dev_idnum04 as
 select 'nmcarsannex' as reg,
        hlink,
 	   (order_num + .1) as order_num
-from dev_all_parts01
+from dev_all_parts02
 where reg = 'nmcars' and
       hlink like '%annex%'
 order by order_num,
@@ -70,7 +70,7 @@ select part,
        reg || 'appendix' as reg,
        hlink,
        (order_num + .1) as order_num
-from dev_all_parts01
+from dev_all_parts02
 where hlink like '%appendix%' or
       lower(part) in ('aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh') or
       lower(part) like ('app%');
@@ -136,7 +136,7 @@ select t1.part,
        t1.htext,
        (case when t2.order_num is null then t1.order_num
 		else t2.order_num end) as order_num
-from dev_all_parts01 t1
+from dev_all_parts02 t1
 left join dev_idnum05 t2 on t1.hlink = t2.hlink;
 -- select * from dev_idnum06;
 
@@ -145,17 +145,24 @@ left join dev_idnum05 t2 on t1.hlink = t2.hlink;
 drop table if exists dev_idnum07;
 create table dev_idnum07 as
 select row_number() over(order by t1.order_num,
-                                  substring(t1.part from '([0-9]+)')::numeric) as id_num,
+                                  substring(t1.part from '([0-9]+)')::numeric,
+                                  substring(t1.subpart from '([0-9]+)')::numeric,
+                                  substring(t1.sction from '([0-9]+)')::numeric,
+                                  substring(t1.subsction from '([0-9]+)')::numeric
+                         ) as id_num,
        t1.*
 from dev_idnum06 t1
 order by t1.order_num,
-         substring(t1.part from '([0-9]+)')::numeric;
+         substring(t1.part from '([0-9]+)')::numeric,
+         substring(t1.subpart from '([0-9]+)')::numeric,
+         substring(t1.sction from '([0-9]+)')::numeric,
+         substring(t1.subsction from '([0-9]+)')::numeric;
 -- select * from dev_idnum07;
 
 
 -- Create new dev_all_parts table that has id numbers and sorted appropriately
-drop table if exists dev_all_parts02;
-create table dev_all_parts02 as
+drop table if exists dev_all_parts03;
+create table dev_all_parts03 as
 select t1.id_num,
        t1.part,
        t1.subpart,
@@ -173,6 +180,7 @@ left join dev_app03 t2 on t1.hlink = t2.hlink
 order by t1.id_num;
 --select * from dev_all_parts02;
 
+
 -- Drop all tables when done
 drop table if exists dev_idnum01,
                      dev_idnum02,
@@ -183,6 +191,6 @@ drop table if exists dev_idnum01,
                      dev_idnum07,
                      dev_app01,
                      dev_app02,
-                     dev_app03,
-                     dev_all_parts01;
+                     dev_app03;
+
 

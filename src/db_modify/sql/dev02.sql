@@ -5,8 +5,24 @@ from information_schema.tables
 where table_schema = 'public'
 order by table_schema,table_name;
 
+drop table if exists dev_add_html01,
+                     dev_all_parts04,
+                     dev_all_parts05,
+                     dev_all_prot01,
+                     dev_reg_links01,
+                     dev_tag_counts01,
+                     dev_tag_counts02,
+                     dev_tag_counts03,
+                     dev_tag_counts04,
+                     dev_tag_prot0,
+                     dev_tag_prot1,
+                     dev_tag_prot2,
+                     dev_tag_prot3,
+                     dev_tag_prot4;
+           
 
 -- View all
+select * from dev_all_parts01;
 select * from dev_reg_links01;
 select * from dev_add_html01 order by id_num;
 select * from dev_all_parts04 order by id_num;

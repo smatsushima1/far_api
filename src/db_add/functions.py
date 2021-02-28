@@ -3,7 +3,6 @@ import os
 from os import path
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup as bsp
-import urllib as ul
 import requests as rq
 import re
 import psycopg2 as pg2
@@ -13,13 +12,6 @@ import time
 
 
 #################################### Basics ###################################
-# Remove all file contents before writing anything, but only if it exists
-def init_write_file(file_name):
-    if path.exists(file_name):
-        open(file_name, 'w').close()
-    return file_name
-
-
 # Start timer for functinos
 def start_function(func_name):
     start_time = time.time()
@@ -79,17 +71,13 @@ def insert_values(connection, table_name, values):
     # Identifier is required here because there are other values to be inserted
     qry = sql.SQL(qry_str).format(table = sql.Identifier(table_name))
     qry_execute(connection, qry, values, False)
-    
-    
+
+
 # Drop and create table
-def drop_create_tables(connection, table_name, table_values):
-    qry = 'drop table if exists %s; create table %s %s;'
-    # AsIs is required because table names don't require quotes
-    values = (AsIs(table_name),
-              AsIs(table_name),
-              AsIs(table_values)
-              )
-    qry_execute(connection, qry, values, False)
+def drop_create_tables(connection, table_name, fields):
+    qry_str = 'drop table if exists {table}; create table {table} %s;' % fields
+    qry = sql.SQL(qry_str).format(table = sql.Identifier(table_name))
+    qry_execute(connection, qry, '', False)
 
 
 # Main query execution function; captures errors
@@ -105,8 +93,7 @@ def qry_execute(connection, qry, values, fetch_all):
     if fetch_all:
         return cur.fetchall()
     
-
-################################# Update Data #################################
+################################## Add Data ##################################
 # Add links to href sites
 # Runtime: 1.105"
 def add_reg_links():
@@ -123,7 +110,7 @@ def add_reg_links():
     db = db_init()
     conn = db[0]
     cur = db[1]
-    tname = 'dev_reg_links01'
+    tname = 'reg_links01'
     values = '(reg varchar, link varchar, order_num integer)'
     drop_create_tables(conn, tname, values)
     order_num = 1
@@ -168,21 +155,21 @@ def add_all_parts():
     conn = db[0]
     cur = db[1]
     tname = 'dev_all_parts01'
-    values1 = '''(part varchar,
+    values1 = '''(reg varchar,
+                  part varchar,
                   subpart varchar,
                   sction varchar,
                   subsction varchar,
                   paragraph varchar,
-                  reg varchar,
                   htype varchar,
                   hlink varchar,
                   htext varchar,
                   order_num numeric
                   )'''
     drop_create_tables(conn, tname, values1)
-    qry = 'select * from %s;'
-    values2 = (AsIs('dev_reg_links01'), )
-    res = qry_execute(conn, qry, values2, True)
+    qry_str1 = 'select * from {table1};'
+    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier('reg_links01'))
+    res = qry_execute(conn, qry1, '', True)
     # Start adding values
     for i in res:
         htext = str(i[1])
@@ -224,8 +211,10 @@ def add_to_list(connection, table_name, regulation, rlist, addr, order):
             hpart = return_part(j.get_text()).strip()
             part_final = final_part(hpart)
             hlnk = addr + j['href'].strip()
-            # Start populating list with part
-            lst = [part_final,
+            # Start populating list with the reg
+            lst = [regulation.replace('/', ''),
+                   # part
+                   part_final,
                    # subpart
                    0,
                    # section
@@ -234,8 +223,6 @@ def add_to_list(connection, table_name, regulation, rlist, addr, order):
                    0,
                    # paragraph
                    0,
-                   # reg
-                   regulation.replace('/', ''),
                    # htype
                    'main',
                    # hlink
@@ -279,19 +266,6 @@ def final_part(part):
         return strip_part2
 
 
-# Adds crucial row numbers to each record
-# Runtime: 0.282"
-def add_id_nums():
-    start_time = start_function('add_id_nums')
-    db = db_init()
-    conn = db[0]
-    cur = db[1]
-    sql_file = 'sql/add_id_nums.sql'
-    cur.execute(open(sql_file, 'r', encoding = 'utf8').read())
-    db_close(conn, cur)
-    end_function(start_time)
-
-
 # Update the AFFARS MP parts; performed after add_row_nums
 # Runtime: 0.09"
 def update_affars_mp():
@@ -299,18 +273,27 @@ def update_affars_mp():
     db = db_init()
     conn = db[0]
     cur = db[1]
-    # First create another table just in case we need to use the other
-    tname = 'dev_all_parts03'
-    qry_str1 = 'drop table if exists %s; create table %s as select * from %s;'
-    values1 = (AsIs(tname), AsIs(tname), AsIs('dev_all_parts02'))
-    qry_execute(conn, qry_str1, values1, False)
+    # This new table will have all the updated affarsmp values
+    tname = 'dev_all_parts02'
+    qry_str1 = '''drop table if exists {table1};
+                  create table {table1} as
+                  select *
+                  from {table2};
+                  '''
+    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname),
+                                    table2 = sql.Identifier('dev_all_parts01')
+                                    )
+    qry_execute(conn, qry1, '', False)
     # Run a separate query for just the affars mp regs
-    qry_str2 = 'select * from %s where %s = %s'
-    values2 = (AsIs(tname), AsIs('reg'), ('affarsmp',))
-    results = qry_execute(conn, qry_str2, values2, True)
+    qry_str2 = 'select * from {table1} where {field1} = %s'
+    qry2 = sql.SQL(qry_str2).format(table1 = sql.Identifier(tname),
+                                    field1 = sql.Identifier('reg')
+                                    )
+    values2 = ('affarsmp', )
+    results = qry_execute(conn, qry2, values2, True)
     for i in results:
-        idnum = i[0]
         part = i[1]
+        hlink = i[7]
         spart = part.split('.')
         final_part = str(spart[0][2:]).lstrip('0')
         # Most, not all, affarsmp parts are citations to be parsed        
@@ -363,7 +346,7 @@ def update_affars_mp():
                                               final_paragraph
                                               ))
         # Updates all values in table
-        qry_str3 = '''update {table}
+        qry_str3 = '''update {table1}
                       set {field1} = %s,
                           {field2} = %s,
                           {field3} = %s,
@@ -371,19 +354,20 @@ def update_affars_mp():
                           {field5} = %s
                           where {field6} = %s
                      '''
-        qry3 = sql.SQL(qry_str3).format(table = sql.Identifier(tname),
+        qry3 = sql.SQL(qry_str3).format(table1 = sql.Identifier(tname),
                                         field1 = sql.Identifier('part'),
                                         field2 = sql.Identifier('subpart'),
                                         field3 = sql.Identifier('sction'),
                                         field4 = sql.Identifier('subsction'),
                                         field5 = sql.Identifier('paragraph'),
-                                        field6 = sql.Identifier('id_num'))
+                                        field6 = sql.Identifier('hlink')
+                                        )
         values3 = (final_part,
                    final_subpart,
                    final_section,
                    final_subsection,
                    final_paragraph,
-                   idnum
+                   hlink
                    )
         qry_execute(conn, qry3, values3, False)
     db_close(conn, cur)
@@ -391,40 +375,33 @@ def update_affars_mp():
 
 
 # Updates table to include html portion of the web link provided
-# Runtime: 21' 14.195"
+# Runtime: 42' 30.683"
 def add_html():
     start_time = start_function('add_html')
     # Connect to database
     db = db_init()
     conn = db[0]
     cur = db[1]
-    tname = 'dev_add_html01'
-    old_tname = 'dev_all_parts03'
+    tname = 'all_html01'
+    old_tname = 'dev_all_parts02'
     # Need select * statement since it will be what we fetch
-    qry_str1 = '''drop table if exists %s;
-                  create table %s as
-                  select %s,
-                         %s,
-                         %s
-                  from %s
-                  order by %s;
-                  select * from %s;
+    qry_str1 = '''drop table if exists {table1};
+                  create table {table1} as
+                  select {field1},
+                         {field2}
+                  from {table2};
+                  select * from {table1};
                   '''
-    values1 = (AsIs(tname),
-               AsIs(tname),
-               AsIs('id_num'),
-               AsIs('hlink'),
-               AsIs('htext'),
-               AsIs(old_tname),
-               AsIs('id_num'),
-               AsIs(tname)
-               )
-    res = qry_execute(conn, qry_str1, values1, True)
+    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname),
+                                    table2 = sql.Identifier(old_tname),
+                                    field1 = sql.Identifier('hlink'),
+                                    field2 = sql.Identifier('htext')
+                                    )
+    res = qry_execute(conn, qry1, '', True)
     # Start adding html to the DB
     for i in res:
-        url = i[1]
-        idnum = i[0]
-        print('%s: Working' % (str(idnum)))
+        url = i[0]
+        print('%s: Working' % (url))
         try:
             html = rq.get(url).text
         except:
@@ -434,10 +411,12 @@ def add_html():
         # All the main content is listed under the class below
         hres = soup.find('div', class_ = 'field-items')
         # For all others, content is listed under 'field-items'
-        qry_str2 = 'update {table} set {field} = %s where id_num = %s'
-        qry2 = sql.SQL(qry_str2).format(table = sql.Identifier(tname),
-                                        field = sql.Identifier('htext'))
-        values2 = (str(hres), idnum)
+        qry_str2 = 'update {table1} set {field1} = %s where {field2} = %s;'
+        qry2 = sql.SQL(qry_str2).format(table1 = sql.Identifier(tname),
+                                        field1 = sql.Identifier('htext'),
+                                        field2 = sql.Identifier('hlink')
+                                        )
+        values2 = (str(hres), html)
         qry_execute(conn, qry2, values2, False)
     db_close(conn, cur)
     end_function(start_time)
@@ -453,135 +432,4 @@ def add_html():
     #     print('%s: Updated' % (str(idnum)))
     #     html = rq.get(url).text
     
-
-# Add the main html to the main table
-# Runtime: 0.829"
-def add_main_html():
-    start_time = start_function('add_main_html')
-    db = db_init()
-    conn = db[0]
-    cur = db[1]
-    sql_file = 'sql/add_main_html.sql'
-    cur.execute(open(sql_file, 'r', encoding = 'utf8').read())
-    db_close(conn, cur)
-    end_function(start_time)
-
-
-# Count the amount of tags for each reg
-# Runtime: 57.325"
-def tag_counts():
-    start_time = start_function('tag_counts')
-    db = db_init()
-    conn = db[0]
-    cur = db[1]
-    tname = 'dev_tag_counts01'
-    values = '''(id_num numeric,
-                 part varchar,
-                 reg varchar,
-                 h1 numeric,
-                 h2 numeric,
-                 h3 numeric,
-                 h4 numeric,
-                 bld numeric,
-                 strong numeric,
-                 li numeric,
-                 article numeric
-                 )'''
-    drop_create_tables(conn, tname, values)
-    qry_str1 = 'select %s, %s, %s, %s from %s order by %s;'
-    values1 = (AsIs('id_num'),
-               AsIs('part'),
-               AsIs('reg'),
-               AsIs('htext'),
-               AsIs('dev_all_parts04'),
-               AsIs('id_num')
-               )
-    results = qry_execute(conn, qry_str1, values1, True)
-    for i in results:
-        print(i[0])
-        soup = bsp(i[3], 'html.parser')
-        h1count = len(soup.find_all('h1'))
-        h2count = len(soup.find_all('h2'))
-        h3count = len(soup.find_all('h3'))
-        h4count = len(soup.find_all('h4'))
-        bcount = len(soup.find_all('b'))
-        strcount = len(soup.find_all('strong'))
-        licount = len(soup.find_all('li'))
-        artcount = len(soup.find_all('article'))
-        # Add values to list, starting with id_num
-        lst = [i[0],
-               # part
-               i[1],
-               # reg
-               i[2],
-               # h1
-               h1count,
-               # h2
-               h2count,
-               # h3
-               h3count,
-               # h4
-               h4count,
-               # b
-               bcount,
-               # strong
-               strcount,
-               # lists
-               licount,
-               # articles
-               artcount
-               ]
-        insert_values(conn, tname, tuple(lst))
-    db_close(conn, cur)
-    end_function(start_time)
-
-
-# Used for debugging specific sections
-# Modify file_name and idnum as appropriate
-def debug_headers(idnum, file_name, file_save):
-    jname = init_write_file(file_name)
-    # Connect to database
-    db = db_init()
-    conn = db[0]
-    cur = db[1]
-    tname = 'dev_all_parts04'
-    qry = 'select %s from %s where %s = %s;'
-    values = (AsIs('htext'), AsIs(tname), AsIs('id_num'), idnum)
-    res = qry_execute(conn, qry, values, True)
-    soup = bsp(res[0][0], 'html.parser')
-    db_close(conn, cur)
-    # Save to file only if specified
-    if file_save:
-        with open(jname, 'w', encoding = 'utf8') as jf:
-            jf.write(soup.prettify())
-            jf.close()
-    # Start looping through headers
-    hlist = ['h1', 'h2', 'h3', 'h4', 'b', 'strong', 'li', 'article']
-    for i in hlist:
-        headers = soup.find_all(i)
-        print('\n')
-        print('#' * 80)
-        print('Heading: %s\nNumber of headings = %s\n' % (i, str(len(headers))))
-        for j in headers:
-            # Make all the text look pretty
-            hstr1 = j.get_text().strip()
-            hsplit = hstr1.split()
-            hstr2 = ''
-            for k in hsplit:
-                hstr2 += k + ' '
-            print(hstr2 + '\n')
-
-
-# Add protocols as a result of the tag counts, respective of their reg
-# Also update the all_parts table to include their new protocol
-# Runtime: 0.234"
-def add_protocols():
-    start_time = start_function('add_protocols')
-    db = db_init()
-    conn = db[0]
-    cur = db[1]
-    sql_file = 'sql/add_protocols.sql'
-    cur.execute(open(sql_file, 'r', encoding = 'utf8').read())
-    db_close(conn, cur)
-    end_function(start_time)
     

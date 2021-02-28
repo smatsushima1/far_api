@@ -160,19 +160,41 @@ def mod_protocol0(idnum, file_name, file_save):
     url = res[0][9]
     soup = bsp(url, 'html.parser')
     db_close(conn, cur)
-    # Save to file only if specified
-    if file_save:
-        with open(jname, 'w', encoding = 'utf8') as jf:
-            jf.write(soup.prettify())
-            jf.close()
-    lfile = init_write_file('log/log_protocol0.txt')    
+    lfile = init_write_file('log/log_protocol0.txt')
     with open(lfile, 'w', encoding = 'utf8') as lf:
-        # Remove all span classes and autonumbers
+        # Remove all span classes and subsequent autonumbers
         for i in soup.find_all('span'):
             i.unwrap()
-        # Emphasis classes are not required
+        # Remove emphasis classes
         for i in soup.find_all('em'):
-            i.unwrap()       
+            i.unwrap()
+        # Remove nav classes
+        for i in soup.find_all('nav'):
+            i.extract()
+        # Fix the TOC
+        div_toc = soup.find('div', class_ = 'body')
+        if div_toc is not None:
+            # Change the class name to toc
+            div_toc['class'] = 'toc'
+            for i in div_toc.find_all('p'):
+                txt = i.get_text().strip()
+                i.string = txt
+        else:
+            print('No div body', file = lf)
+        # Try to add div class for the remaining text
+        # new_div = soup.new_tag('div', class_ = 'text')
+        # div_ntoc = soup.find('div', class_ = 'toc')
+        # div_ntoc.insert_after('', new_div)
+        
+        if file_save:
+            with open(jname, 'w', encoding = 'utf8') as jf:
+                jf.write(soup.prettify())
+                jf.close()
+        
+        
+        
+        return
+###############################################################################
         # List all headers
         for i in soup.find_all(re.compile('^h[1-6]$')):
             # Remove all id's
@@ -183,30 +205,38 @@ def mod_protocol0(idnum, file_name, file_save):
         # Remove all links to the FAR - they won't work anyway in the app
         for i in soup.find_all('a'):
             if not i['href'].startswith('http'):
-                i.unwrap() 
-        # Start looping through paragraphs
+                i.unwrap()
+        return
+        # Start looping through the text
+        #div_text = soup.find('div', class_ = )
         lst = []
         for i in soup.find_all('p'):
             if i.find('article') or len(i.get_text()) <= 1:
                 i.unwrap()
                 continue
             del i['id']
-            print('\n' + ('#' * 80), file = lf)
+            #print('\n' + ('#' * 80), file = lf)
             txt = i.get_text().strip()
             tspl = txt.split()
             jstr2 = ''
             for j in tspl:
                 jstr2 += j + ' '
             i.string = jstr2
-            print(i, file = lf)
+            #print(i, file = lf)
             para_cit = i.string.split()[0]
             if para_cit[0] == '(':
                 lst.append(para_cit[1])
-                print(para_cit, file = lf)
+                #print(para_cit, file = lf)
             else:
                 lst.append('Skipping')
-                print('%s %s' % ('+' * 40, para_cit), file = lf)
+                #print('%s %s' % ('+' * 40, para_cit), file = lf)
         print(lst, file = lf)
+    # Save to file only if specified
+    if file_save:
+        with open(jname, 'w', encoding = 'utf8') as jf:
+            jf.write(soup.prettify())
+            jf.close()
+
         
         # for x, j in enumerate(i):
         #     # Make all the text look pretty

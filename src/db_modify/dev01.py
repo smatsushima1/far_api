@@ -140,9 +140,62 @@ def extract_h2(connection, table_name, record, file_name):
     print(' - +', file = file_name)
 
 
+# Used for debugging paragraphs
+# Modify file_name and idnum as appropriate
+def debug_paragraphs(idnum, file_name, file_save):
+    jname = init_write_file(file_name)
+    # Connect to database
+    db = db_init()
+    conn = db[0]
+    cur = db[1]
+    tname = 'dev_all_parts05'
+    qry_str1 = 'select {field1} from {table1} where {field2} = %s;'
+    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname),
+                                    field1 = sql.Identifier('htext'),
+                                    field2 = sql.Identifier('id_num')
+                                    )
+    values1 = (idnum, )
+    res = qry_execute(conn, qry1, values1, True)
+    soup = bsp(res[0][0], 'html.parser')
+    db_close(conn, cur)
+    # Save to file only if specified
+    if file_save:
+        with open(jname, 'w', encoding = 'utf8') as jf:
+            jf.write(soup.prettify())
+            jf.close()
+    for i in soup.find_all('span'):
+        i.unwrap()
+    # Start looping through headers
+    for j in soup.find_all('p'):
+        if j.find('article'):
+            continue
+        if len(j.get_text()) <= 1:
+            j.unwrap()
+            continue
+        print('\n' + ('#' * 80))
+        print(j)
+        # hstr1 = j.get_text().strip()
+        # hsplit = hstr1.split()
+        # hstr2 = ''
+        # for k in hsplit:
+        #     hstr2 += k + ' '
+        # print(hstr2)
+        
+        # for x, j in enumerate(i):
+        #     # Make all the text look pretty
+        #     hstr1 = j.get_text().strip()
+        #     hsplit = hstr1.split()
+        #     hstr2 = ''
+        #     for k in hsplit:
+        #         hstr2 += k + ' '
+        #     print(hstr2 + '\n')
+        #     if x == 4:
+        #         break
 # 1 for debug, 0 for extract_headers
+
+
 go_ind = 1
-debug_headers(1,'html/dev_contents.html', False)
+debug_paragraphs(1,'html/dev_contents1.html', True)
 extract_headers(go_ind)
 
 

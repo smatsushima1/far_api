@@ -206,9 +206,13 @@ def debug_headers(idnum, file_name, file_save):
     conn = db[0]
     cur = db[1]
     tname = 'dev_all_parts04'
-    qry = 'select %s from %s where %s = %s;'
-    values = (AsIs('htext'), AsIs(tname), AsIs('id_num'), idnum)
-    res = qry_execute(conn, qry, values, True)
+    qry_str1 = 'select {field1} from {table1} where {field2} = %s;'
+    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname),
+                                    field1 = sql.Identifier('htext'),
+                                    field2 = sql.Identifier('id_num')
+                                    )
+    values1 = (idnum, )
+    res = qry_execute(conn, qry1, values1, True)
     soup = bsp(res[0][0], 'html.parser')
     db_close(conn, cur)
     # Save to file only if specified
@@ -249,3 +253,6 @@ def add_protocols():
     end_function(start_time)
 
     
+
+
+

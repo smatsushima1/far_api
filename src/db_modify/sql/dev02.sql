@@ -39,6 +39,8 @@ select * from dev_tag_counts01 order by id_num;
 --     - strong are the main tags (why...)
 
 
+select * from dev_tag_prot0;
+
 
 select *
 from dev_all_parts04;

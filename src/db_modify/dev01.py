@@ -142,44 +142,68 @@ def extract_h2(connection, table_name, record, file_name):
 
 # Used for debugging paragraphs
 # Modify file_name and idnum as appropriate
-def debug_paragraphs(idnum, file_name, file_save):
+def mod_protocol0(idnum, file_name, file_save):
     jname = init_write_file(file_name)
     # Connect to database
     db = db_init()
     conn = db[0]
     cur = db[1]
     tname = 'dev_all_parts05'
-    qry_str1 = 'select {field1} from {table1} where {field2} = %s;'
+    qry_str1 = 'select * from {table1} where {field1} = %s;'
     qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname),
-                                    field1 = sql.Identifier('htext'),
-                                    field2 = sql.Identifier('id_num')
+                                    field1 = sql.Identifier('id_num')
                                     )
     values1 = (idnum, )
     res = qry_execute(conn, qry1, values1, True)
-    soup = bsp(res[0][0], 'html.parser')
+    reg = res[0][1]
+    part = res[0][2]    
+    url = res[0][9]
+    soup = bsp(url, 'html.parser')
     db_close(conn, cur)
     # Save to file only if specified
     if file_save:
         with open(jname, 'w', encoding = 'utf8') as jf:
             jf.write(soup.prettify())
             jf.close()
+    # Remove all span classes and autonumbers
     for i in soup.find_all('span'):
         i.unwrap()
-    # Start looping through headers
-    for j in soup.find_all('p'):
-        if j.find('article'):
+    # Emphasis classes are not required
+    for i in soup.find_all('em'):
+        i.unwrap()    
+    # Remove all links to the FAR - they won't work anyway in the app
+    for i in soup.find_all('a'):
+        if not i['href'].startswith('http'):
+            i.unwrap()    
+    # List all headers
+    for i in soup.find_all(re.compile('^h[1-6]$')):
+        # Remove all id's
+        del i['class']
+        hstr = i.get_text().strip()
+        i['id'] = '#_%s' % header_ids(reg, part, hstr)
+    # Start looping through paragraphs
+    lst = []
+    for i in soup.find_all('p'):
+        if i.find('article') or len(i.get_text()) <= 1:
+            i.unwrap()
             continue
-        if len(j.get_text()) <= 1:
-            j.unwrap()
-            continue
+        del i['id']
         print('\n' + ('#' * 80))
-        print(j)
-        # hstr1 = j.get_text().strip()
-        # hsplit = hstr1.split()
-        # hstr2 = ''
-        # for k in hsplit:
-        #     hstr2 += k + ' '
-        # print(hstr2)
+        txt = i.get_text().strip()
+        tspl = txt.split()
+        jstr2 = ''
+        for j in tspl:
+            jstr2 += j + ' '
+        i.string = jstr2
+        print(i)
+        para_cit = i.string.split()[0]
+        if para_cit[0] == '(':
+            lst.append(para_cit[1])
+            print(para_cit)
+        else:
+            lst.append('Skipping')
+            print('%s %s' % ('+' * 40, para_cit))
+    print(lst)
         
         # for x, j in enumerate(i):
         #     # Make all the text look pretty
@@ -194,8 +218,57 @@ def debug_paragraphs(idnum, file_name, file_save):
 # 1 for debug, 0 for extract_headers
 
 
+
+def header_ids(reg, part, text):
+    hspl = text.split()
+    hs0 = hspl[0]
+    hs1 = hspl[1]
+    # Parts
+    if hs0.lower() == 'part':
+        id_str = '%s_%s_%s_%s_%s_%s' % (reg, part, 0, 0, 0, 'header')
+    # Subparts
+    elif hs0.lower() == 'subpart':
+        hspl2 = hs1.split('.')
+        id_str = '%s_%s_%s_%s_%s_%s' % (reg, part, hspl2[1], 0, 0, 'header')
+    # Sections
+    elif hs0.find('-') == -1:
+        hspl2 = hs0.split('.')
+        hsp1 = hspl2[1]
+        sp_s = header_link_section(hsp1)
+        id_str = '%s_%s_%s_%s_%s_%s' % (reg, part, sp_s[0], sp_s[1], 0, 'body')
+    # Subsections
+    elif hs0.find('-') != -1:
+        ss_spl = hs0.split('-')
+        hspl2 = ss_spl[0].split('.')
+        hsp1 = hspl2[1]
+        sp_s = header_link_section(hsp1)   
+        id_str = '%s_%s_%s_%s_%s_%s' % (reg, part, sp_s[0], sp_s[1], ss_spl[1], 'body')
+    # print('%s ##### %s' % (text, id_str))
+    return id_str
+    
+
+def header_link_section(text):
+    if len(text) == 3:
+        subpart = text[0]
+        sction = text[1:]
+        if sction == '00':
+            sction = '0'
+        else:
+            sction = sction.lstrip('0')
+    elif len(text) == 4:
+        subpart = text[:2]
+        sction = text[2:]
+        if sction == '00':
+            sction = '0'
+        else:
+            sction = sction.lstrip('0')
+    else:
+        return 'Section is not 3 or 4 characters long...'
+    return (subpart, sction)
+
+
 go_ind = 1
-debug_paragraphs(1,'html/dev_contents1.html', True)
+mod_protocol0(1,'html/dev_contents1.html', True)
 extract_headers(go_ind)
 
 

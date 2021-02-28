@@ -11,6 +11,10 @@ from psycopg2.extensions import AsIs
 import time
 
 
+# Tables to be used after running this code:
+# dev_all_parts05
+
+
 #################################### Basics ###################################
 # Remove all file contents before writing anything, but only if it exists
 def init_write_file(file_name):
@@ -251,8 +255,5 @@ def add_protocols():
     cur.execute(open(sql_file, 'r', encoding = 'utf8').read())
     db_close(conn, cur)
     end_function(start_time)
-
-    
-
 
 

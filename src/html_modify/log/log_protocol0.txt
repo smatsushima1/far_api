@@ -1,0 +1,2569 @@
+
+################################################################################
+<p class="p">1.000 Scope of part. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.000
+
+################################################################################
+<p class="Subpart">Subpart 1.1 - Purpose, Authority, Issuance </p>
+++++++++++++++++++++++++++++++++++++++++ Subpart
+
+################################################################################
+<p class="p">1.101 Purpose. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.101
+
+################################################################################
+<p class="p">1.102 Statement of guiding principles for the Federal Acquisition System. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.102
+
+################################################################################
+<p class="p">1.102-1 Discussion. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.102-1
+
+################################################################################
+<p class="p">1.102-2 Performance standards. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.102-2
+
+################################################################################
+<p class="p">1.102-3 Acquisition Team. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.102-3
+
+################################################################################
+<p class="p">1.102-4 Role of the Acquisition Team. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.102-4
+
+################################################################################
+<p class="p">1.103 Authority. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.103
+
+################################################################################
+<p class="p">1.104 Applicability. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.104
+
+################################################################################
+<p class="p">1.105 Issuance. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.105
+
+################################################################################
+<p class="p">1.105-1 Publication and code arrangement. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.105-1
+
+################################################################################
+<p class="p">1.105-2 Arrangement of regulations. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.105-2
+
+################################################################################
+<p class="p">1.105-3 Copies. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.105-3
+
+################################################################################
+<p class="p">1.106 OMB approval under the Paperwork Reduction Act. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.106
+
+################################################################################
+<p class="p">1.107 Certifications. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.107
+
+################################################################################
+<p class="p">1.108 FAR conventions. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.108
+
+################################################################################
+<p class="p">1.109 Statutory acquisition–related dollar thresholds-adjustment for inflation. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.109
+
+################################################################################
+<p class="p">1.110 Positive law codification. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.110
+
+################################################################################
+<p class="Subpart">Subpart 1.2 - Administration </p>
+++++++++++++++++++++++++++++++++++++++++ Subpart
+
+################################################################################
+<p class="p">1.201 Maintenance of the FAR. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.201
+
+################################################################################
+<p class="p">1.201-1 The two councils. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.201-1
+
+################################################################################
+<p class="p">1.201-2 FAR Secretariat. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.201-2
+
+################################################################################
+<p class="p">1.202 Agency compliance with the FAR. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.202
+
+################################################################################
+<p class="Subpart">Subpart 1.3 - Agency Acquisition Regulations </p>
+++++++++++++++++++++++++++++++++++++++++ Subpart
+
+################################################################################
+<p class="p">1.301 Policy. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.301
+
+################################################################################
+<p class="p">1.302 Limitations. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.302
+
+################################################################################
+<p class="p">1.303 Publication and codification. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.303
+
+################################################################################
+<p class="p">1.304 Agency control and compliance procedures. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.304
+
+################################################################################
+<p class="Subpart">Subpart 1.4 - Deviations from the FAR </p>
+++++++++++++++++++++++++++++++++++++++++ Subpart
+
+################################################################################
+<p class="p">1.400 Scope of subpart. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.400
+
+################################################################################
+<p class="p">1.401 Definition. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.401
+
+################################################################################
+<p class="p">1.402 Policy. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.402
+
+################################################################################
+<p class="p">1.403 Individual deviations. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.403
+
+################################################################################
+<p class="p">1.404 Class deviations. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.404
+
+################################################################################
+<p class="p">1.405 Deviations pertaining to treaties and executive agreements. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.405
+
+################################################################################
+<p class="Subpart">Subpart 1.5 - Agency and Public Participation </p>
+++++++++++++++++++++++++++++++++++++++++ Subpart
+
+################################################################################
+<p class="p">1.501 Solicitation of agency and public views. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.501
+
+################################################################################
+<p class="p">1.501-1 Definition. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.501-1
+
+################################################################################
+<p class="p">1.501-2 Opportunity for public comments. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.501-2
+
+################################################################################
+<p class="p">1.501-3 Exceptions. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.501-3
+
+################################################################################
+<p class="p">1.502 Unsolicited proposed revisions. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.502
+
+################################################################################
+<p class="p">1.503 Public meetings. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.503
+
+################################################################################
+<p class="Subpart">Subpart 1.6 - Career Development, Contracting Authority, and Responsibilities </p>
+++++++++++++++++++++++++++++++++++++++++ Subpart
+
+################################################################################
+<p class="p">1.601 General. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.601
+
+################################################################################
+<p class="p">1.602 Contracting officers. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.602
+
+################################################################################
+<p class="p">1.602-1 Authority. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.602-1
+
+################################################################################
+<p class="p">1.602-2 Responsibilities. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.602-2
+
+################################################################################
+<p class="p">1.602-3 Ratification of unauthorized commitments. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.602-3
+
+################################################################################
+<p class="p">1.603 Selection, appointment, and termination of appointment for contracting officers. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.603
+
+################################################################################
+<p class="p">1.603-1 General. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.603-1
+
+################################################################################
+<p class="p">1.603-2 Selection. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.603-2
+
+################################################################################
+<p class="p">1.603-3 Appointment. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.603-3
+
+################################################################################
+<p class="p">1.603-4 Termination. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.603-4
+
+################################################################################
+<p class="p">1.604 Contracting Officer’s Representative (COR). </p>
+++++++++++++++++++++++++++++++++++++++++ 1.604
+
+################################################################################
+<p class="Subpart">Subpart 1.7 - Determinations and Findings </p>
+++++++++++++++++++++++++++++++++++++++++ Subpart
+
+################################################################################
+<p class="p">1.700 Scope of subpart. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.700
+
+################################################################################
+<p class="p">1.701 Definition. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.701
+
+################################################################################
+<p class="p">1.702 General. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.702
+
+################################################################################
+<p class="p">1.703 Class determinations and findings. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.703
+
+################################################################################
+<p class="p">1.704 Content. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.704
+
+################################################################################
+<p class="p">1.705 Supersession and modification. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.705
+
+################################################################################
+<p class="p">1.706 Expiration. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.706
+
+################################################################################
+<p class="p">1.707 Signatory authority. </p>
+++++++++++++++++++++++++++++++++++++++++ 1.707
+
+################################################################################
+<p class="p">This part sets forth basic policies and general information about the Federal Acquisition Regulations System including purpose, authority, applicability, issuance, arrangement, numbering, dissemination, implementation, supplementation, maintenance, administration, and deviation. subparts 1.2,1.3, and 1.4 prescribe administrative procedures for maintaining the FAR System. </p>
+++++++++++++++++++++++++++++++++++++++++ This
+
+################################################################################
+<p class="p">The Federal Acquisition Regulations System is established for the codification and publication of uniform policies and procedures for acquisition by all executive agencies. The Federal Acquisition Regulations System consists of the Federal Acquisition Regulation (FAR), which is the primary document, and agency acquisition regulations that implement or supplement the FAR. The FAR System does not include internal agency guidance of the type described in 1.301(a)(2). </p>
+++++++++++++++++++++++++++++++++++++++++ The
+
+################################################################################
+<p class="p">(a) The vision for the Federal Acquisition System is to deliver on a timely basis the best value product or service to the customer, while maintaining the public’s trust and fulfilling public policy objectives. Participants in the acquisition process should work together as a team and should be empowered to make decisions within their area of responsibility. </p>
+(a)
+
+################################################################################
+<p class="p">(b) The Federal Acquisition System will- </p>
+(b)
+
+################################################################################
+<p class="p">(1) Satisfy the customer in terms of cost, quality, and timeliness of the delivered product or service by, for example- </p>
+(1)
+
+################################################################################
+<p class="p">(i) Maximizing the use of commercial products and services; </p>
+(i)
+
+################################################################################
+<p class="p">(ii) Using contractors who have a track record of successful past performance or who demonstrate a current superior ability to perform; and </p>
+(ii)
+
+################################################################################
+<p class="p">(iii) Promoting competition; </p>
+(iii)
+
+################################################################################
+<p class="p">(2) Minimize administrative operating costs; </p>
+(2)
+
+################################################################################
+<p class="p">(3) Conduct business with integrity, fairness, and openness; and </p>
+(3)
+
+################################################################################
+<p class="p">(4) Fulfill public policy objectives. </p>
+(4)
+
+################################################################################
+<p class="p">(c) The Acquisition Team consists of all participants in Government acquisition including not only representatives of the technical, supply, and procurement communities but also the customers they serve, and the contractors who provide the products and services. </p>
+(c)
+
+################################################################################
+<p class="p">(d) The role of each member of the Acquisition Team is to exercise personal initiative and sound business judgment in providing the best value product or service to meet the customer’s needs. In exercising initiative, Government members of the Acquisition Team may assume if a specific strategy, practice, policy or procedure is in the best interests of the Government and is not addressed in the FAR, nor prohibited by law (statute or case law), Executive order or other regulation, that the strategy, practice, policy or procedure is a permissible exercise of authority. </p>
+(d)
+
+################################################################################
+<p class="p">(a) Introduction. The statement of Guiding Principles for the Federal Acquisition System (System) represents a concise statement designed to be user-friendly for all participants in Government acquisition. The following discussion of the principles is provided in order to illuminate the meaning of the terms and phrases used. The framework for the System includes the Guiding Principles for the System and the supporting policies and procedures in the FAR. </p>
+(a)
+
+################################################################################
+<p class="p">(b) Vision. All participants in the System are responsible for making acquisition decisions that deliver the best value product or service to the customer. Best value must be viewed from a broad perspective and is achieved by balancing the many competing interests in the System. The result is a system which works better and costs less. </p>
+(b)
+
+################################################################################
+<p class="Runin RuninRestart">(a) Satisfy the customer in terms of cost, quality, and timeliness of the delivered product or service. </p>
+(a)
+
+################################################################################
+<p class="Runin">(1) The principal customers for the product or service provided by the System are the users and line managers, acting on behalf of the American taxpayer. </p>
+(1)
+
+################################################################################
+<p class="p">(2) The System must be responsive and adaptive to customer needs, concerns, and feedback. Implementation of acquisition policies and procedures, as well as consideration of timeliness, quality, and cost throughout the process, must take into account the perspective of the user of the product or service. </p>
+(2)
+
+################################################################################
+<p class="p">(3) When selecting contractors to provide products or perform services, the Government will use contractors who have a track record of successful past performance or who demonstrate a current superior ability to perform. </p>
+(3)
+
+################################################################################
+<p class="p">(4) The Government must not hesitate to communicate with the commercial sector as early as possible in the acquisition cycle to help the Government determine the capabilities available in the commercial marketplace. The Government will maximize its use of commercial products and services in meeting Government requirements. </p>
+(4)
+
+################################################################################
+<p class="p">(5) It is the policy of the System to promote competition in the acquisition process. </p>
+(5)
+
+################################################################################
+<p class="p">(6) The System must perform in a timely, high quality, and cost-effective manner. </p>
+(6)
+
+################################################################################
+<p class="p">(7) All members of the Team are required to employ planning as an integral part of the overall process of acquiring products or services. Although advance planning is required, each member of the Team must be flexible in order to accommodate changing or unforeseen mission needs. Planning is a tool for the accomplishment of tasks, and application of its discipline should be commensurate with the size and nature of a given task. </p>
+(7)
+
+################################################################################
+<p class="Runin RuninRestart">(b) Minimize administrative operating costs. </p>
+(b)
+
+################################################################################
+<p class="Runin">(1) In order to ensure that maximum efficiency is obtained, rules, regulations, and policies should be promulgated only when their benefits clearly exceed the costs of their development, implementation, administration, and enforcement. This applies to internal administrative processes, including reviews, and to rules and procedures applied to the contractor community. </p>
+(1)
+
+################################################################################
+<p class="p">(2) The System must provide uniformity where it contributes to efficiency or where fairness or predictability is essential. The System should also, however, encourage innovation, and local adaptation where uniformity is not essential. </p>
+(2)
+
+################################################################################
+<p class="Runin RuninRestart">(c) Conduct business with integrity, fairness, and openness. </p>
+(c)
+
+################################################################################
+<p class="Runin">(1) An essential consideration in every aspect of the System is maintaining the public’s trust. Not only must the System have integrity, but the actions of each member of the Team must reflect integrity, fairness, and openness. The foundation of integrity within the System is a competent, experienced, and well-trained, professional workforce. Accordingly, each member of the Team is responsible and accountable for the wise use of public resources as well as acting in a manner which maintains the public’s trust. Fairness and openness require open communication among team members, internal and external customers, and the public. </p>
+(1)
+
+################################################################################
+<p class="p">(2) To achieve efficient operations, the System must shift its focus from "risk avoidance" to one of "risk management." The cost to the taxpayer of attempting to eliminate all risk is prohibitive. The Executive Branch will accept and manage the risk associated with empowering local procurement officials to take independent action based on their professional judgment. </p>
+(2)
+
+################################################################################
+<p class="p">(3) The Government shall exercise discretion, use sound business judgment, and comply with applicable laws and regulations in dealing with contractors and prospective contractors. All contractors and prospective contractors shall be treated fairly and impartially but need not be treated the same. </p>
+(3)
+
+################################################################################
+<p class="p">(d) Fulfill public policy objectives. The System must support the attainment of public policy goals adopted by the Congress and the President. In attaining these goals, and in its overall operations, the process shall ensure the efficient use of public resources. </p>
+(d)
+
+################################################################################
+<p class="p">The purpose of defining the Federal Acquisition Team (Team) in the Guiding Principles is to ensure that participants in the System are identified beginning with the customer and ending with the contractor of the product or service. By identifying the team members in this manner, teamwork, unity of purpose, and open communication among the members of the Team in sharing the vision and achieving the goal of the System are encouraged. Individual team members will participate in the acquisition process at the appropriate time. </p>
+++++++++++++++++++++++++++++++++++++++++ The
+
+################################################################################
+<p class="p">(a) Government members of the Team must be empowered to make acquisition decisions within their areas of responsibility, including selection, negotiation, and administration of contracts consistent with the Guiding Principles. In particular, the contracting officer must have the authority to the maximum extent practicable and consistent with law, to determine the application of rules, regulations, and policies, on a specific contract. </p>
+(a)
+
+################################################################################
+<p class="p">(b) The authority to make decisions and the accountability for the decisions made will be delegated to the lowest level within the System, consistent with law. </p>
+(b)
+
+################################################################################
+<p class="p">(c) The Team must be prepared to perform the functions and duties assigned. The Government is committed to provide training, professional development, and other resources necessary for maintaining and improving the knowledge, skills, and abilities for all Government participants on the Team, both with regard to their particular area of responsibility within the System, and their respective role as a team member. The contractor community is encouraged to do likewise. </p>
+(c)
+
+################################################################################
+<p class="p">(d) The System will foster cooperative relationships between the Government and its contractors consistent with its overriding responsibility to the taxpayers. </p>
+(d)
+
+################################################################################
+<p class="p">(e) The FAR outlines procurement policies and procedures that are used by members of the Acquisition Team. If a policy or procedure, or a particular strategy or practice, is in the best interest of the Government and is not specifically addressed in the FAR, nor prohibited by law (statute or case law), Executive order or other regulation, Government members of the Team should not assume it is prohibited. Rather, absence of direction should be interpreted as permitting the Team to innovate and use sound business judgment that is otherwise consistent with law and within the limits of their authority. Contracting officers should take the lead in encouraging business process innovations and ensuring that business decisions are sound. </p>
+(e)
+
+################################################################################
+<p class="p">(a) The development of the FAR System is in accordance with the requirements of 41 U.S.C. chapter 13, Acquisition Councils. </p>
+(a)
+
+################################################################################
+<p class="p">(b) The FAR is prepared, issued, and maintained, and the FAR System is prescribed jointly by the Secretary of Defense, the Administrator of General Services, and the Administrator, National Aeronautics and Space Administration, under their several statutory authorities. </p>
+(b)
+
+################################################################################
+<p class="p">The FAR applies to all acquisitions as defined in part 2 of the FAR, except where expressly excluded. </p>
+++++++++++++++++++++++++++++++++++++++++ The
+
+################################################################################
+<p class="p">(a) The FAR is published in— </p>
+(a)
+
+################################################################################
+<p class="p">(1) The daily issue of the Federal Register; </p>
+(1)
+
+################################################################################
+<p class="p">(2) Cumulated form in the Code of Federal Regulations (CFR); and </p>
+(2)
+
+################################################################################
+<p class="p">(3) A separate edition available at https://www.acquisition.gov/browse/index/far. </p>
+(3)
+
+################################################################################
+<p class="p">(b) The FAR is issued as Chapter 1 of Title 48, CFR. Subsequent chapters are reserved for agency acquisition regulations that implement or supplement the FAR (see subpart 1.3). The CFR Staff will assign chapter numbers to requesting agencies. </p>
+(b)
+
+################################################################################
+<p class="p">(c) Each numbered unit or segment (e.g., part, subpart, section, etc.) of an agency acquisition regulation that is codified in the CFR shall begin with the chapter number. However, the chapter number assigned to the FAR will not be included in the numbered units or segments of the FAR. </p>
+(c)
+
+################################################################################
+<p class="p">(a) General. The FAR is divided into subchapters, parts (each of which covers a separate aspect of acquisition), subparts, sections, and subsections. </p>
+(a)
+
+################################################################################
+<p class="Runin RuninRestart">(b) Numbering. </p>
+(b)
+
+################################################################################
+<p class="Runin">(1) The numbering system permits the discrete identification of every FAR paragraph. The digits to the left of the decimal point represent the part number. The numbers to the right of the decimal point and to the left of the dash represent, in order, the subpart (one or two digits), and the section (two digits). The number to the right of the dash represents the subsection. Subdivisions may be used at the section and subsection level to identify individual paragraphs. The following example illustrates the make-up of a FAR number citation (note that subchapters are not used with citations): </p>
+(1)
+
+################################################################################
+<p class="p">(2) Subdivisions below the section or subsection level consist of parenthetical alpha numerics using the following sequence: </p>
+(2)
+
+################################################################################
+<p class="p">(a)(1)(i)(A)(1)(i) </p>
+(a)(1)(i)(A)(1)(i)
+
+################################################################################
+<p class="Runin RuninRestart">(c) References and citations. </p>
+(c)
+
+################################################################################
+<p class="Runin">(1) Unless otherwise stated, cross-references indicate parts, subparts, sections, subsections, paragraphs, subparagraphs, or subdivisions of this regulation. </p>
+(1)
+
+################################################################################
+<p class="p">(2) This regulation may be referred to as the Federal Acquisition Regulation or the FAR. </p>
+(2)
+
+################################################################################
+<p class="p">(3) Using the FAR coverage at 9.106-4(d) as a typical illustration, reference to the– </p>
+(3)
+
+################################################################################
+<p class="p">(i) Part would be "FAR part 9" outside the FAR and "part 9" within the FAR. </p>
+(i)
+
+################################################################################
+<p class="p">(ii) Subpart would be "FAR subpart 9.1" outside the FAR and "subpart 9.1" within the FAR. </p>
+(ii)
+
+################################################################################
+<p class="p">(iii) Section would be "FAR 9.106" outside the FAR and "9.106" within the FAR. </p>
+(iii)
+
+################################################################################
+<p class="p">(iv) Subsection would be "FAR 9.106-4" outside the FAR and "9.106-4" within the FAR. </p>
+(iv)
+
+################################################################################
+<p class="p">(v) Paragraph would be "FAR 9.106-4(d)" outside the FAR and "9.106-4(d)" within the FAR. </p>
+(v)
+
+################################################################################
+<p class="p">(4) Citations of authority (e.g., statutes or Executive orders) in the FAR shall follow the Federal Register form guides. </p>
+(4)
+
+################################################################################
+<p class="p">Copies of the FAR in CFR form may be purchased from the Bookstore of the Government Publishing Office (GPO), Washington, DC 20402. </p>
+++++++++++++++++++++++++++++++++++++++++ Copies
+
+################################################################################
+<p class="p">The Paperwork Reduction Act of1980 (44 U.S.C. chapter 35) imposes a requirement on Federal agencies to obtain approval from the Office of Management and Budget (OMB) before collecting information from 10 or more members of the public. The information collection and recordkeeping requirements contained in this regulation have been approved by the OMB. The following OMB control numbers apply: </p>
+++++++++++++++++++++++++++++++++++++++++ The
+
+################################################################################
+<p class="p Ctr">9000-0018 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0018
+
+################################################################################
+<p class="p Ctr">9000-0183 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0183
+
+################################################################################
+<p class="p Ctr">9000-0033 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0033
+
+################################################################################
+<p class="p Ctr">9000-0137 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0137
+
+################################################################################
+<p class="p Ctr">9000-0145 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0145
+
+################################################################################
+<p class="p Ctr">9000-0145 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0145
+
+################################################################################
+<p class="p Ctr">9000-0034 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0034
+
+################################################################################
+<p class="p Ctr">9000-0097 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0097
+
+################################################################################
+<p class="p Ctr">9000-0177 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0177
+
+################################################################################
+<p class="p Ctr">9000-0179 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0179
+
+################################################################################
+<p class="p Ctr">9000-0199 and 9000-0201 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0199
+
+################################################################################
+<p class="p Ctr">9000-0036 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0036
+
+################################################################################
+<p class="p Ctr">9000-0082 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0082
+
+################################################################################
+<p class="p Ctr">9000-0113 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0113
+
+################################################################################
+<p class="p Ctr">9000-0011 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0011
+
+################################################################################
+<p class="p Ctr">9000-0083 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0083
+
+################################################################################
+<p class="p Ctr">9000-0034 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0034
+
+################################################################################
+<p class="p Ctr">9000-0040 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0040
+
+################################################################################
+<p class="p Ctr">9000-0039 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0039
+
+################################################################################
+<p class="p Ctr">9000-0037 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0037
+
+################################################################################
+<p class="p Ctr">9000-0038 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0038
+
+################################################################################
+<p class="p Ctr">9000-0041 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0041
+
+################################################################################
+<p class="p Ctr">9000-0037 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0037
+
+################################################################################
+<p class="p Ctr">9000-0034 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0034
+
+################################################################################
+<p class="p Ctr">9000-0013 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0013
+
+################################################################################
+<p class="p Ctr">9000-0080 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0080
+
+################################################################################
+<p class="p Ctr">9000-0078 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0078
+
+################################################################################
+<p class="p Ctr">9000-0115 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0115
+
+################################################################################
+<p class="p Ctr">9000-0192, 9000-0006, and 9000-0007 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0192,
+
+################################################################################
+<p class="p Ctr">9000-0065 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0065
+
+################################################################################
+<p class="p Ctr">1250-0003 </p>
+++++++++++++++++++++++++++++++++++++++++ 1250-0003
+
+################################################################################
+<p class="p Ctr">9000-0066 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0066
+
+################################################################################
+<p class="p Ctr">1250-0005 </p>
+++++++++++++++++++++++++++++++++++++++++ 1250-0005
+
+################################################################################
+<p class="p Ctr">9000-0188 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0188
+
+################################################################################
+<p class="p Ctr">9000-0107 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0107
+
+################################################################################
+<p class="p Ctr">9000-0182 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0182
+
+################################################################################
+<p class="p Ctr">9000-0184 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0184
+
+################################################################################
+<p class="p Ctr">9000-0096 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0096
+
+################################################################################
+<p class="p Ctr">9000-0095 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0095
+
+################################################################################
+<p class="p Ctr">9000-0090 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0090
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0059 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0059
+
+################################################################################
+<p class="p Ctr">9000-0129 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0129
+
+################################################################################
+<p class="p Ctr">9000-0079 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0079
+
+################################################################################
+<p class="p Ctr">9000-0088 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0088
+
+################################################################################
+<p class="p Ctr">9000-0138 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0138
+
+################################################################################
+<p class="p Ctr">9000-0070 and 9000-0138 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0070
+
+################################################################################
+<p class="p Ctr">9000-0138 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0138
+
+################################################################################
+<p class="p Ctr">9000-0073 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0073
+
+################################################################################
+<p class="p Ctr">9000-0010 and 9000-0138 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0010
+
+################################################################################
+<p class="p Ctr">9000-0074 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0074
+
+################################################################################
+<p class="p Ctr">9000-0102 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0102
+
+################################################################################
+<p class="p Ctr">9000-0138 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0138
+
+################################################################################
+<p class="p Ctr">9000-0035 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0035
+
+################################################################################
+<p class="p Ctr">9000-0037 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0037
+
+################################################################################
+<p class="p Ctr">9000-0157 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0157
+
+################################################################################
+<p class="p Ctr">9000-0125 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0125
+
+################################################################################
+<p class="p Ctr">9000-0013 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0013
+
+################################################################################
+<p class="p Ctr">9000-0076 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0076
+
+################################################################################
+<p class="p Ctr">9000-0076 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0076
+
+################################################################################
+<p class="p Ctr">9000-0075 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0075
+
+################################################################################
+<p class="p Ctr">9000-0077 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0077
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0056 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0056
+
+################################################################################
+<p class="p Ctr">9000-0027 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0027
+
+################################################################################
+<p class="p Ctr">9000-0028 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0028
+
+################################################################################
+<p class="p Ctr">9000-0029 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0029
+
+################################################################################
+<p class="p Ctr">9000-0031 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0031
+
+################################################################################
+<p class="p Ctr">9000-0032 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0032
+
+################################################################################
+<p class="p Ctr">9000-0018 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0018
+
+################################################################################
+<p class="p Ctr">9000-0091 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0091
+
+################################################################################
+<p class="p Ctr">9000-0164 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0164
+
+################################################################################
+<p class="p Ctr">9000-0183 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0183
+
+################################################################################
+<p class="p Ctr">9000-0097 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0097
+
+################################################################################
+<p class="p Ctr">9000-0145 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0145
+
+################################################################################
+<p class="p Ctr">9000-0159 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0159
+
+################################################################################
+<p class="p Ctr">9000-0177 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0177
+
+################################################################################
+<p class="p Ctr">9000-0145 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0145
+
+################################################################################
+<p class="p Ctr">9000-0159 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0159
+
+################################################################################
+<p class="p Ctr">9000-0179 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0179
+
+################################################################################
+<p class="p Ctr">9000-0179 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0179
+
+################################################################################
+<p class="p Ctr">9000-0185 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0185
+
+################################################################################
+<p class="p Ctr">9000-0185 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0185
+
+################################################################################
+<p class="p Ctr">9000-0185 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0185
+
+################################################################################
+<p class="p Ctr">9000-0199 and 9000-0201 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0199
+
+################################################################################
+<p class="p Ctr">9000-0199 and 9000-0201 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0199
+
+################################################################################
+<p class="p Ctr">9000-0199 and 9000-0201 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0199
+
+################################################################################
+<p class="p Ctr">9000-0114 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0114
+
+################################################################################
+<p class="p Ctr">9000-0113 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0113
+
+################################################################################
+<p class="p Ctr">9000-0113 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0113
+
+################################################################################
+<p class="p Ctr">9000-0020 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0020
+
+################################################################################
+<p class="p Ctr">9000-0083 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0083
+
+################################################################################
+<p class="p Ctr">9000-0094 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0094
+
+################################################################################
+<p class="p Ctr">9000-0094 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0094
+
+################################################################################
+<p class="p Ctr">9000-0174 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0174
+
+################################################################################
+<p class="p Ctr">9000-0174 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0174
+
+################################################################################
+<p class="p Ctr">9000-0190 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0190
+
+################################################################################
+<p class="p Ctr">9000-0043 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0043
+
+################################################################################
+<p class="p Ctr">9000-0043 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0043
+
+################################################################################
+<p class="p Ctr">9000-0136 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0136
+
+################################################################################
+<p class="p Ctr">9000-0047 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0047
+
+################################################################################
+<p class="p Ctr">9000-0044 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0044
+
+################################################################################
+<p class="p Ctr">9000-0044 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0044
+
+################################################################################
+<p class="p Ctr">9000-0039 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0039
+
+################################################################################
+<p class="p Ctr">9000-0034 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0034
+
+################################################################################
+<p class="p Ctr">9000-0013 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0013
+
+################################################################################
+<p class="p Ctr">9000-0048 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0048
+
+################################################################################
+<p class="p Ctr">9000-0044 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0044
+
+################################################################################
+<p class="p Ctr">9000-0034 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0034
+
+################################################################################
+<p class="p Ctr">9000-0047 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0047
+
+################################################################################
+<p class="p Ctr">9000-0078 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0078
+
+################################################################################
+<p class="p Ctr">9000-0013 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0013
+
+################################################################################
+<p class="p Ctr">9000-0013 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0013
+
+################################################################################
+<p class="p Ctr">9000-0080 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0080
+
+################################################################################
+<p class="p Ctr">9000-0115 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0115
+
+################################################################################
+<p class="p Ctr">9000-0013 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0013
+
+################################################################################
+<p class="p Ctr">9000-0013 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0013
+
+################################################################################
+<p class="p Ctr">9000-0173 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0173
+
+################################################################################
+<p class="p Ctr">9000-0173 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0173
+
+################################################################################
+<p class="p Ctr">9000-0068 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0068
+
+################################################################################
+<p class="p Ctr">9000-0068 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0068
+
+################################################################################
+<p class="p Ctr">9000-0068 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0068
+
+################################################################################
+<p class="p Ctr">9000-0071 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0071
+
+################################################################################
+<p class="p Ctr">9000-0071 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0071
+
+################################################################################
+<p class="p Ctr">9000-0069 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0069
+
+################################################################################
+<p class="p Ctr">9000-0067 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0067
+
+################################################################################
+<p class="p Ctr">9000-0069 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0069
+
+################################################################################
+<p class="p Ctr">9000-0067 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0067
+
+################################################################################
+<p class="p Ctr">9000-0067 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0067
+
+################################################################################
+<p class="p Ctr">9000-0006 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0006
+
+################################################################################
+<p class="p Ctr">9000-0163 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0163
+
+################################################################################
+<p class="p Ctr">3245-0374 </p>
+++++++++++++++++++++++++++++++++++++++++ 3245-0374
+
+################################################################################
+<p class="p Ctr">3245-0374 </p>
+++++++++++++++++++++++++++++++++++++++++ 3245-0374
+
+################################################################################
+<p class="p Ctr">9000-0065 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0065
+
+################################################################################
+<p class="p Ctr">1235-0023 </p>
+++++++++++++++++++++++++++++++++++++++++ 1235-0023
+
+################################################################################
+<p class="p Ctr">1235-0008 and 1235-0018 </p>
+++++++++++++++++++++++++++++++++++++++++ 1235-0008
+
+################################################################################
+<p class="p Ctr">9000-0014 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0014
+
+################################################################################
+<p class="p Ctr">9000-0155 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0155
+
+################################################################################
+<p class="p Ctr">1250-0003 </p>
+++++++++++++++++++++++++++++++++++++++++ 1250-0003
+
+################################################################################
+<p class="p Ctr">1250-0003 </p>
+++++++++++++++++++++++++++++++++++++++++ 1250-0003
+
+################################################################################
+<p class="p Ctr">1250-0003 </p>
+++++++++++++++++++++++++++++++++++++++++ 1250-0003
+
+################################################################################
+<p class="p Ctr">1250-0003 </p>
+++++++++++++++++++++++++++++++++++++++++ 1250-0003
+
+################################################################################
+<p class="p Ctr">1250-0003 </p>
+++++++++++++++++++++++++++++++++++++++++ 1250-0003
+
+################################################################################
+<p class="p Ctr">9000-0154 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0154
+
+################################################################################
+<p class="p Ctr">1250-0004 </p>
+++++++++++++++++++++++++++++++++++++++++ 1250-0004
+
+################################################################################
+<p class="p Ctr">1250-0005 </p>
+++++++++++++++++++++++++++++++++++++++++ 1250-0005
+
+################################################################################
+<p class="p Ctr">1215-0004 </p>
+++++++++++++++++++++++++++++++++++++++++ 1215-0004
+
+################################################################################
+<p class="p Ctr">1235-0018 and 1235-0007 </p>
+++++++++++++++++++++++++++++++++++++++++ 1235-0018
+
+################################################################################
+<p class="p Ctr">9000-0066 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0066
+
+################################################################################
+<p class="p Ctr">9000-0188 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0188
+
+################################################################################
+<p class="p Ctr">1235-0018 </p>
+++++++++++++++++++++++++++++++++++++++++ 1235-0018
+
+################################################################################
+<p class="p Ctr">9000-0188 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0188
+
+################################################################################
+<p class="p Ctr">9000-0180 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0180
+
+################################################################################
+<p class="p Ctr">9000-0134 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0134
+
+################################################################################
+<p class="p Ctr">9000-0147 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0147
+
+################################################################################
+<p class="p Ctr">9000-0101 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0101
+
+################################################################################
+<p class="p Ctr">9000-0107 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0107
+
+################################################################################
+<p class="p Ctr">9000-0134 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0134
+
+################################################################################
+<p class="p Ctr">9000-0024 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0024
+
+################################################################################
+<p class="p Ctr">9000-0024 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0024
+
+################################################################################
+<p class="p Ctr">9000-0024 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0024
+
+################################################################################
+<p class="p Ctr">9000-0022 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0022
+
+################################################################################
+<p class="p Ctr">9000-0024 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0024
+
+################################################################################
+<p class="p Ctr">9000-0024 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0024
+
+################################################################################
+<p class="p Ctr">9000-0161 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0161
+
+################################################################################
+<p class="p Ctr">9000-0024 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0024
+
+################################################################################
+<p class="p Ctr">9000-0024 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0024
+
+################################################################################
+<p class="p Ctr">9000-0096 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0096
+
+################################################################################
+<p class="p Ctr">9000-0096 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0096
+
+################################################################################
+<p class="p Ctr">9000-0096 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0096
+
+################################################################################
+<p class="p Ctr">9000-0090 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0090
+
+################################################################################
+<p class="p Ctr">9000-0090 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0090
+
+################################################################################
+<p class="p Ctr">9000-0090 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0090
+
+################################################################################
+<p class="p Ctr">9000-0090 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0090
+
+################################################################################
+<p class="p Ctr">9000-0090 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0090
+
+################################################################################
+<p class="p Ctr">9000-0090 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0090
+
+################################################################################
+<p class="p Ctr">9000-0090 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0090
+
+################################################################################
+<p class="p Ctr">9000-0090 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0090
+
+################################################################################
+<p class="p Ctr">9000-0090 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0090
+
+################################################################################
+<p class="p Ctr">9000-0090 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0090
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0135 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0135
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0059 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0059
+
+################################################################################
+<p class="p Ctr">1545-2263 </p>
+++++++++++++++++++++++++++++++++++++++++ 1545-2263
+
+################################################################################
+<p class="p Ctr">1545-2263 </p>
+++++++++++++++++++++++++++++++++++++++++ 1545-2263
+
+################################################################################
+<p class="p Ctr">9000-0129 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0129
+
+################################################################################
+<p class="p Ctr">9000-0070 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0070
+
+################################################################################
+<p class="p Ctr">9000-0070 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0070
+
+################################################################################
+<p class="p Ctr">9000-0070 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0070
+
+################################################################################
+<p class="p Ctr">9000-0070 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0070
+
+################################################################################
+<p class="p Ctr">9000-0102 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0102
+
+################################################################################
+<p class="p Ctr">9000-0070 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0070
+
+################################################################################
+<p class="p Ctr">9000-0070 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0070
+
+################################################################################
+<p class="p Ctr">9000-0070 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0070
+
+################################################################################
+<p class="p Ctr">9000-0070 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0070
+
+################################################################################
+<p class="p Ctr">9000-0070 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0070
+
+################################################################################
+<p class="p Ctr">9000-0070 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0070
+
+################################################################################
+<p class="p Ctr">9000-0073 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0073
+
+################################################################################
+<p class="p Ctr">9000-0010 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0010
+
+################################################################################
+<p class="p Ctr">9000-0010 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0010
+
+################################################################################
+<p class="p Ctr">9000-0010 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0010
+
+################################################################################
+<p class="p Ctr">9000-0010 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0010
+
+################################################################################
+<p class="p Ctr">9000-0074 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0074
+
+################################################################################
+<p class="p Ctr">9000-0074 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0074
+
+################################################################################
+<p class="p Ctr">9000-0102 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0102
+
+################################################################################
+<p class="p Ctr">9000-0138 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0138
+
+################################################################################
+<p class="p Ctr">9000-0138 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0138
+
+################################################################################
+<p class="p Ctr">9000-0138 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0138
+
+################################################################################
+<p class="p Ctr">9000-0138 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0138
+
+################################################################################
+<p class="p Ctr">9000-0035 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0035
+
+################################################################################
+<p class="p Ctr">9000-0062 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0062
+
+################################################################################
+<p class="p Ctr">9000-0060 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0060
+
+################################################################################
+<p class="p Ctr">9000-0058 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0058
+
+################################################################################
+<p class="p Ctr">9000-0064 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0064
+
+################################################################################
+<p class="p Ctr">9000-0126 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0126
+
+################################################################################
+<p class="p Ctr">9000-0122 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0122
+
+################################################################################
+<p class="p Ctr">9000-0123 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0123
+
+################################################################################
+<p class="p Ctr">9000-0124 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0124
+
+################################################################################
+<p class="p Ctr">9000-0026 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0026
+
+################################################################################
+<p class="p Ctr">9000-0026 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0026
+
+################################################################################
+<p class="p Ctr">9000-0026 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0026
+
+################################################################################
+<p class="p Ctr">9000-0026 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0026
+
+################################################################################
+<p class="p Ctr">9000-0026 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0026
+
+################################################################################
+<p class="p Ctr">9000-0026 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0026
+
+################################################################################
+<p class="p Ctr">9000-0149 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0149
+
+################################################################################
+<p class="p Ctr">9000-0075 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0075
+
+################################################################################
+<p class="p Ctr">9000-0075 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0075
+
+################################################################################
+<p class="p Ctr">9000-0077 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0077
+
+################################################################################
+<p class="p Ctr">9000-0077 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0077
+
+################################################################################
+<p class="p Ctr">9000-0077 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0077
+
+################################################################################
+<p class="p Ctr">9000-0077 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0077
+
+################################################################################
+<p class="p Ctr">9000-0077 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0077
+
+################################################################################
+<p class="p Ctr">9000-0077 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0077
+
+################################################################################
+<p class="p Ctr">9000-0077 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0077
+
+################################################################################
+<p class="p Ctr">9000-0077 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0077
+
+################################################################################
+<p class="p Ctr">9000-0077 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0077
+
+################################################################################
+<p class="p Ctr">9000-0187 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0187
+
+################################################################################
+<p class="p Ctr">9000-0053 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0053
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0057 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0057
+
+################################################################################
+<p class="p Ctr">9000-0055 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0055
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0054 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0054
+
+################################################################################
+<p class="p Ctr">9000-0061 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0061
+
+################################################################################
+<p class="p Ctr">9000-0056 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0056
+
+################################################################################
+<p class="p Ctr">9000-0027 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0027
+
+################################################################################
+<p class="p Ctr">9000-0027 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0027
+
+################################################################################
+<p class="p Ctr">9000-0027 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0027
+
+################################################################################
+<p class="p Ctr">9000-0028 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0028
+
+################################################################################
+<p class="p Ctr">9000-0028 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0028
+
+################################################################################
+<p class="p Ctr">9000-0028 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0028
+
+################################################################################
+<p class="p Ctr">9000-0028 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0028
+
+################################################################################
+<p class="p Ctr">9000-0028 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0028
+
+################################################################################
+<p class="p Ctr">9000-0029 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0029
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0001 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0001
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0157 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0157
+
+################################################################################
+<p class="p Ctr">9000-0011 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0011
+
+################################################################################
+<p class="p Ctr">9000-0011 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0011
+
+################################################################################
+<p class="p Ctr">9000-0011 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0011
+
+################################################################################
+<p class="p Ctr">9000-0011 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0011
+
+################################################################################
+<p class="p Ctr">9000-0011 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0011
+
+################################################################################
+<p class="p Ctr">9000-0011 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0011
+
+################################################################################
+<p class="p Ctr">9000-0014 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0014
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0045 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0045
+
+################################################################################
+<p class="p Ctr">9000-0075 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0075
+
+################################################################################
+<p class="p Ctr">9000-0075 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0075
+
+################################################################################
+<p class="p Ctr">9000-0012 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0012
+
+################################################################################
+<p class="p Ctr">9000-0012 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0012
+
+################################################################################
+<p class="p Ctr">9000-0012 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0012
+
+################################################################################
+<p class="p Ctr">9000-0012 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0012
+
+################################################################################
+<p class="p Ctr">9000-0012 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0012
+
+################################################################################
+<p class="p Ctr">9000-0012 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0012
+
+################################################################################
+<p class="p Ctr">9000-0010 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0010
+
+################################################################################
+<p class="p Ctr">9000-0089 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0089
+
+################################################################################
+<p class="p Ctr">9000-0089 </p>
+++++++++++++++++++++++++++++++++++++++++ 9000-0089
+
+################################################################################
+<p class="p Ctr">0706-0567 </p>
+++++++++++++++++++++++++++++++++++++++++ 0706-0567
+
+################################################################################
+<p class="p">In accordance with 41 U.S.C. 1304, a new requirement for a certification by a contractor or offeror may not be included in this chapter unless- </p>
+++++++++++++++++++++++++++++++++++++++++ In
+
+################################################################################
+<p class="p">(a) The certification requirement is specifically imposed by statute; or </p>
+(a)
+
+################################################################################
+<p class="p">(b) Written justification for such certification is provided to the Administrator for Federal Procurement Policy by the Federal Acquisition Regulatory Council, and the Administrator approves in writing the inclusion of such certification requirement. </p>
+(b)
+
+################################################################################
+<p class="p">The following conventions provide guidance for interpreting the FAR: </p>
+++++++++++++++++++++++++++++++++++++++++ The
+
+################################################################################
+<p class="p">(a) Words and terms. Definitions in part 2 apply to the entire regulation unless specifically defined in another part, subpart, section, provision, or clause. Words or terms defined in a specific part, subpart, section, provision, or clause have that meaning when used in that part, subpart, section, provision, or clause. Undefined words retain their common dictionary meaning. </p>
+(a)
+
+################################################################################
+<p class="p">(b) Delegation of authority. Each authority is delegable unless specifically stated otherwise (see 1.102-4(b)). </p>
+(b)
+
+################################################################################
+<p class="p">(c) Dollar thresholds. Unless otherwise specified, a specific dollar threshold for the purpose of applicability is the final anticipated dollar value of the action, including the dollar value of all options. If the action establishes a maximum quantity of supplies or services to be acquired or establishes a ceiling price or establishes the final price to be based on future events, the final anticipated dollar value must be the highest final priced alternative to the Government, including the dollar value of all options. </p>
+(c)
+
+################################################################################
+<p class="p">(d) Application of FAR changes to solicitations and contracts. Unless otherwise specified- </p>
+(d)
+
+################################################################################
+<p class="p">(1) FAR changes apply to solicitations issued on or after the effective date of the change; </p>
+(1)
+
+################################################################################
+<p class="p">(2) Contracting officers may, at their discretion, include the FAR changes in solicitations issued before the effective date, provided award of the resulting contract(s) occurs on or after the effective date; and </p>
+(2)
+
+################################################################################
+<p class="p">(3) Contracting officers may, at their discretion, include the changes in any existing contract with appropriate consideration. </p>
+(3)
+
+################################################################################
+<p class="p">(e) Citations. When the FAR cites a statute, Executive order, Office of Management and Budget circular, Office of Federal Procurement Policy policy letter, or relevant portion of the Code of Federal Regulations, the citation includes all applicable amendments, unless otherwise stated. </p>
+(e)
+
+################################################################################
+<p class="p">(f) Imperative sentences. When an imperative sentence directs action, the contracting officer is responsible for the action, unless another party is expressly cited. </p>
+(f)
+
+################################################################################
+<p class="p">(a) 41 U.S.C. 1908 requires that the FAR Council periodically adjust all statutory acquisition-related dollar thresholds in the FAR for inflation, except as provided in paragraph (c) of this section. This adjustment is calculated every 5 years, starting in October 2005, using the Consumer Price Index for All Urban Consumers (CPI-U), and supersedes the applicability of any other provision of law that provides for the adjustment of such acquisition-related dollar thresholds. </p>
+(a)
+
+################################################################################
+<p class="p">(b) The statute defines an acquisition-related dollar threshold as a dollar threshold that is specified in law as a factor in defining the scope of the applicability of a policy, procedure, requirement, or restriction provided in that law to the procurement of supplies or services by an executive agency, as determined by the FAR Council. </p>
+(b)
+
+################################################################################
+<p class="p">(c) The statute does not permit escalation of acquisition-related dollar thresholds established by: </p>
+(c)
+
+################################################################################
+<p class="p">(1) 40 U.S.C. chapter 31, subchapter IV, Wage Rate Requirements (Construction); </p>
+(1)
+
+################################################################################
+<p class="p">(2) 41 U.S.C. chapter 67, Service Contract Labor Standards; or </p>
+(2)
+
+################################################################################
+<p class="p">(3) The United States Trade Representative pursuant to the authority of the Trade Agreements Act of 1979 (19 U.S.C. 2511 et seq.). </p>
+(3)
+
+################################################################################
+<p class="p">(d) The statute, as amended by section 821 of the National Defense Authorization Act for Fiscal Year 2018 (Pub. L. 115-91), requires the adjustment described in paragraph (a) of this section be applied to contracts and subcontracts without regard to the date of award of the contract or subcontract. Therefore, if a threshold is adjusted for inflation as set forth in paragraph (a) of this section, then the changed threshold applies throughout the remaining term of the contract, unless there is a subsequent threshold adjustment. </p>
+(d)
+
+################################################################################
+<p class="p">(e) A matrix showing calculation of the most recent escalation adjustments of statutory acquisition-related dollar thresholds is available via the Internet at http://www.regulations.gov (search FAR Case 2019-013, open the docket folder, and go to the supporting documents file). </p>
+(e)
+
+################################################################################
+<p class="p">(a) Public Law 107-217 revised, codified, and enacted as title 40, United States Code, Public Buildings, Property, and Works, certain general and permanent laws of the United States. </p>
+(a)
+
+################################################################################
+<p class="p">(b) Public Law 111-350 revised, codified, and enacted as title 41, United States Code, Public Contracts, certain general and permanent laws of the United States. </p>
+(b)
+
+################################################################################
+<p class="p">(c) The following table provides cross references between the historical titles of the acts, and the current reference in title 40 or title 41. </p>
+(c)
+
+################################################################################
+<p class="p Ctr">41 U.S.C. </p>
+++++++++++++++++++++++++++++++++++++++++ 41
+
+################################################################################
+<p class="p Ctr">chapter 87 </p>
+++++++++++++++++++++++++++++++++++++++++ chapter
+
+################################################################################
+<p class="p Ctr">Kickbacks </p>
+++++++++++++++++++++++++++++++++++++++++ Kickbacks
+
+################################################################################
+<p class="p Ctr">40 U.S.C. chapter 11 </p>
+++++++++++++++++++++++++++++++++++++++++ 40
+
+################################################################################
+<p class="p Ctr">Selection of Architects and Engineers </p>
+++++++++++++++++++++++++++++++++++++++++ Selection
+
+################################################################################
+<p class="p Ctr">41 U.S.C. </p>
+++++++++++++++++++++++++++++++++++++++++ 41
+
+################################################################################
+<p class="p Ctr">chapter 83 </p>
+++++++++++++++++++++++++++++++++++++++++ chapter
+
+################################################################################
+<p class="p Ctr">Buy American </p>
+++++++++++++++++++++++++++++++++++++++++ Buy
+
+################################################################################
+<p class="p Ctr">41 U.S.C. </p>
+++++++++++++++++++++++++++++++++++++++++ 41
+
+################################################################################
+<p class="p Ctr">chapter 71 </p>
+++++++++++++++++++++++++++++++++++++++++ chapter
+
+################################################################################
+<p class="p Ctr">Contract Disputes </p>
+++++++++++++++++++++++++++++++++++++++++ Contract
+
+################################################################################
+<p class="p Ctr">40 U.S.C. chapter 37 </p>
+++++++++++++++++++++++++++++++++++++++++ 40
+
+################################################################################
+<p class="p Ctr">Contract Work Hours and Safety Standards </p>
+++++++++++++++++++++++++++++++++++++++++ Contract
+
+################################################################################
+<p class="p Ctr">40 U.S.C. chapter 31, Subchapter IV </p>
+++++++++++++++++++++++++++++++++++++++++ 40
+
+################################################################################
+<p class="p Ctr">Wage Rate Requirements (Construction) </p>
+++++++++++++++++++++++++++++++++++++++++ Wage
+
+################################################################################
+<p class="p Ctr">41 U.S.C. </p>
+++++++++++++++++++++++++++++++++++++++++ 41
+
+################################################################################
+<p class="p Ctr">chapter 81 </p>
+++++++++++++++++++++++++++++++++++++++++ chapter
+
+################################################################################
+<p class="p Ctr">Drug-Free Workplace </p>
+++++++++++++++++++++++++++++++++++++++++ Drug-Free
+
+################################################################################
+<p class="p Ctr">41 U.S.C. Div. C of subtitle I* </p>
+++++++++++++++++++++++++++++++++++++++++ 41
+
+################################################################################
+<p class="p Ctr">Procurement </p>
+++++++++++++++++++++++++++++++++++++++++ Procurement
+
+################################################################################
+<p class="p Ctr">41 U.S.C. chapter 85 </p>
+++++++++++++++++++++++++++++++++++++++++ 41
+
+################################################################################
+<p class="p Ctr">Committee for Purchase from People Who Are Blind or Severely Disabled </p>
+++++++++++++++++++++++++++++++++++++++++ Committee
+
+################################################################################
+<p class="p Ctr">40 U.S.C. chapter 31, subchapter III </p>
+++++++++++++++++++++++++++++++++++++++++ 40
+
+################################################################################
+<p class="p Ctr">Bonds </p>
+++++++++++++++++++++++++++++++++++++++++ Bonds
+
+################################################################################
+<p class="p Ctr">41 U.S.C. Div. B of subtitle I** </p>
+++++++++++++++++++++++++++++++++++++++++ 41
+
+################################################################################
+<p class="p Ctr">Office of Federal Procurement Policy </p>
+++++++++++++++++++++++++++++++++++++++++ Office
+
+################################################################################
+<p class="p Ctr">41 U.S.C. chapter 21 </p>
+++++++++++++++++++++++++++++++++++++++++ 41
+
+################################################################################
+<p class="p Ctr">Restrictions on Obtaining and Disclosing Certain Information </p>
+++++++++++++++++++++++++++++++++++++++++ Restrictions
+
+################################################################################
+<p class="p Ctr">41 U.S.C. chapter 67 </p>
+++++++++++++++++++++++++++++++++++++++++ 41
+
+################################################################################
+<p class="p Ctr">Service Contract Labor Standards </p>
+++++++++++++++++++++++++++++++++++++++++ Service
+
+################################################################################
+<p class="p Ctr">41 U.S.C. chapter 35 </p>
+++++++++++++++++++++++++++++++++++++++++ 41
+
+################################################################################
+<p class="p Ctr">Truthful Cost or Pricing Data </p>
+++++++++++++++++++++++++++++++++++++++++ Truthful
+
+################################################################################
+<p class="p Ctr">41 U.S.C. chapter 65 </p>
+++++++++++++++++++++++++++++++++++++++++ 41
+
+################################################################################
+<p class="p Ctr">Contracts for Materials, Supplies, Articles, and Equipment Exceeding $10,000. </p>
+++++++++++++++++++++++++++++++++++++++++ Contracts
+
+################################################################################
+<p class="p">* Except sections 3302, 3501(b), 3509, 3906, 4710, and 4711. </p>
+++++++++++++++++++++++++++++++++++++++++ *
+
+################################################################################
+<p class="p">** Except sections 1704 and 2303. </p>
+++++++++++++++++++++++++++++++++++++++++ **
+
+################################################################################
+<p class="p">(a) Subject to the authorities discussed in 1.103, revisions to the FAR will be prepared and issued through the coordinated action of two councils, the Defense Acquisition Regulations Council (DAR Council) and the Civilian Agency Acquisition Council (CAA Council). Members of these councils shall- </p>
+(a)
+
+################################################################################
+<p class="p">(1) Represent their agencies on a full-time basis; </p>
+(1)
+
+################################################################################
+<p class="p">(2) Be selected for their superior qualifications in terms of acquisition experience and demonstrated professional expertise; and </p>
+(2)
+
+################################################################################
+<p class="p">(3) Be funded by their respective agencies. </p>
+(3)
+
+################################################################################
+<p class="p">(b) The chairperson of the CAA Council shall be the representative of the Administrator of General Services. The other members of this council shall be one each representative from the- </p>
+(b)
+
+################################################################################
+<p class="p">(1) Departments of Agriculture, Commerce, Education, Energy, Health and Human Services, Homeland Security, Housing and Urban Development, Interior, Justice, Labor, State, Transportation, Treasury, and Veterans Affairs; and </p>
+(1)
+
+################################################################################
+<p class="p">(2) Environmental Protection Agency, National Aeronautics and Space Administration, Social Security Administration, Small Business Administration, and U.S. Agency for International Development. </p>
+(2)
+
+################################################################################
+<p class="p">(c) The Director of the DAR Council shall be the representative of the Secretary of Defense. The operation of the DAR Council will be as prescribed by the Secretary of Defense. Membership shall include representatives of the military departments, the Defense Logistics Agency, and the Defense Contract Management Agency. </p>
+(c)
+
+################################################################################
+<p class="p">(d) Responsibility for processing revisions to the FAR is apportioned by the two councils so that each council has cognizance over specified parts or subparts. </p>
+(d)
+
+################################################################################
+<p class="p">(e) Each council shall be responsible for- </p>
+(e)
+
+################################################################################
+<p class="p">(1) Agreeing on all revisions with the other council; </p>
+(1)
+
+################################################################################
+<p class="p">(2) Submitting to the FAR Secretariat (see 1.201-2) the information required under paragraphs 1.501-2(b) and (e) for publication in the Federal Register of a notice soliciting comments on a proposed revision to the FAR; </p>
+(2)
+
+################################################################################
+<p class="p">(3) Considering all comments received in response to notice of proposed revisions; </p>
+(3)
+
+################################################################################
+<p class="p">(4) Arranging for public meetings; </p>
+(4)
+
+################################################################################
+<p class="p">(5) Preparing any final revision in the appropriate FAR format and language; and </p>
+(5)
+
+################################################################################
+<p class="p">(6) Submitting any final revision to the FAR Secretariat for publication in the Federal Register. </p>
+(6)
+
+################################################################################
+<p class="p">(a) The General Services Administration is responsible for establishing and operating the FAR Secretariat to publish and distribute the FAR through the Code of Federal Regulations system (including a separate online edition with periodic updates). </p>
+(a)
+
+################################################################################
+<p class="p">(b) Additionally, the FAR Secretariat shall provide the two councils with centralized services for- </p>
+(b)
+
+################################################################################
+<p class="p">(1) Keeping a synopsis of current FAR cases and their status; </p>
+(1)
+
+################################################################################
+<p class="p">(2) Maintaining official files; </p>
+(2)
+
+################################################################################
+<p class="p">(3) Assisting parties interested in reviewing the files on completed cases; and </p>
+(3)
+
+################################################################################
+<p class="p">(4) Performing miscellaneous administrative tasks pertaining to the maintenance of the FAR. </p>
+(4)
+
+################################################################################
+<p class="p">Agency compliance with the FAR (see 1.304) is the responsibility of the Secretary of Defense (for the military departments and defense agencies), the Administrator of General Services (for civilian agencies other than NASA), and the Administrator of NASA (for NASA activities). </p>
+++++++++++++++++++++++++++++++++++++++++ Agency
+
+################################################################################
+<p class="Runin RuninRestart">(a) </p>
+(a)
+
+################################################################################
+<p class="Runin">(1) Subject to the authorities in paragraph (c) of this section and other statutory authority, an agency head may issue or authorize the issuance of agency acquisition regulations that implement or supplement the FAR and incorporate, together with the FAR, agency policies, procedures, contract clauses, solicitation provisions, and forms that govern the contracting process or otherwise control the relationship between the agency, including any of its suborganizations, and contractors or prospective contractors. </p>
+(1)
+
+################################################################################
+<p class="p">(2) Subject to the authorities in paragraph (c) of this section and other statutory authority, an agency head may issue or authorize the issuance of internal agency guidance at any organizational level (e.g., designations and delegations of authority, assignments of responsibilities, work-flow procedures, and internal reporting requirements). </p>
+(2)
+
+################################################################################
+<p class="p">(b) Agency heads shall establish procedures to ensure that agency acquisition regulations are published for comment in the Federal Register in conformance with the procedures in subpart 1.5 and as required by 41 U.S.C. 1707, and other applicable statutes, when they have a significant effect beyond the internal operating procedures of the agency or have a significant cost or administrative impact on contractors or offerors. However, publication is not required for issuances that merely implement or supplement higher level issuances that have previously undergone the public comment process, unless such implementation or supplementation results in an additional significant cost or administrative impact on contractors or offerors or effect beyond the internal operating procedures of the issuing organization. Issuances under 1.301(a)(2) need not be publicized for public comment. </p>
+(b)
+
+################################################################################
+<p class="p">(c) When adopting acquisition regulations, agencies shall ensure that they comply with the Paperwork Reduction Act (44 U.S.C.3501, et seq.) as implemented in 5 CFR1320 (see 1.106) and the Regulatory Flexibility Act (5 U.S.C.601, et seq.). Normally, when a law requires publication of a proposed regulation, the Regulatory Flexibility Act applies and agencies must prepare written analyses, or certifications as provided in the law. </p>
+(c)
+
+################################################################################
+<p class="p">(d) Agency acquisition regulations implementing or supplementing the FAR are, for- </p>
+(d)
+
+################################################################################
+<p class="p">(1) The military departments and defense agencies, issued subject to the authority of the Secretary of Defense; </p>
+(1)
+
+################################################################################
+<p class="p">(2) NASA activities, issued subject to the authorities of the Administrator of NASA; and </p>
+(2)
+
+################################################################################
+<p class="p">(3) The civilian agencies other than NASA, issued by the heads of those agencies subject to the overall authority of the Administrator of General Services or independent authority the agency may have. </p>
+(3)
+
+################################################################################
+<p class="p">Agency acquisition regulations shall be limited to- </p>
+++++++++++++++++++++++++++++++++++++++++ Agency
+
+################################################################################
+<p class="p">(a) Those necessary to implement FAR policies and procedures within the agency; and </p>
+(a)
+
+################################################################################
+<p class="p">(b) Additional policies, procedures, solicitation provisions, or contract clauses that supplement the FAR to satisfy the specific needs of the agency. </p>
+(b)
+
+################################################################################
+<p class="p">(a) Agency-wide acquisition regulations shall be published in the Federal Register as required by law, shall be codified under an assigned chapter in Title 48, Code of Federal Regulations, and shall parallel the FAR in format, arrangement, and numbering system (but see 1.105-1(c)). Coverage in an agency acquisition regulation that implements a specific part, subpart, section, or subsection of the FAR shall be numbered and titled to correspond to the appropriate FAR number and title. Supplementary material for which there is no counterpart in the FAR shall be codified using chapter, part, subpart, section, or subsection numbers of 70 and up (e.g., for the Department of Interior, whose assigned chapter number in Title 48 is 14, Part 1470, Subpart 1401.70, section 1401.370, or subsection 1401.301-70). </p>
+(a)
+
+################################################################################
+<p class="p">(b) Issuances under 1.301(a)(2) need not be published in the Federal Register. </p>
+(b)
+
+################################################################################
+<p class="p">(a) Under the authorities of 1.301(d), agencies shall control and limit issuance of agency acquisition regulations and, in particular, local agency directives that restrain the flexibilities found in the FAR, and shall establish formal procedures for the review of these documents to assure compliance with this part 1. </p>
+(a)
+
+################################################################################
+<p class="p">(b) Agency acquisition regulations shall not- </p>
+(b)
+
+################################################################################
+<p class="p">(1) Unnecessarily repeat, paraphrase, or otherwise restate material contained in the FAR or higher-level agency acquisition regulations; or </p>
+(1)
+
+################################################################################
+<p class="p">(2) Except as required by law or as provided in subpart 1.4, conflict or be inconsistent with FAR content. </p>
+(2)
+
+################################################################################
+<p class="p">(c) Agencies shall evaluate all regulatory coverage in agency acquisition regulations to determine if it could apply to other agencies. Coverage that is not peculiar to one agency shall be recommended for inclusion in the FAR. </p>
+(c)
+
+################################################################################
+<p class="p">This subpart prescribes the policies and procedures for authorizing deviations from the FAR. Exceptions pertaining to the use of forms prescribed by the FAR are covered in part 53 rather than in this subpart. </p>
+++++++++++++++++++++++++++++++++++++++++ This
+
+################################################################################
+<p class="p">Deviation means any one or combination of the following: </p>
+++++++++++++++++++++++++++++++++++++++++ Deviation
+
+################################################################################
+<p class="p">(a) The issuance or use of a policy, procedure, solicitation provision (see definition in 2.101), contract clause (see definition in 2.101), method, or practice of conducting acquisition actions of any kind at any stage of the acquisition process that is inconsistent with the FAR. </p>
+(a)
+
+################################################################################
+<p class="p">(b) The omission of any solicitation provision or contract clause when its prescription requires its use. </p>
+(b)
+
+################################################################################
+<p class="p">(c) The use of any solicitation provision or contract clause with modified or alternate language that is not authorized by the FAR (see definition of "modification" in 52.101(a) and definition of "alternate" in 2.101(a)). </p>
+(c)
+
+################################################################################
+<p class="p">(d) The use of a solicitation provision or contract clause prescribed by the FAR on a "substantially as follows" or "substantially the same as" basis (see definitions in 2.101 and 52.101(a)), if such use is inconsistent with the intent, principle, or substance of the prescription or related coverage on the subject matter in the FAR. </p>
+(d)
+
+################################################################################
+<p class="p">(e) The authorization of lesser or greater limitations on the use of any solicitation provision, contract clause, policy, or procedure prescribed by the FAR. </p>
+(e)
+
+################################################################################
+<p class="p">(f) The issuance of policies or procedures that govern the contracting process or otherwise control contracting relationships that are not incorporated into agency acquisition regulations in accordance with 1.301(a). </p>
+(f)
+
+################################################################################
+<p class="p">Unless precluded by law, executive order, or regulation, deviations from the FAR may be granted as specified in this subpart when necessary to meet the specific needs and requirements of each agency. The development and testing of new techniques and methods of acquisition should not be stifled simply because such action would require a FAR deviation. The fact that deviation authority is required should not, of itself, deter agencies in their development and testing of new techniques and acquisition methods. Refer to 31.101 for instructions concerning deviations pertaining to the subject matter of part 31, Contract Cost Principles and Procedures. Deviations are not authorized with respect to 30.201-3 and 30.201-4, or the requirements of the Cost Accounting Standards Board (CASB) rules and regulations (48 CFR chapter 99). Refer to 30.201-5 for instructions concerning waivers pertaining to Cost Accounting Standards. </p>
+++++++++++++++++++++++++++++++++++++++++ Unless
+
+################################################################################
+<p class="p">Individual deviations affect only one contract action, and, unless 1.405(e) is applicable, may be authorized by the agency head. The contracting officer must document the justification and agency approval in the contract file. </p>
+++++++++++++++++++++++++++++++++++++++++ Individual
+
+################################################################################
+<p class="p">Class deviations affect more than one contract action. When an agency knows that it will require a class deviation on a permanent basis, it should propose a FAR revision, if appropriate. Civilian agencies, other than NASA, must furnish a copy of each approved class deviation to the FAR Secretariat. </p>
+++++++++++++++++++++++++++++++++++++++++ Class
+
+################################################################################
+<p class="p">(a) For civilian agencies except NASA, class deviations may be authorized by agency heads or their designees, unless 1.405(e) is applicable. Delegation of this authority shall not be made below the head of a contracting activity. Authorization of class deviations by agency officials is subject to the following limitations: </p>
+(a)
+
+################################################################################
+<p class="p">(1) An agency official who may authorize a class deviation, before doing so, shall consult with the chairperson of the Civilian Agency Acquisition Council (CAA Council), unless that agency official determines that urgency precludes such consultation. </p>
+(1)
+
+################################################################################
+<p class="p">(2) Recommended revisions to the FAR shall be transmitted to the FAR Secretariat by agency heads or their designees for authorizing class deviations. </p>
+(2)
+
+################################################################################
+<p class="p">(b) For DoD, class deviations shall be controlled, processed, and approved in accordance with the Defense FAR Supplement. </p>
+(b)
+
+################################################################################
+<p class="p">(c) For NASA, class deviations shall be controlled and approved by the Assistant Administrator for Procurement. Deviations shall be processed in accordance with agency regulations. </p>
+(c)
+
+################################################################################
+<p class="p">(a) "Executive agreements," as used in this section, means Government-to-Government agreements, including agreements with international organizations, to which the United States is a party. </p>
+(a)
+
+################################################################################
+<p class="p">(b) Any deviation from the FAR required to comply with a treaty to which the United States is a party is authorized, unless the deviation would be inconsistent with FAR coverage based on a law enacted after the execution of the treaty. </p>
+(b)
+
+################################################################################
+<p class="p">(c) Any deviation from the FAR required to comply with an executive agreement is authorized unless the deviation would be inconsistent with FAR coverage based on law. </p>
+(c)
+
+################################################################################
+<p class="p">(d) For civilian agencies other than NASA, a copy of the text deviation authorized under paragraph (b) or (c) of this section shall be transmitted to the FAR Secretariat through a central agency control point. </p>
+(d)
+
+################################################################################
+<p class="p">(e) For civilian agencies other than NASA, if a deviation required to comply with a treaty or an executive agreement is not authorized by paragraph (b) or (c) of this section, then the request for deviation shall be processed through the FAR Secretariat to the Civilian Agency Acquisition Council. </p>
+(e)
+
+################################################################################
+<p class="p">Significant revisions, as used in this subpart, means revisions that alter the substantive meaning of any coverage in the FAR System and which have a significant cost or administrative impact on contractors or offerors, or significant effect beyond the internal operating procedures of the issuing agency. This expression, for example, does not include editorial, stylistic, or other revisions that have no impact on the basic meaning of the coverage being revised. </p>
+++++++++++++++++++++++++++++++++++++++++ Significant
+
+################################################################################
+<p class="p">(a) Views of agencies and nongovernmental parties or organizations will be considered in formulating acquisition policies and procedures. </p>
+(a)
+
+################################################################################
+<p class="p">(b) The opportunity to submit written comments on proposed significant revisions shall be provided by placing a notice in the Federal Register. Each of these notices shall include- </p>
+(b)
+
+################################################################################
+<p class="p">(1) The text of the revision or, if it is impracticable to publish the full text, a summary of the proposal; </p>
+(1)
+
+################################################################################
+<p class="p">(2) The address and telephone number of the individual from whom copies of the revision, in full text, can be requested and to whom comments thereon should be addressed; and </p>
+(2)
+
+################################################################################
+<p class="p">(3) When 1.501-3(b) is applicable, a statement that the revision is effective on a temporary basis pending completion of the public comment period. </p>
+(3)
+
+################################################################################
+<p class="p">(c) A minimum of 30 days and, normally, at least 60 days will be given for the receipt of comments. </p>
+(c)
+
+################################################################################
+<p class="p">(a) Comments need not be solicited when the proposed coverage does not constitute a significant revision. </p>
+(a)
+
+################################################################################
+<p class="p">(b) Advance comments need not be solicited when urgent and compelling circumstances make solicitation of comments impracticable prior to the effective date of the coverage, such as when a new statute must be implemented in a relatively short period of time. In such case, the coverage shall be issued on a temporary basis and shall provide for at least a 30 day public comment period. </p>
+(b)
+
+################################################################################
+<p class="p">Consideration shall also be given to unsolicited recommendations for revisions that have been submitted in writing with sufficient data and rationale to permit their evaluation. </p>
+++++++++++++++++++++++++++++++++++++++++ Consideration
+
+################################################################################
+<p class="p">Public meetings may be appropriate when a decision to adopt, amend, or delete FAR coverage is likely to benefit from significant additional views and discussion. </p>
+++++++++++++++++++++++++++++++++++++++++ Public
+
+################################################################################
+<p class="p">(a) Unless specifically prohibited by another provision of law, authority and responsibility to contract for authorized supplies and services are vested in the agency head. The agency head may establish contracting activities and delegate broad authority to manage the agency’s contracting functions to heads of such contracting activities. Contracts may be entered into and signed on behalf of the Government only by contracting officers. In some agencies, a relatively small number of high level officials are designated contracting officers solely by virtue of their positions. Contracting officers below the level of a head of a contracting activity shall be selected and appointed under 1.603. </p>
+(a)
+
+################################################################################
+<p class="p">(b) Agency heads may mutually agree to- </p>
+(b)
+
+################################################################################
+<p class="p">(1) Assign contracting functions and responsibilities from one agency to another; and </p>
+(1)
+
+################################################################################
+<p class="p">(2) Create joint or combined offices to exercise acquisition functions and responsibilities. </p>
+(2)
+
+################################################################################
+<p class="p">(a) Contracting officers have authority to enter into, administer, or terminate contracts and make related determinations and findings. Contracting officers may bind the Government only to the extent of the authority delegated to them. Contracting officers shall receive from the appointing authority (see 1.603-1) clear instructions in writing regarding the limits of their authority. Information on the limits of the contracting officers’ authority shall be readily available to the public and agency personnel. </p>
+(a)
+
+################################################################################
+<p class="p">(b) No contract shall be entered into unless the contracting officer ensures that all requirements of law, executive orders, regulations, and all other applicable procedures, including clearances and approvals, have been met. </p>
+(b)
+
+################################################################################
+<p class="p">Contracting officers are responsible for ensuring performance of all necessary actions for effective contracting, ensuring compliance with the terms of the contract, and safeguarding the interests of the United States in its contractual relationships. In order to perform these responsibilities, contracting officers should be allowed wide latitude to exercise business judgment. Contracting officers shall- </p>
+++++++++++++++++++++++++++++++++++++++++ Contracting
+
+################################################################################
+<p class="p">(a) Ensure that the requirements of 1.602-1(b) have been met, and that sufficient funds are available for obligation; </p>
+(a)
+
+################################################################################
+<p class="p">(b) Ensure that contractors receive impartial, fair, and equitable treatment; </p>
+(b)
+
+################################################################################
+<p class="p">(c) Request and consider the advice of specialists in audit, law, engineering, information security, transportation, and other fields, as appropriate; and </p>
+(c)
+
+################################################################################
+<p class="p">(d) Designate and authorize, in writing and in accordance with agency procedures, a contracting officer’s representative (COR) on all contracts and orders other than those that are firm-fixed price, and for firm-fixed-price contracts and orders as appropriate, unless the contracting officer retains and executes the COR duties. See 7.104(e). COR- </p>
+(d)
+
+################################################################################
+<p class="p">(1) Shall be a Government employee, unless otherwise authorized in agency regulations; </p>
+(1)
+
+################################################################################
+<p class="p">(2) Shall be certified and maintain certification in accordance with the current Office of Management and Budget memorandum on the Federal Acquisition Certification for Contracting Officer Representatives (FAC-COR) guidance, or for DoD, in accordance with the current applicable DoD policy guidance; </p>
+(2)
+
+################################################################################
+<p class="p">(3) Shall be qualified by training and experience commensurate with the responsibilities to be delegated in accordance with agency procedures; </p>
+(3)
+
+################################################################################
+<p class="p">(4) May not be delegated responsibility to perform functions that have been delegated under 42.202 to a contract administration office, but may be assigned some duties at 42.302 by the contracting officer; </p>
+(4)
+
+################################################################################
+<p class="p">(5) Has no authority to make any commitments or changes that affect price, quality, quantity, delivery, or other terms and conditions of the contract nor in any way direct the contractor or its subcontractors to operate in conflict with the contract terms and conditions; </p>
+(5)
+
+################################################################################
+<p class="p">(6) Shall be nominated either by the requiring activity or in accordance with agency procedures; and </p>
+(6)
+
+################################################################################
+<p class="p">(7) Shall be designated in writing, with copies furnished to the contractor and the contract administration office- </p>
+(7)
+
+################################################################################
+<p class="p">(i) Specifying the extent of the COR’s authority to act on behalf of the contracting officer; </p>
+(i)
+
+################################################################################
+<p class="p">(ii) Identifying the limitations on the COR’s authority; </p>
+(ii)
+
+################################################################################
+<p class="p">(iii) Specifying the period covered by the designation; </p>
+(iii)
+
+################################################################################
+<p class="p">(iv) Stating the authority is not redelegable; and </p>
+(iv)
+
+################################################################################
+<p class="p">(v) Stating that the COR may be personally liable for unauthorized acts. </p>
+(v)
+
+################################################################################
+<p class="p">(a) Definitions. </p>
+(a)
+
+################################################################################
+<p class="p">Ratification, as used in this subsection, means the act of approving an unauthorized commitment by an official who has the authority to do so. </p>
+++++++++++++++++++++++++++++++++++++++++ Ratification,
+
+################################################################################
+<p class="p">Unauthorized commitment, as used in this subsection, means an agreement that is not binding solely because the Government representative who made it lacked the authority to enter into that agreement on behalf of the Government. </p>
+++++++++++++++++++++++++++++++++++++++++ Unauthorized
+
+################################################################################
+<p class="Runin RuninRestart">(b) Policy. </p>
+(b)
+
+################################################################################
+<p class="Runin">(1) Agencies should take positive action to preclude, to the maximum extent possible, the need for ratification actions. Although procedures are provided in this section for use in those cases where the ratification of an unauthorized commitment is necessary, these procedures may not be used in a manner that encourages such commitments being made by Government personnel. </p>
+(1)
+
+################################################################################
+<p class="p">(2) Subject to the limitations in paragraph (c) of this subsection, the head of the contracting activity, unless a higher level official is designated by the agency, may ratify an unauthorized commitment. </p>
+(2)
+
+################################################################################
+<p class="p">(3) The ratification authority in paragraph (b)(2) of this subsection may be delegated in accordance with agency procedures, but in no case shall the authority be delegated below the level of chief of the contracting office. </p>
+(3)
+
+################################################################################
+<p class="p">(4) Agencies should process unauthorized commitments using the ratification authority of this subsection instead of referring such actions to the Government Accountability Office for resolution. (See 1.602-3(d).) </p>
+(4)
+
+################################################################################
+<p class="p">(5) Unauthorized commitments that would involve claims subject to resolution under 41 U.S.C. chapter 71, Contract Disputes, should be processed in accordance with subpart 33.2, Disputes and Appeals. </p>
+(5)
+
+################################################################################
+<p class="p">(c) Limitations. The authority in paragraph (b)(2) of this subsection may be exercised only when- </p>
+(c)
+
+################################################################################
+<p class="p">(1) Supplies or services have been provided to and accepted by the Government, or the Government otherwise has obtained or will obtain a benefit resulting from performance of the unauthorized commitment; </p>
+(1)
+
+################################################################################
+<p class="p">(2) The ratifying official has the authority to enter into a contractual commitment; </p>
+(2)
+
+################################################################################
+<p class="p">(3) The resulting contract would otherwise have been proper if made by an appropriate contracting officer; </p>
+(3)
+
+################################################################################
+<p class="p">(4) The contracting officer reviewing the unauthorized commitment determines the price to be fair and reasonable; </p>
+(4)
+
+################################################################################
+<p class="p">(5) The contracting officer recommends payment and legal counsel concurs in the recommendation, unless agency procedures expressly do not require such concurrence; </p>
+(5)
+
+################################################################################
+<p class="p">(6) Funds are available and were available at the time the unauthorized commitment was made; and </p>
+(6)
+
+################################################################################
+<p class="p">(7) The ratification is in accordance with any other limitations prescribed under agency procedures. </p>
+(7)
+
+################################################################################
+<p class="p">(d) Nonratifiable commitments. Cases that are not ratifiable under this subsection may be subject to resolution as recommended by the Government Accountability Office under its claim procedure (GAO Policy and Procedures Manual for Guidance of Federal Agencies, Title 4, Chapter 2), or as authorized by FAR subpart 50.1. Legal advice should be obtained in these cases. </p>
+(d)
+
+################################################################################
+<p class="p">41 U.S.C. 1702(b)(3)(G) requires agency heads to establish and maintain a procurement career management program and a system for the selection, appointment, and termination of appointment of contracting officers. Agency heads or their designees may select and appoint contracting officers and terminate their appointments. These selections and appointments shall be consistent with Office of Federal Procurement Policy’s (OFPP) standards for skill-based training in performing contracting and purchasing duties as published in OFPP Policy Letter No. 05-01, Developing and Managing the Acquisition Workforce, April 15, 2005. </p>
+++++++++++++++++++++++++++++++++++++++++ 41
+
+################################################################################
+<p class="p">In selecting contracting officers, the appointing official shall consider the complexity and dollar value of the acquisitions to be assigned and the candidate’s experience, training, education, business acumen, judgment, character, and reputation. Examples of selection criteria include- </p>
+++++++++++++++++++++++++++++++++++++++++ In
+
+################################################################################
+<p class="p">(a) Experience in Government contracting and administration, commercial purchasing, or related fields; </p>
+(a)
+
+################################################################################
+<p class="p">(b) Education or special training in business administration, law, accounting, engineering, or related fields; </p>
+(b)
+
+################################################################################
+<p class="p">(c) Knowledge of acquisition policies and procedures, including this and other applicable regulations; </p>
+(c)
+
+################################################################################
+<p class="p">(d) Specialized knowledge in the particular assigned field of contracting; and </p>
+(d)
+
+################################################################################
+<p class="p">(e) Satisfactory completion of acquisition training courses. </p>
+(e)
+
+################################################################################
+<p class="p">(a) Contracting officers shall be appointed in writing on an SF 1402, Certificate of Appointment, which shall state any limitations on the scope of authority to be exercised, other than limitations contained in applicable law or regulation. Appointing officials shall maintain files containing copies of all appointments that have not been terminated. </p>
+(a)
+
+################################################################################
+<p class="p">(b) Agency heads are encouraged to delegate micro-purchase authority to individuals who are employees of an executive agency or members of the Armed Forces of the United States who will be using the supplies or services being purchased. Individuals delegated this authority are not required to be appointed on an SF 1402, but shall be appointed in writing in accordance with agency procedures. </p>
+(b)
+
+################################################################################
+<p class="p">Termination of a contracting officer appointment will be by letter, unless the Certificate of Appointment contains other provisions for automatic termination. Terminations may be for reasons such as reassignment, termination of employment, or unsatisfactory performance. No termination shall operate retroactively. </p>
+++++++++++++++++++++++++++++++++++++++++ Termination
+
+################################################################################
+<p class="p">A contracting officer’s representative (COR) assists in the technical monitoring or administration of a contract (see 1.602-2(d)). The COR shall maintain a file for each assigned contract. The file must include, at a minimum– </p>
+++++++++++++++++++++++++++++++++++++++++ A
+
+################################################################################
+<p class="p">(a) A copy of the contracting officer’s letter of designation and other documents describing the COR’s duties and responsibilities; </p>
+(a)
+
+################################################################################
+<p class="p">(b) A copy of the contract administration functions delegated to a contract administration office which may not be delegated to the COR (see 1.602-2(d)(4)); and </p>
+(b)
+
+################################################################################
+<p class="p">(c) Documentation of COR actions taken in accordance with the delegation of authority. </p>
+(c)
+
+################################################################################
+<p class="p">This subpart prescribes general policies and procedures for the use of determinations and findings (D&amp;F’s). Requirements for specific types of D&amp;F’s can be found with the appropriate subject matter. </p>
+++++++++++++++++++++++++++++++++++++++++ This
+
+################################################################################
+<p class="p">Determination and Findings means a special form of written approval by an authorized official that is required by statute or regulation as a prerequisite to taking certain contract actions. The "determination" is a conclusion or decision supported by the "findings.’’ The findings are statements of fact or rationale essential to support the determination and must cover each requirement of the statute or regulation. </p>
+++++++++++++++++++++++++++++++++++++++++ Determination
+
+################################################################################
+<p class="p">(a) A D&amp;F shall ordinarily be for an individual contract action. Unless otherwise prohibited, class D&amp;F’s may be executed for classes of contract actions (see 1.703). The approval granted by a D&amp;F is restricted to the proposed contract action(s) reasonably described in that D&amp;F. D&amp;F’s may provide for a reasonable degree of flexibility. Furthermore, in their application, reasonable variations in estimated quantities or prices are permitted, unless the D&amp;F specifies otherwise. </p>
+(a)
+
+################################################################################
+<p class="p">(b) When an option is anticipated, the D&amp;F shall state the approximate quantity to be awarded initially and the extent of the increase to be permitted by the option. </p>
+(b)
+
+################################################################################
+<p class="p">(a) A class D&amp;F provides authority for a class of contract actions. A class may consist of contract actions for the same or related supplies or services or other contract actions that require essentially identical justification. </p>
+(a)
+
+################################################################################
+<p class="p">(b) The findings in a class D&amp;F shall fully support the proposed action either for the class as a whole or for each action. A class D&amp;F shall be for a specified period, with the expiration date stated in the document. </p>
+(b)
+
+################################################################################
+<p class="p">(c) The contracting officer shall ensure that individual actions taken pursuant to the authority of a class D&amp;F are within the scope of the D&amp;F. </p>
+(c)
+
+################################################################################
+<p class="p">Each D&amp;F shall set forth enough facts and circumstances to clearly and convincingly justify the specific determination made. As a minimum, each D&amp;F shall include, in the prescribed agency format, the following information: </p>
+++++++++++++++++++++++++++++++++++++++++ Each
+
+################################################################################
+<p class="p">(a) Identification of the agency and of the contracting activity and specific identification of the document as a "Determination and Findings." </p>
+(a)
+
+################################################################################
+<p class="p">(b) Nature and/or description of the action being approved. </p>
+(b)
+
+################################################################################
+<p class="p">(c) Citation of the appropriate statute and/or regulation upon which the D&amp;F is based. </p>
+(c)
+
+################################################################################
+<p class="p">(d) Findings that detail the particular circumstances, facts, or reasoning essential to support the determination. Necessary supporting documentation shall be obtained from appropriate requirements and technical personnel. </p>
+(d)
+
+################################################################################
+<p class="p">(e) A determination, based on the findings, that the proposed action is justified under the applicable statute or regulation. </p>
+(e)
+
+################################################################################
+<p class="p">(f) Expiration date of the D&amp;F, if required (see 1.706). </p>
+(f)
+
+################################################################################
+<p class="p">(g) The signature of the official authorized to sign the D&amp;F (see 1.707) and the date signed. </p>
+(g)
+
+################################################################################
+<p class="p">(a) If a D&amp;F is superseded by another D&amp;F, that action shall not render invalid any action taken under the original D&amp;F prior to the date of its supersession. </p>
+(a)
+
+################################################################################
+<p class="p">(b) The contracting officer need not cancel the solicitation if the D&amp;F, as modified, supports the contract action. </p>
+(b)
+
+################################################################################
+<p class="p">Expiration dates are required for class D&amp;F’s and are optional for individual D&amp;F’s. Authority to act under an individual D&amp;F expires when it is exercised or on an expiration date specified in the document, whichever occurs first. Authority to act under a class D&amp;F expires on the expiration date specified in the document. When a solicitation has been furnished to prospective offerors before the expiration date, the authority under the D&amp;F will continue until award of the contract(s) resulting from the solicitation. </p>
+++++++++++++++++++++++++++++++++++++++++ Expiration
+
+################################################################################
+<p class="p">When a D&amp;F is required, it shall be signed by the appropriate official in accordance with agency regulations. Authority to sign or delegate signature authority for the various D&amp;F’s is as shown in the applicable FAR part. </p>
+++++++++++++++++++++++++++++++++++++++++ When
+['Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'a', 'b', '1', 'i', 'i', 'i', '2', '3', '4', 'c', 'd', 'a', 'b', 'a', '1', '2', '3', '4', '5', '6', '7', 'b', '1', '2', 'c', '1', '2', '3', 'd', 'Skipping', 'a', 'b', 'c', 'd', 'e', 'a', 'b', 'Skipping', 'a', '1', '2', '3', 'b', 'c', 'a', 'b', '1', '2', 'a', 'c', '1', '2', '3', 'i', 'i', 'i', 'i', 'v', '4', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'a', 'b', 'Skipping', 'a', 'b', 'c', 'd', '1', '2', '3', 'e', 'f', 'a', 'b', 'c', '1', '2', '3', 'd', 'e', 'a', 'b', 'c', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'Skipping', 'a', '1', '2', '3', 'b', '1', '2', 'c', 'd', 'e', '1', '2', '3', '4', '5', '6', 'a', 'b', '1', '2', '3', '4', 'Skipping', 'a', '1', '2', 'b', 'c', 'd', '1', '2', '3', 'Skipping', 'a', 'b', 'a', 'b', 'a', 'b', '1', '2', 'c', 'Skipping', 'Skipping', 'a', 'b', 'c', 'd', 'e', 'f', 'Skipping', 'Skipping', 'Skipping', 'a', '1', '2', 'b', 'c', 'a', 'b', 'c', 'd', 'e', 'Skipping', 'a', 'b', '1', '2', '3', 'c', 'a', 'b', 'Skipping', 'Skipping', 'a', 'b', '1', '2', 'a', 'b', 'Skipping', 'a', 'b', 'c', 'd', '1', '2', '3', '4', '5', '6', '7', 'i', 'i', 'i', 'i', 'v', 'a', 'Skipping', 'Skipping', 'b', '1', '2', '3', '4', '5', 'c', '1', '2', '3', '4', '5', '6', '7', 'd', 'Skipping', 'Skipping', 'a', 'b', 'c', 'd', 'e', 'a', 'b', 'Skipping', 'Skipping', 'a', 'b', 'c', 'Skipping', 'Skipping', 'a', 'b', 'a', 'b', 'c', 'Skipping', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a', 'b', 'Skipping', 'Skipping']

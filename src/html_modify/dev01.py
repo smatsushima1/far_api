@@ -1,293 +1,435 @@
 
-import os
-from os import path
-import json
-from bs4 import BeautifulSoup as bsp
-import urllib as ul
-import re
+from functions import *
 
 
-# html = open('html/css_search.html', 'r').read()
-# # Turn it into html and parse out the content
-# soup = bsp(html, 'html.parser')
-# htext = soup.find_all('style')
-# list1 = []
-# for i in htext:
-#     for j in i:
-#         list1.append(j)
-# list2 = []
-# for k in list1:
-#     res = k.split('\n')
-#     for l in res:
-#         if l == '':
-#             continue
-#         else:
-#             list2.append(l)
-# print(list2)
+# Extracts headers in a separate table
+# Runtime: 100.789 seconds
+def extract_headers(go_ind):
+    if go_ind == 1:
+        return
+    start_time = start_function('extract_headers')
+    # Connect to database
+    db = dbi()
+    conn = db[0]
+    cur = db[1]
+    tname = 'dev_all_parts_headers'
+    tname_orig = 'dev_all_parts2'
+    # Create new table from original instead of creating it from scratch
+    qry = '''drop table if exists %s;
+             create table %s as
+             select * from %s limit 1;
+             truncate table %s;
+             alter table %s drop column %s;
+             '''
+    cur.execute(qry,
+                (AsIs(tname),
+                 AsIs(tname),
+                 AsIs(tname_orig),
+                 AsIs(tname),
+                 AsIs(tname),
+                 AsIs('id_num')
+                ))
+    # Run for the real results
+    cur.execute('select * from %s order by %s;',
+                (AsIs(tname_orig),
+                AsIs('id_num')
+                ))
+    results = cur.fetchall()
+    lfile = init_write_file('log/log_add_headers.txt')    
+    with open(lfile, 'w', encoding = 'utf8') as lf:
+        for i in results:
+            idnum = str(i[12])
+            print('%s - %s - %s' % (idnum, i[0], i[5]), end = '', file = lf)
+            # Start extracting headers
+            extract_h1(conn, tname, i, lf)
+            extract_h2(conn, tname, i, lf)
+            #lf.write(pstr)
+    # Finish
+    conn.commit()
+    cur.close()
+    end_function(start_time)
 
-# str1 = 'a'
-# while True:
-#     str1.isalpha()
-#     try:
-#         print(True)
-#         break
-#     except:
-#         print(False)
-#         break
+
+# For parts
+def extract_h1(connection, table_name, record, file_name):
+    soup = bsp(record[9], 'html.parser')
+    headers = soup.find_all('h1')
+    if len(headers) == 0:
+        print(' - No', end = '', file = file_name)
+        return
+    # Insert into table, only changing the html and type
+    lst = [record[0],
+           # subpart
+           record[1],
+           # section
+           record[2],
+           # subsection
+           record[3],
+           # paragraph
+           record[4],
+           # reg
+           record[5],
+           # htype
+           'header',
+           # fac
+           record[7],
+           # hlink
+           record[8],
+           # htext
+           str(headers[0]),
+           # order_num
+           record[10],
+           # import_date
+           datetime.datetime.now()
+           ]
+    insert_values(connection, table_name, tuple(lst))
+    print(' - +', end = '', file = file_name)
     
-#print(htext)
 
-# htext = soup.find('div', class_ = 'reg-container clearfix')
-# res = htext.find_all('a')
+# For subparts
+def extract_h2(connection, table_name, record, file_name):
+    soup = bsp(record[9], 'html.parser')
+    headers = soup.find_all('h2')
+    if len(headers) == 0:
+        print(' - No', file = file_name)
+        return
+    for i in headers:
+        header = i.get_text().strip()
+        hsplit = header.split()
+        hstr = ''
+        # For most other subparts
+        try:
+            header[0].isalpha()
+            spart = hsplit[1].split('.')[1]
+            typ = 'header'
+        # For scope
+        except:
+            spart = 0
+            if 'scope' in header:
+                typ = 'scope'
+            elif 'definitions' in header:
+                typ = 'definitions'
+            else:
+                typ = 'other'
+        # Insert values
+        lst = [record[0],
+               # subpart
+               str(spart),
+               # section
+               record[2],
+               # subsection
+               record[3],
+               # paragraph
+               record[4],
+               # reg
+               record[5],
+               # htype
+               typ,
+               # fac
+               record[7],
+               # hlink
+               record[8],
+               # htext
+               str(i),
+               # order_num
+               record[10],
+               # import_date
+               datetime.datetime.now()
+               ]
+        insert_values(connection, table_name, tuple(lst))
+    print(' - +', file = file_name)
 
-def return_d(citation, next_letter):
-    d = {
-        'citation': citation,
-        'next_letter': next_letter
-        # 'is_rnumeral': is_rom_numeral,
-        # 'prev_val_alpha': prev_is_alpha
-        }
-    print(d)
-    return d
+
+# Used for debugging paragraphs
+# Modify file_name and idnum as appropriate
+def mod_protocol0(idnum, file_name, file_save):
+    jname = init_write_file(file_name)
+    # Connect to database
+    db = db_init()
+    conn = db[0]
+    cur = db[1]
+    tname = 'dev_all_parts05'
+    qry_str1 = 'select * from {table1} where {field1} = %s;'
+    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname),
+                                    field1 = sql.Identifier('id_num')
+                                    )
+    values1 = (idnum, )
+    res = qry_execute(conn, qry1, values1, True)
+    reg = res[0][1]
+    part = res[0][2]    
+    url = res[0][9]
+    soup = bsp(url, 'html.parser')
+    db_close(conn, cur)
+    # Save to file only if specified
+    if file_save:
+        with open(jname, 'w', encoding = 'utf8') as jf:
+            jf.write(soup.prettify())
+            jf.close()
+    lfile = init_write_file('log/log_protocol0.txt')    
+    with open(lfile, 'w', encoding = 'utf8') as lf:
+        # Remove all span classes and autonumbers
+        for i in soup.find_all('span'):
+            i.unwrap()
+        # Emphasis classes are not required
+        for i in soup.find_all('em'):
+            i.unwrap()       
+        # List all headers
+        for i in soup.find_all(re.compile('^h[1-6]$')):
+            # Remove all id's
+            del i['class']
+            hstr = i.get_text().strip()
+            orig_id = i['id']
+            new_id = header_ids(reg, part, hstr, False)       
+        # Remove all links to the FAR - they won't work anyway in the app
+        for i in soup.find_all('a'):
+            if not i['href'].startswith('http'):
+                i.unwrap() 
+        # Start looping through paragraphs
+        lst = []
+        for i in soup.find_all('p'):
+            if i.find('article') or len(i.get_text()) <= 1:
+                i.unwrap()
+                continue
+            del i['id']
+            print('\n' + ('#' * 80), file = lf)
+            txt = i.get_text().strip()
+            tspl = txt.split()
+            jstr2 = ''
+            for j in tspl:
+                jstr2 += j + ' '
+            i.string = jstr2
+            print(i, file = lf)
+            para_cit = i.string.split()[0]
+            if para_cit[0] == '(':
+                lst.append(para_cit[1])
+                print(para_cit, file = lf)
+            else:
+                lst.append('Skipping')
+                print('%s %s' % ('+' * 40, para_cit), file = lf)
+        print(lst, file = lf)
+        
+        # for x, j in enumerate(i):
+        #     # Make all the text look pretty
+        #     hstr1 = j.get_text().strip()
+        #     hsplit = hstr1.split()
+        #     hstr2 = ''
+        #     for k in hsplit:
+        #         hstr2 += k + ' '
+        #     print(hstr2 + '\n')
+        #     if x == 4:
+        #         break
+# 1 for debug, 0 for extract_headers
 
 
-
-
-from functions import paragraph_attributes
-num1 = ['a', 'b', '1', '2', 'i', 'ii', 'iii', 'c', '1', '2', 'i', 'ii', 'iii', \
-        '3', 'd', 'e', '1', 'i', 'ii', 'iii', '2', 'f', 'g', 'h', '1', 'i', \
-        '2', 'i', 'i', 'j', 'k', 'l'
-       ]
-# FAR 52.209-5
-num2 = ['a', 'i', 'A', 'B', 'C', 'D', '1', 'i', 'ii', '2', 'i', 'ii', 'iii', \
-        'iv', 'ii', '2', 'b', 'c', 'd', 'e'
-       ]
+def header_ids(reg, part, text, toc_ind):
+    hspl = text.split()
+    hs0 = hspl[0]
+    hs1 = hspl[1]
+    # Parts
+    if hs0.lower() == 'part':
+        id_str = '%s_%s_%s_%s_%s_%s' % (reg, part, 0, 0, 0, 'header')
+    # Subparts
+    elif hs0.lower() == 'subpart':
+        hspl2 = hs1.split('.')
+        id_str = '%s_%s_%s_%s_%s_%s' % (reg, part, hspl2[1], 0, 0, 'header')
+    # Sections
+    elif hs0.find('-') == -1:
+        hspl2 = hs0.split('.')
+        hsp1 = hspl2[1]
+        sp_s = header_link_section(hsp1)
+        id_str = '%s_%s_%s_%s_%s_%s' % (reg, part, sp_s[0], sp_s[1], 0, 'body')
+    # Subsections
+    elif hs0.find('-') != -1:
+        ss_spl = hs0.split('-')
+        hspl2 = ss_spl[0].split('.')
+        hsp1 = hspl2[1]
+        sp_s = header_link_section(hsp1)   
+        id_str = '%s_%s_%s_%s_%s_%s' % (reg, part, sp_s[0], sp_s[1], ss_spl[1], 'body')
+    # print('%s ##### %s' % (text, id_str))
+    if toc_ind:
+        return '#' + id_str
+    else:
+        return id_str
     
-cdev = paragraph_attributes(num2)
-final_list = []
-for x, i in enumerate(num2):
-    final_list.append(cdev.get_attributes(x))
-    # d[i] = cdev.get_attributes(x)
-# d_final = json.dumps(d, indent = 2)
-# print(d_final)
-
-for i in final_list:
-    idict = json.loads(i)
-    print('paragraph: ' + idict['para'])
-
-
-# print(final_list[0])
-
-# str1 = 'a'
-# str2 = 'A'
-# print(str2.isupper())
-
-# if not str1.isupper() and str2.isupper():
-#     print('yay')
-# else:
-#     print('nope')
-
-# # lnum = 5
-# # print(num[lnum:len(num)])
-# for ugh in range(len(num)):
-#     next_lett_alpha = False
-#     citation = num[ugh]
-#     if (ugh + 1) == len(num):
-#         next_letter = 'N/A'
-#         return_d(citation, next_letter)
-#         break
-#     # Dev testing if next leter is an alpha character
-#     for x, i in enumerate(num[(ugh + 1):len(num)]):
-#         # Last iteration of the loop assumes no alpha character
-#         # if (x + 1) == len(num):
-#         #     next_lett_alpha = False
-#         #     next_letter = 'N/A'
-#         #     continue
-#         # # Break the loop here so that it stop repeating
-#         # elif next_lett_alpha == True:
-#         #     break
-#         while True:
-#             # next_letter will only be saved if it runs true
-#             try:
-#                 i.isalpha()  
-#                 next_lett_alpha = True
-#                 next_letter = i
-#                 break
-#             except:
-#                 next_lett_alpha = False
-#                 next_letter = ''
-#                 break
-#         # print(str(x) + ' - ' + str(i) + ' - ' + str(next_letter) + ' - ' + str(next_lett_alpha))
-#         if next_lett_alpha == True:
-#             return_d(citation, next_letter)            
-#             break
-#         else:
-#             continue
-#         # Save data in a dictionary, and return it
-#         # d = {
-#         #     'citation': citation,
-#         #     'is_alpha': is_alpha,
-#         #     'is_rnumeral': is_rom_numeral,
-#         #     'prev_val_alpha': prev_is_alpha
-#         #     }
 
-
-
-
-
-# Dev testing if previous letter was an alpha character
-# prev_lalpha = False
-# for x, i in reversed(list(enumerate(num[:(lnum - 1)]))):
-#     # First iteration of the loop assumes no alpha character
-#     if x == 0:
-#         prev_lalpha = False
-#     # Break the loop here so that it stop repeating
-#     elif prev_lalpha == True:
-#         break
-#     while True:
-#         # pletter will only be saved if it runs true
-#         try:
-#             i.isalpha()  
-#             prev_lalpha = True
-#             pletter = i
-#             break
-#         except:
-#             prev_lalpha = False
-#             pletter = ''
-#             break
-#     print(str(x) + ' - ' + str(i) + ' - ' + str(pletter) + ' - ' + str(prev_lalpha))
-#     if prev_lalpha == True:
-#         break
-#     else:
-#         continue
-    
-# print(str(x) + ' - ' + str(i) + ' - ' + str(pletter) + str(prev_lalpha))
-
-
-# x = 'i'
-
-
-
-
-
-
-
-
-
-
-
-
-
-# for i in reversed(num[:2]):
-#     print(i)
-
-
-
-
-# for x, i in enumerate(reversed(num[:lnum])):
-# # for x, i in enumerate(num):
-#     val = ''
-#     if x == 0:
-#         val_isalpha = False
-#     elif val_isalpha == True:
-#         break
-#     while True:
-#         str(i).isalpha()
-#         try:
-#             val_isalpha = True
-#             print(i + ': this is a letter')
-#             val = i
-#             break
-#         except:
-#             val_isalpha = False
-#             print('nope')
-#             break
-#     continue
-# print(val)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# so the point of this script was to test to see if I can append the DFARS files
-#   to the main part file, but apparently there already is a main file
-# also, this was eventually going to parse out the html for other text, but
-#   not even Jon Skeet can parse html per: https://blog.codinghorror.com/parsing-html-the-cthulhu-way/
-# this will only be saved to remind me of the troubles with parsing html...
-
-# import os
-
-# # main path to current folder
-# dir_path = os.path.dirname(os.path.abspath(__file__))
-# dfars_dir = "dfars_dev"
-# dir_path = dir_path + "\\" + dfars_dir + "\\"
-
-# # start the main loop with identifying the DFARS parts, then read file
-# for i in range(201, 254):
-#   pnum = str(i)  
-#   print("################################################################################")
-#   print("DFARS Part: " + pnum)
-
-#   # create file, then read it from directory
-#   mname = "PART_" + pnum + ".html"
-#   mpath = dir_path + mname
-#   mfile = open(mpath, "r")
-#   mcont = mfile.read()
-#   mfile.close()
-
-#   # first append main file
-#   apath = "_append_" + mname
-#   apath = dir_path + apath
-#   afile = open(apath, "a")
-#   afile.write(mcont)
-#   afile.write("<br>")
-  
-#   # now start appending everything else
-#   for j in os.listdir(dir_path):
-#     if j[0:3] == pnum:
-#       jpath = dir_path + j
-#       jfile = open(jpath, "r", encoding="utf8")
-#       jcont = jfile.read()
-#       jfile.close()
-#       afile.write(jcont)
-#       afile.write("<br>")
-
-#   # operation finished
-#   afile.close()
-#   print("Finished with " + pnum)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def header_link_section(text):
+    if len(text) == 3:
+        subpart = text[0]
+        sction = text[1:]
+        if sction == '00':
+            sction = '0'
+        else:
+            sction = sction.lstrip('0')
+    elif len(text) == 4:
+        subpart = text[:2]
+        sction = text[2:]
+        if sction == '00':
+            sction = '0'
+        else:
+            sction = sction.lstrip('0')
+    else:
+        return 'Section is not 3 or 4 characters long...'
+    return (subpart, sction)
+
+
+go_ind = 1
+mod_protocol0(1,'html/dev_contents1.html', True)
+extract_headers(go_ind)
+
+
+
+
+
+##############################################################################
+# 21 February:
+# - great progress! - the database needed much cleaning
+# - everything seems cleaned for now...
+# - first started extracting headers but lots to improve:
+#    - route stdout to a file
+#    - add in scope and definition types
+#    - be sure subparts can be entered in
+#    - read over data in db and find missing information
+#    - lots of regs left early...
+
+##############################################################################
+# Possible steps forward:
+# - create separate functions for parsing headers of different types
+#     - traditional headings (god bless them)
+#     - bold headings
+#     - strong headings (why...)
+#     - missplaced h2 headings
+# - all these should add up to the total amount of records we have to parse
+# - maybe first iterate through each reg and fix headings, then worry about
+#       other stuff within
+#     - headings will serve as the basis to grab the other information
+
+##############################################################################
+# Desired format:
+# - only headers in the regular format
+# - only paragraphs
+#     - first isolate all sections, remove all formatting, convert to paragraphs
+#     - no lists
+# - no unaltered
+
+##############################################################################
+# Add attributes to tags
+    # headers = soup.find_all('h1')
+    # for i in headers:
+    #     header = i.get_text().strip()
+    #     hsplit = header.split()
+    #     hstr = ''
+    #     for j in hsplit:
+    #         hstr += j + ' '
+    #     print(hstr)
+    #     soup2 = bsp(hstr, 'html.parser')
+    #     htag = soup2.new_tag('h2')
+    #     htag.string = hstr
+    #     htag['href'] = '#ugh_derp'
+    #     print(htag)
+
+##############################################################################
+# Multiple try except attempts
+    # Use this for TOC, if thats what you want...
+    #print(h1_text)
+    # try:
+    #     toc = soup.find('div', class_ = 'body')
+    # except AttributeError:
+    #     pass
+    # try:
+    #     toc = soup.find('div', id = 'Table of Contents1')
+    # except:
+    #     toc = ''
+    # toc_final = str(main_title) + str(toc)
+    # print(toc_final)
+    # for x, j in enumerate(soup2.find('div', class_ = )
+
+
+##############################################################################
+# Remove span classses
+    # Remove all span classes in their separate objects
+    # for i in soup.find_all('span'):
+    #     i.unwrap()
+
+
+##############################################################################
+# Separate contents of sections/subsections
+    # Use this for headers
+    # Separate each article by section and save this into another table
+    # for x, j in enumerate(soup2.find_all('h2')):
+    #     if x == 2:
+    #         # h2res = soup2.find('h2', id = j['id'])
+    #         print(j.get_text().lstrip())
+    #         print(j)
+    #         print(j.next_sibling.next)
+    #     else:
+    #         continue
+        # print(j['id'])
+        # print(soup2.find_next_sibling('h2', id = j['id']))
+    # print(soup2.find('h2', id="ariaid-title3").nextSibling.next)
+
+
+##############################################################################
+# Different types
+# We'll make our own TOC!!!!!! Don't Extract!!!
+# Insert all headings as titles
+# Meaning, we will have:
+# - main: all text combined
+# - toc: table of contents
+# - header: titles of subparts
+# - body: sections and subsections
+
+
+# Steps:
+# 1) Save current TOC into json file, links to each section
+# 1a) Possibly save TOC and reformat structure, along with each a href
+# 2) From this TOC json file, iterate over each section then save those sections
+#    as independent json files
+# 3) Fix paragraphs now or later?
+
+
+########################### For FAR, DFARS. GSAM... ###########################
+# h1 = Parts
+# h2 = Subparts
+# h3 = Sections
+# h4 = Subsections
+
+# TOC:
+# div class= 'body'
+
+# Content (FAR, DFARS, GSAM):
+# article role= 'article'
+# div class= 'body conbody'
+# *To pull data, get all get_text between two headings
+# *Each subsection gets its own division?
+
+# All contents:
+# div class='nested0'
+
+
+################################ Supplementals ################################
+# h1 = Parts
+# h2 = Subparts
+# h3 = Sections
+# h4 = Subsections
+
+# TOC:
+# *Usually not found...
+# div class= 'field-items'
+# div id='Table of Contents1"
+# *Create my own? Ugh...
+
+# Content:
+# div class= 'field-items'
+# div id='middlecontent'
+# field-items consists of everything, including table of contents
+# *To pull data, get all get_text between two headings
+# *Each subsection gets its own division?
+
+# All contents:
+# div id='middlecontent'
+
+
+# regulation-index-browse_wrapper
+# look into .extrar() for beautiful soup to extract contents in between tags
+# changin the names of tags and attributes
 

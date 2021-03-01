@@ -69,8 +69,40 @@ for x, i in enumerate(rnum_list):
 
 
 
+def return_d(citation, next_letter):
+    d = {
+        'citation': citation,
+        'next_letter': next_letter
+        # 'is_rnumeral': is_rom_numeral,
+        # 'prev_val_alpha': prev_is_alpha
+        }
+    print(d)
+    return d
 
 
+
+
+from functions import paragraph_attributes
+num1 = ['a', 'b', '1', '2', 'i', 'ii', 'iii', 'c', '1', '2', 'i', 'ii', 'iii', \
+        '3', 'd', 'e', '1', 'i', 'ii', 'iii', '2', 'f', 'g', 'h', '1', 'i', \
+        '2', 'i', 'i', 'j', 'k', 'l'
+       ]
+# FAR 52.209-5
+num2 = ['a', 'i', 'A', 'B', 'C', 'D', '1', 'i', 'ii', '2', 'i', 'ii', 'iii', \
+        'iv', 'ii', '2', 'b', 'c', 'd', 'e'
+       ]
+
+cdev = paragraph_attributes(num2)
+final_list = []
+for x, i in enumerate(num2):
+    final_list.append(cdev.get_attributes(x))
+    # d[i] = cdev.get_attributes(x)
+# d_final = json.dumps(d, indent = 2)
+# print(d_final)
+
+for i in final_list:
+    idict = json.loads(i)
+    print('paragraph: ' + idict['para'])
 
 
 

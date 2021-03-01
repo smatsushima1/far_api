@@ -274,14 +274,12 @@ def search_jscripts(srch_text):
 class paragraph_attributes:
     def __init__(self, list_object):
         self.lst = list_object
-
     # Define all the attributes listed above
     def get_attributes(self, list_number):
         lnum = list_number
         paragraph = self.lst[lnum]
         is_alpha = paragraph.isalpha()
         is_caps = paragraph.isupper()
-
         # Previous value attributes
         if lnum != 0:
             prev_value = self.lst[lnum - 1]
@@ -289,7 +287,6 @@ class paragraph_attributes:
         else:
             prev_value = 'N/A'
             prev_is_alpha = False
-
         # Next value attributes
         if (lnum + 1) != len(self.lst):
             next_value = self.lst[lnum + 1]
@@ -297,7 +294,6 @@ class paragraph_attributes:
         else:
             next_value = 'N/A'
             next_is_alpha = False
-
         # Check whether is a value or roman numeral
         is_rom_numeral = is_rnum(lnum,
                                  self.lst,
@@ -306,21 +302,21 @@ class paragraph_attributes:
                                  next_value,
                                  next_is_alpha
                                  )
-
         # Finally, find the indentation level of the paragraph
         # Currently, can't find any way to detect if the number or roman
         #   numeral citation is the first or second tier
         # As such, it will remain as false for now; taking too long to solve...
-        is_number2 = False
-        is_rom_numeral2 = False
+        if not is_alpha:
+            is_alpha2 = is_number2(lnum, self.lst, paragraph)        
+        if is_rom_numeral:
+            is_rom_numeral2 = is_rnum2(lnum, self.lst, paragraph)
         indentation = find_indentation(paragraph,
                                        is_alpha,
                                        is_rom_numeral,
                                        is_caps,
-                                       is_number2,
+                                       is_alpha2,
                                        is_rom_numeral2
                                        )
-
         # Save data in a dictionary, and return it
         d = {'iter': lnum,
              'para': paragraph,
@@ -413,8 +409,17 @@ def is_rnum2(para_iteration,
              para_list,
              para_val
              ):
-    pass  
+    return False  
     
+
+# Determine if this is the second set of numbers
+# IN PROCESS: currently just returning False
+def is_number2(para_iteration,
+               para_list,
+               para_val
+               ):
+    return False 
+
 
 # Returns the indentation level
 # Paragraphs will be listed in the following format:

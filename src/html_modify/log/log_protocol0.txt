@@ -1,3 +1,1 @@
-{'aria-labelledby': 'ariaid-title1', 'role': 'article'}
-{'aria-labelledby': 'ariaid-title1', 'class': ['nested0'], 'id': 'FAR_Part_1'}
-{'aria-labelledby': 'ariaid-title2', 'class': ['topic', 'concept', 'TORP'], 'id': 'FAR_1_000'}
+None

@@ -143,7 +143,6 @@ def extract_h2(connection, table_name, record, file_name):
 # Used for debugging paragraphs
 # Modify file_name and idnum as appropriate
 def mod_protocol0(idnum, file_name, file_save):
-    jname = init_write_file(file_name)
     # Connect to database
     db = db_init()
     conn = db[0]
@@ -156,13 +155,13 @@ def mod_protocol0(idnum, file_name, file_save):
     values1 = (idnum, )
     res = qry_execute(conn, qry1, values1, True)
     reg = res[0][1]
-    part = res[0][2]    
-    url = res[0][9]
-    soup = bsp(url, 'html.parser')
-    db_close(conn, cur)
+    part = res[0][2] 
+    url = res[0][8]
+    html = res[0][9]
+    soup = bsp(html, 'html.parser')
+    # Start parsing html
     lfile = init_write_file('log/log_protocol0.txt')
     with open(lfile, 'w', encoding = 'utf8') as lf:
-        # Remove all breaks
         for i in soup.find_all('br'):
             i.unwrap()
         # Remove all span classes and subsequent autonumbers
@@ -196,24 +195,6 @@ def mod_protocol0(idnum, file_name, file_save):
                 del j['class']
             for j in i.find_all('p'):
                 j.unwrap()
-        # Try to add div class for the remaining text
-        #new_div_toc = soup.find('div', id = 'toc')
-        # print(new_div_toc, file = lf)
-        # print(soup.find_all(recursive = False), file = lf)
-        
-        # return
-        # new_div = soup.new_tag('div', class_ = 'text')
-        # div_ntoc = soup.find('div', class_ = 'toc')
-        # div_ntoc.insert_after('', new_div)
-        
-        # if file_save:
-        #     with open(jname, 'w', encoding = 'utf8') as jf:
-        #         jf.write(soup.prettify())
-        #         jf.close()
-        
-        
-        
-
         # List all headers
         for i in soup.find_all(re.compile('^h[1-6]$')):
             # Remove all classes
@@ -230,30 +211,64 @@ def mod_protocol0(idnum, file_name, file_save):
             if not ih.startswith('http') and not ih.startswith('#far'):
                 i.unwrap()
                 #print('Unwrapping - %s' % ih, file = lf)
-    
-    # return
-        # Start looping through the paragraph
-        #div_text = soup.find('div', class_ = )
-        # lst = []
         
-        for i in soup.find_all('p'):
-            del i['id']
-            # Find a way to isolate the non-TOC paragraphs before proceeding
-            txt = i.get_text().strip()
-            # i.string = txt
-            #print(txt, file = lf)
-            
-        # print('#' * 80, file = lf)
-        # print('Printing div body', file = lf)
-        for i in soup.find_all('article', limit = 3):
-            print(i.attrs, file = lf)
-            # for j in i.find_all_previous:
-            #     print(j)
-            # print(i.children, file = lf)
-            
-            # if i.find('article') or len(i.get_text()) <= 1:
-            #     i.unwrap()
-            
+        ######################################################################
+        # Try using wrap() to wrap all the other content in a new div
+        
+        # Separate each article by section and save this into another table
+#        for j in soup.find_all('h2', limit = 5):
+#            print('#' * 80, file = lf)            
+            # hid = j['id']
+        #     for k in soup.find('h4', id = hid).find_previous_siblings():
+        #         print(j, file = lf)
+        #         print(k.previous, file = lf)
+            # h2res = soup2.find('h2', id = j['id'])
+
+            # print('\n', file = lf)
+            # print(j.get_text().lstrip(), file = lf)
+            # print('\n', file = lf)
+#            print(j, file = lf)
+            # print('\n', file = lf)
+#            print(j.next_sibling.next, file = lf)
+            # for k in j.find_previous_siblings():
+            #     print(k, file = lf)
+            # print('\n', file = lf)
+            # print(j.previous_sibling, file = lf)
+        #print(soup2.find('h2', id="ariaid-title3").nextSibling.next)
+#        return
+        
+        # Extract all articles and save in the db
+        tname = 'dev_all_html02'
+        values2 = '''(reg varchar,
+                      part numeric,
+                      subpart numeric,
+                      sction numeric,
+                      subsction numeric,
+                      htype varchar,
+                      hlink varchar,
+                      htext varchar
+                      )'''
+        drop_create_tables(conn, tname, values2)
+        # Start adding all text individually based on article classes
+        # nested3 = subsections
+        # nested2 = sections
+        # 2Col = table with two columns
+        # nested1 = subparts
+        # nested0 = parts
+        for i in ['nested3', 'nested2', '2Col', 'nested1', 'nested0']:
+            for j in soup.find_all('article', class_ = i):
+                # Extract the first heading id number for the DB
+                hid = j.find(re.compile('^h[1-6]$'))
+                # Remove empty paragraphs
+                for k in j.find_all('p'):
+                    if k.find('article') or len(k.get_text()) <= 1:
+                        k.unwrap()
+                insert_htext(conn, tname, hid['id'], j, url)
+                # Remove so text won't be copied again
+                j.decompose()
+
+
+        
         #     print('%s%s%s%s%s' % ('\n' + ('#' * 80),
         #                         '\n',
         #                         i,
@@ -261,12 +276,6 @@ def mod_protocol0(idnum, file_name, file_save):
         #                         i.parent.parent
         #                         ), file = lf)
         # return
-        
-        #     del i['id']
-        #     #print('\n' + ('#' * 80), file = lf)
-        
-
-            
         #     #print(i, file = lf)
         #     para_cit = i.string.split()[0]
         #     if para_cit[0] == '(':
@@ -278,10 +287,12 @@ def mod_protocol0(idnum, file_name, file_save):
         # print(lst, file = lf)
         
     # Save to file only if specified
+    jname = init_write_file(file_name)
     if file_save:
         with open(jname, 'w', encoding = 'utf8') as jf:
             jf.write(soup.prettify())
             jf.close()
+    db_close(conn, cur)
 
         
         # for x, j in enumerate(i):
@@ -350,6 +361,34 @@ def header_link_section(text):
     return (subpart, sction)
 
 
+# Insert htext sections in dev_all_html02
+def insert_htext(connection, table_name, header_id, text, url):
+    # The header IDs need to be the ones we made, exit function if not
+    if header_id.count('_') < 5:
+        return
+    hid_spl = str(header_id).split('_')
+    # Start adding values
+    values = (hid_spl[0],
+              # part
+              hid_spl[1],
+              # subpart
+              hid_spl[2],
+              # sction
+              hid_spl[3],
+              # subsction
+              hid_spl[4],
+              # htype
+              hid_spl[5],
+              # hlink
+              url,
+              # htext
+              str(text)
+              )
+    insert_values(connection, table_name, values)
+
+    
+
+
 go_ind = 1
 mod_protocol0(1,'html/dev_contents1.html', True)
 extract_headers(go_ind)
@@ -404,6 +443,12 @@ extract_headers(go_ind)
     #     htag.string = hstr
     #     htag['href'] = '#ugh_derp'
     #     print(htag)
+
+##############################################################################
+# Inserts new div class
+        # new_div = soup.new_tag('div', class_ = 'text')
+        # div_ntoc = soup.find('div', class_ = 'toc')
+        # div_ntoc.insert_after('', new_div)
 
 ##############################################################################
 # Multiple try except attempts

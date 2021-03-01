@@ -229,7 +229,7 @@ def mod_protocol0(idnum, file_name, file_save):
             ih = i['href']
             if not ih.startswith('http') and not ih.startswith('#far'):
                 i.unwrap()
-                print('Unwrapping - %s' % ih, file = lf)
+                #print('Unwrapping - %s' % ih, file = lf)
     
     # return
         # Start looping through the paragraph
@@ -238,9 +238,19 @@ def mod_protocol0(idnum, file_name, file_save):
         
         for i in soup.find_all('p'):
             del i['id']
+            # Find a way to isolate the non-TOC paragraphs before proceeding
             txt = i.get_text().strip()
             # i.string = txt
-            print(txt, file = lf)
+            #print(txt, file = lf)
+            
+        print('#' * 80, file = lf)
+        print('Printing div body', file = lf)
+        for i in soup.find_all('article', class_ = 'nested0'):
+            print(i.children, file = lf)
+            # for j in i.next_sibling:
+            #     print(j, file = lf)
+            # print(i.children, file = lf)
+            
             # if i.find('article') or len(i.get_text()) <= 1:
             #     i.unwrap()
             

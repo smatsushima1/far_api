@@ -237,7 +237,7 @@ def mod_protocol0(idnum, file_name, file_save):
         # lst = []
         
         for i in soup.find_all('p'):
-            # del i['id']
+            del i['id']
             txt = i.get_text().strip()
             # i.string = txt
             print(txt, file = lf)

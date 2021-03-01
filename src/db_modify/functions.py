@@ -3,11 +3,8 @@ import os
 from os import path
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup as bsp
-import requests as rq
-import re
 import psycopg2 as pg2
 from psycopg2 import sql
-from psycopg2.extensions import AsIs
 import time
 
 
@@ -153,15 +150,20 @@ def tag_counts():
                  article numeric
                  )'''
     drop_create_tables(conn, tname, values)
-    qry_str1 = 'select %s, %s, %s, %s from %s order by %s;'
-    values1 = (AsIs('id_num'),
-               AsIs('reg'),
-               AsIs('part'),
-               AsIs('htext'),
-               AsIs('dev_all_parts04'),
-               AsIs('id_num')
-               )
-    results = qry_execute(conn, qry_str1, values1, True)
+    qry_str1 = '''select {field1},
+                         {field2},
+                         {field3},
+                         {field4}
+                  from {table1}
+                  order by {field1};
+                  '''
+    qry1 = sql.SQL(qry_str1).format(field1 = sql.Identifier('id_num'),
+                                    field2 = sql.Identifier('reg'),
+                                    field3 = sql.Identifier('part'),
+                                    field4 = sql.Identifier('htext'),
+                                    table1 = sql.Identifier('dev_all_parts04')
+                                    )
+    results = qry_execute(conn, qry1, '', True)
     for i in results:
         print(i[0])
         soup = bsp(i[3], 'html.parser')

@@ -1,13 +1,11 @@
 
 import os
-from os import path
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup as bsp
 import requests as rq
 import re
 import psycopg2 as pg2
 from psycopg2 import sql
-from psycopg2.extensions import AsIs
 import time
 
 

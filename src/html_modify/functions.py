@@ -7,7 +7,6 @@ import requests as rq
 import re
 import psycopg2 as pg2
 from psycopg2 import sql
-from psycopg2.extensions import AsIs
 import time
 
 
@@ -176,7 +175,7 @@ def search_css(search_text):
         list3.append(link)
     # Search in each link and print each result if it contains the styles
     for n in list3:
-        html = ul.request.urlopen(n).read()
+        html = rq.get(n).text
         if search_text in str(html):
             print('Results found in: ' + n)
 
@@ -196,7 +195,7 @@ def search_jscripts(srch_text):
         list4.append(p.attrs['src'])
     # Search for string inside each jscript file
     for q in list4:
-        txt = ul.request.urlopen(q).read()
+        txt = rq.get(q).text
         if srch_text in str(txt):
             print('Results found in: ' + q)
 

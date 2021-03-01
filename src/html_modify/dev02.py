@@ -1,9 +1,9 @@
 
 from functions import *
 
-str1 = 'a'
-if str1 not in ['href', 'yep', 'ba']:
-    print('nope')
+str1 = 'abs'
+if str1.startswith('a') or str1.startswith('abc'):
+    print('yep')
 
 
 

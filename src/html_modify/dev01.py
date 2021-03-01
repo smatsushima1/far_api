@@ -243,12 +243,12 @@ def mod_protocol0(idnum, file_name, file_save):
             # i.string = txt
             #print(txt, file = lf)
             
-        print('#' * 80, file = lf)
-        print('Printing div body', file = lf)
-        for i in soup.find_all('article', class_ = 'nested0'):
-            print(i.children, file = lf)
-            # for j in i.next_sibling:
-            #     print(j, file = lf)
+        # print('#' * 80, file = lf)
+        # print('Printing div body', file = lf)
+        for i in soup.find_all('article', limit = 3):
+            print(i.attrs, file = lf)
+            # for j in i.find_all_previous:
+            #     print(j)
             # print(i.children, file = lf)
             
             # if i.find('article') or len(i.get_text()) <= 1:

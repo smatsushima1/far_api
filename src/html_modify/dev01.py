@@ -147,9 +147,9 @@ def mod_protocol0(idnum, file_name, file_save):
     db = db_init()
     conn = db[0]
     cur = db[1]
-    tname = 'dev_all_parts05'
+    tname1 = 'dev_all_parts05'
     qry_str1 = 'select * from {table1} where {field1} = %s;'
-    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname),
+    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
                                     field1 = sql.Identifier('id_num')
                                     )
     values1 = (idnum, )
@@ -162,6 +162,10 @@ def mod_protocol0(idnum, file_name, file_save):
     # Start parsing html
     lfile = init_write_file('log/log_protocol0.txt')
     with open(lfile, 'w', encoding = 'utf8') as lf:
+        # Test to see if all articles are the same
+        for i in soup.find_all('article'):
+            print(i.attrs)
+        return
         for i in soup.find_all('br'):
             i.unwrap()
         # Remove all span classes and subsequent autonumbers
@@ -207,9 +211,12 @@ def mod_protocol0(idnum, file_name, file_save):
             i['id'] = new_id
         # Remove all links to the FAR - they won't work anyway in the app
         for i in soup.find_all('a'):
-            ih = i['href']
-            if not ih.startswith('http') and not ih.startswith('#far'):
-                i.unwrap()
+            try:
+                ih = i['href']
+                if not ih.startswith('http') and not ih.startswith('#' + reg):
+                    i.unwrap()
+            except:
+                continue
                 #print('Unwrapping - %s' % ih, file = lf)
         
         ######################################################################
@@ -238,7 +245,7 @@ def mod_protocol0(idnum, file_name, file_save):
 #        return
         
         # Extract all articles and save in the db
-        tname = 'dev_all_html02'
+        tname2 = 'dev_all_html02'
         values2 = '''(reg varchar,
                       part numeric,
                       subpart numeric,
@@ -248,7 +255,7 @@ def mod_protocol0(idnum, file_name, file_save):
                       hlink varchar,
                       htext varchar
                       )'''
-        drop_create_tables(conn, tname, values2)
+        drop_create_tables(conn, tname2, values2)
         # Start adding all text individually based on article classes
         # nested3 = subsections
         # nested2 = sections
@@ -257,13 +264,15 @@ def mod_protocol0(idnum, file_name, file_save):
         # nested0 = parts
         for i in ['nested3', 'nested2', '2Col', 'nested1', 'nested0']:
             for j in soup.find_all('article', class_ = i):
+                if j is None:
+                    continue
                 # Extract the first heading id number for the DB
                 hid = j.find(re.compile('^h[1-6]$'))
                 # Remove empty paragraphs
                 for k in j.find_all('p'):
                     if k.find('article') or len(k.get_text()) <= 1:
                         k.unwrap()
-                insert_htext(conn, tname, hid['id'], j, url)
+                insert_htext(conn, tname2, hid['id'], j, url)
                 # Remove so text won't be copied again
                 j.decompose()
 
@@ -390,7 +399,7 @@ def insert_htext(connection, table_name, header_id, text, url):
 
 
 go_ind = 1
-mod_protocol0(1,'html/dev_contents1.html', True)
+mod_protocol0(754,'html/dev_contents1.html', False)
 extract_headers(go_ind)
 
 

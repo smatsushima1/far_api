@@ -18,6 +18,18 @@ def init_write_file(file_name):
     return file_name
 
 
+# Write to specified file; combines init_write_file functionality
+def write_file(file_name, text, html):
+    if path.exists(file_name):
+        open(file_name, 'w').close()
+    with open(file_name, 'w', encoding = 'utf8') as wf:
+        if html:
+            wf.write(text.prettify())
+        else:
+            wf.write(text)
+        wf.close()
+
+
 # Start timer for functinos
 def start_function(func_name):
     start_time = time.time()

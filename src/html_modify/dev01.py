@@ -140,6 +140,26 @@ def extract_h2(connection, table_name, record, file_name):
     print(' - +', file = file_name)
 
 
+# Pull html for id_num for various checks
+def html_pull(idnum, file_name):
+    # Connect to database
+    db = db_init()
+    conn = db[0]
+    cur = db[1]
+    tname1 = 'dev_all_parts05'
+    qry_str1 = 'select * from {table1} where {field1} = %s;'
+    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
+                                    field1 = sql.Identifier('id_num')
+                                    )
+    values1 = (idnum, )
+    res = qry_execute(conn, qry1, values1, True)
+    html = res[0][9]
+    soup = bsp(html, 'html.parser')
+    # Save to file only if specified
+    write_file('html/dev_contents2.html', soup, True)
+    db_close(conn, cur)
+    
+
 # Used for debugging paragraphs
 # Modify file_name and idnum as appropriate
 def mod_protocol0(idnum, file_name, file_save):
@@ -163,7 +183,17 @@ def mod_protocol0(idnum, file_name, file_save):
     lfile = init_write_file('log/log_protocol0.txt')
     with open(lfile, 'w', encoding = 'utf8') as lf:
         # Test to see if all articles are the same
-        article_lst = ['nested3', 'nested2', '2Col', 'nested1', 'nested0']
+        article_lst = ['nested4',
+                       'nested3',
+                       'nested2',
+                       '2Col',
+                       'TOP',
+                       'TOLP',
+                       'ANYWHERE',
+                       'nested1',
+                       'TORP',
+                       'nested0'
+                       ]
         for i in res:
             soup2 = bsp(i[9], 'html.parser')
             for j in soup2.find_all('article', limit = 10):
@@ -286,12 +316,29 @@ def mod_protocol0(idnum, file_name, file_save):
                       )'''
         drop_create_tables(conn, tname2, values2)
         # Start adding all text individually based on article classes
+        # GSAM = (see GSAR)
+        # GSAR = could be subsections or sections, search if contains h4, then process
+        # nested4 = supplemental sections
         # nested3 = subsections
         # nested2 = sections
-        # 2Col = table with two columns
+        # 2Col = table with two columns (why?)
+        # TOP = subparts (why?)
+        # TOLP = subparts (why? - must be a typo...)
+        # ANYWHERE = subparts (why?)
         # nested1 = subparts
+        # TORP = 1.000 part (why?)
         # nested0 = parts
-        for i in ['nested3', 'nested2', '2Col', 'nested1', 'nested0']:
+        for i in ['nested4',
+                  'nested3',
+                  'nested2',
+                  '2Col',
+                  'TOP',
+                  'TOLP',
+                  'ANYWHERE',
+                  'nested1',
+                  'TORP',
+                  'nested0'
+                  ]:
             for j in soup.find_all('article', class_ = i):
                 if j is None:
                     continue
@@ -325,11 +372,7 @@ def mod_protocol0(idnum, file_name, file_save):
         # print(lst, file = lf)
         
     # Save to file only if specified
-    jname = init_write_file(file_name)
-    if file_save:
-        with open(jname, 'w', encoding = 'utf8') as jf:
-            jf.write(soup.prettify())
-            jf.close()
+    write_file(file_name, soup, True)
     db_close(conn, cur)
 
         
@@ -427,10 +470,10 @@ def insert_htext(connection, table_name, header_id, text, url):
     
 
 
-go_ind = 1
-mod_protocol0(754,'html/dev_contents1.html', False)
-extract_headers(go_ind)
-
+# go_ind = 1
+# mod_protocol0(754,'html/dev_contents1.html', False)
+# extract_headers(go_ind)
+html_pull(949, 'html/dev_contents2.html')
 
 
 

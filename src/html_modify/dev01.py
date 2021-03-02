@@ -150,9 +150,9 @@ def mod_protocol0(idnum, file_name, file_save):
     tname1 = 'dev_all_parts05'
     qry_str1 = 'select * from {table1} where {field1} = %s;'
     qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
-                                    field1 = sql.Identifier('id_num')
+                                    field1 = sql.Identifier('protocol')
                                     )
-    values1 = (idnum, )
+    values1 = (0, )
     res = qry_execute(conn, qry1, values1, True)
     reg = res[0][1]
     part = res[0][2] 
@@ -163,9 +163,38 @@ def mod_protocol0(idnum, file_name, file_save):
     lfile = init_write_file('log/log_protocol0.txt')
     with open(lfile, 'w', encoding = 'utf8') as lf:
         # Test to see if all articles are the same
-        for i in soup.find_all('article'):
-            print(i.attrs)
+        article_lst = ['nested3', 'nested2', '2Col', 'nested1', 'nested0']
+        for i in res:
+            soup2 = bsp(i[9], 'html.parser')
+            for j in soup2.find_all('article', limit = 10):
+                # Need to this in case the articles doesn't have a class
+                try:
+                    ind = 0
+                    for k in j['class']:
+                        # Only list article if its not in the lst
+                        if k in article_lst:
+                            ind = 1
+                            break
+                    if ind == 0:
+                        print('%s - %s' % (i[0], j.attrs), file = lf)
+                # Runs if there are no classes for the article
+                except:
+                    print('%s - No classes' % (i[0]), file = lf)
+                
+                
+                
+                
+                # try:
+                #     for k in j['class']:
+                        
+                #         if k not in article_lst:
+                #             print('%s - %s' % (i[0], j.attrs), file = lf)
+                #         else:
+                #             continue
+                # except:
+                #     continue
         return
+    
         for i in soup.find_all('br'):
             i.unwrap()
         # Remove all span classes and subsequent autonumbers

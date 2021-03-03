@@ -162,7 +162,7 @@ def html_pull(idnum, file_name):
 
 # Used for debugging paragraphs
 # Modify file_name and idnum as appropriate
-def mod_protocol0(idnum, file_name, file_save):
+def mod_protocol0(file_name, file_save):
     start_time = start_function('mod_protocol0')
     # Connect to database
     db = db_init()
@@ -178,30 +178,107 @@ def mod_protocol0(idnum, file_name, file_save):
     # Start parsing html
     lfile = init_write_file('log/log_protocol0.txt')
     with open(lfile, 'w', encoding = 'utf8') as lf:
-        # Test to see if all articles are the same
-        article_lst = ['GSAM',
-                       'GSAR',
-                       'nested4',
-                       'nested3',
-                       'nested2',
-                       '2Col',
-                       'TOP',
-                       'TOLP',
-                       'ANYWHERE',
-                       'nested1',
-                       'TORP',
-                       'nested0'
-                       ]
+        # Start looping through values
         for i in res:
             reg = i[1]
             part = i[2] 
             url = i[8]
             html = i[9]
-            soup2 = bsp(html, 'html.parser')
+            soup = bsp(html, 'html.parser')
+            for j in soup.find_all('br'):
+                j.unwrap()
+            # Remove all span classes and subsequent autonumbers
+            for j in soup.find_all('span'):
+                j.unwrap()
+            # Remove emphasis classes
+            for j in soup.find_all('em'):
+                j.unwrap()
+            # Remove nav classes
+            for j in soup.find_all('nav'):
+                j.extract()
+            # Fix the TOC
+            div_toc = soup.find('div', class_ = 'body')
+            if div_toc is not None:
+                # Change the class name to toc
+                div_toc['id'] = 'toc'
+                # Reformat the text in the a tags and modify the href's
+                for k in div_toc.find_all('a'):
+                    txt = k.get_text().strip()
+                    k.string = txt
+                    k['href'] = header_ids(reg, part, txt, True, lf)
+            else:
+                print('No div body', file = lf)
+            # Remove all formatting from tables
+            for j in soup.find_all('table'):
+                del j['class']
+                for k in j.find_all('th'):
+                    del k['class']
+                    del k['id']
+                for k in j.find_all('td'):
+                    del k['class']
+                for k in j.find_all('p'):
+                    k.unwrap()
+            # List all headers
+            for j in soup.find_all(re.compile('^h[1-6]$')):
+                # Remove all classes
+                del j['class']
+                hstr = j.get_text().strip()
+                j.string = hstr
+                orig_id = j['id']
+                # Assign new IDs and replace with the old
+                new_id = header_ids(reg, part, hstr, False, lf)
+                j['id'] = new_id
+            # Remove all links to the FAR - they won't work anyway in the app
+            for j in soup.find_all('a'):
+                try:
+                    jh = j['href']
+                    if not jh.startswith('http') and not jh.startswith('#' + reg):
+                        j.unwrap()
+                except:
+                    continue
+                    #print('Unwrapping - %s' % ih, file = lf)
             
+            ######################################################################
+            # Try using wrap() to wrap all the other content in a new div
+            
+            # Separate each article by section and save this into another table
+    #        for j in soup.find_all('h2', limit = 5):
+    #            print('#' * 80, file = lf)            
+                # hid = j['id']
+            #     for k in soup.find('h4', id = hid).find_previous_siblings():
+            #         print(j, file = lf)
+            #         print(k.previous, file = lf)
+                # h2res = soup2.find('h2', id = j['id'])
+    
+                # print('\n', file = lf)
+                # print(j.get_text().lstrip(), file = lf)
+                # print('\n', file = lf)
+    #            print(j, file = lf)
+                # print('\n', file = lf)
+    #            print(j.next_sibling.next, file = lf)
+                # for k in j.find_previous_siblings():
+                #     print(k, file = lf)
+                # print('\n', file = lf)
+                # print(j.previous_sibling, file = lf)
+            #print(soup2.find('h2', id="ariaid-title3").nextSibling.next)
+    #        return
+            
+            # Extract all articles and save in the db
+            tname2 = 'dev_all_html02'
+            values2 = '''(reg varchar,
+                          part numeric,
+                          subpart numeric,
+                          sction numeric,
+                          subsction numeric,
+                          supplemental numeric,
+                          htype varchar,
+                          hlink varchar,
+                          htext varchar
+                          )'''
+            drop_create_tables(conn, tname2, values2)
             # Start converting all texts
-            # GSAM = (see GSAR)
-            # GSAR = could be subsections or sections, search if contains h4, then process
+            # GSAM = could be subsections or sections, search if contains h4, then process
+            # GSAR = (see GSAM)
             # nested4 = supplemental sections
             # nested3 = subsections
             # nested2 = sections
@@ -212,9 +289,7 @@ def mod_protocol0(idnum, file_name, file_save):
             # nested1 = subparts
             # TORP = 1.000 part (why?)
             # nested0 = parts
-            
-            
-            for j in soup2.find_all('article'):
+            for j in soup.find_all('article'):
                 # Need to add this in case the articles doesn't have a class
                 try:
                     for k in j['class']:
@@ -230,188 +305,60 @@ def mod_protocol0(idnum, file_name, file_save):
                         elif k in ['2Col', 'TOP', 'TOLP', 'ANYWHERE']:
                             j['class'] = ['nested2']
                             continue
-                        # The following classes may have h3 or h4
+                        # The following classes have different headers
                         elif k in ['GSAM', 'GSAR', 'FAC', 'CHANGE']:
-                            if j.find('h4') is not None:
+                            if j.find('h5') is not None:
+                                j['class'] = ['nested4']
+                                continue
+                            elif j.find('h4') is not None:
                                 j['class'] = ['nested3']
                                 continue
                             elif j.find('h3') is not None:
                                 j['class'] = ['nested2']
+                                continue
+                            elif j.find('h2') is not None:
+                                j['class'] = ['nested1']
                                 continue
                 # Runs if there are no classes for the article
                 except:
                     continue
             
             # for j in soup2.find_all('article'):
+            #     # Need to this in case the articles doesn't have a class
             #     try:
-            #         print(j['class'], file = lf)
+            #         ind = 0
+            #         for k in j['class']:
+            #             # Exit early
+            #             if k in ['topic', 'concept']:
+            #                 continue
+            #             # Only trigger break if class is not in the lst
+            #             elif k in article_lst:
+            #                 ind = 1
+            #                 break
+            #         # Only list if classes aren't in list
+            #         if ind == 0:
+            #             if not j.find('h5'):
+            #                 print('#' * 80, file = lf)
+            #                 print(j, file = lf)
+            #             # print('%s - %s' % (i[0], j.attrs), file = lf)
+            #     # Runs if there are no classes for the article
             #     except:
             #         continue
-            
-            
-            
-            
-            
-            for j in soup2.find_all('article'):
-                # Need to this in case the articles doesn't have a class
-                try:
-                    ind = 0
-                    for k in j['class']:
-                        # Exit early
-                        if k in ['topic', 'concept']:
-                            continue
-                        # Only trigger break if class is not in the lst
-                        elif k in article_lst:
-                            ind = 1
-                            break
-                    # Only list if classes aren't in list
-                    if ind == 0:
-                        print('%s - %s' % (i[0], j.attrs), file = lf)
-                # Runs if there are no classes for the article
-                except:
-                    continue
                 
-                
-                
-                
-                # try:
-                #     for k in j['class']:
-                        
-                #         if k not in article_lst:
-                #             print('%s - %s' % (i[0], j.attrs), file = lf)
-                #         else:
-                #             continue
-                # except:
-                #     continue
-        end_function(start_time)
-        return
-    
-        for i in soup.find_all('br'):
-            i.unwrap()
-        # Remove all span classes and subsequent autonumbers
-        for i in soup.find_all('span'):
-            i.unwrap()
-        # Remove emphasis classes
-        for i in soup.find_all('em'):
-            i.unwrap()
-        # Remove nav classes
-        for i in soup.find_all('nav'):
-            i.extract()
-        # Fix the TOC
-        div_toc = soup.find('div', class_ = 'body')
-        if div_toc is not None:
-            # Change the class name to toc
-            div_toc['id'] = 'toc'
-            # Reformat the text in the a tags and modify the href's
-            for i in div_toc.find_all('a'):
-                txt = i.get_text().strip()
-                i.string = txt
-                i['href'] = header_ids(reg, part, txt, True)
-        else:
-            print('No div body', file = lf)
-        # Remove all formatting from tables
-        for i in soup.find_all('table'):
-            del i['class']
-            for j in i.find_all('th'):
-                del j['class']
-                del j['id']
-            for j in i.find_all('td'):
-                del j['class']
-            for j in i.find_all('p'):
-                j.unwrap()
-        # List all headers
-        for i in soup.find_all(re.compile('^h[1-6]$')):
-            # Remove all classes
-            del i['class']
-            hstr = i.get_text().strip()
-            i.string = hstr
-            orig_id = i['id']
-            # Assign new IDs and replace with the old
-            new_id = header_ids(reg, part, hstr, False)
-            i['id'] = new_id
-        # Remove all links to the FAR - they won't work anyway in the app
-        for i in soup.find_all('a'):
-            try:
-                ih = i['href']
-                if not ih.startswith('http') and not ih.startswith('#' + reg):
-                    i.unwrap()
-            except:
-                continue
-                #print('Unwrapping - %s' % ih, file = lf)
-        
-        ######################################################################
-        # Try using wrap() to wrap all the other content in a new div
-        
-        # Separate each article by section and save this into another table
-#        for j in soup.find_all('h2', limit = 5):
-#            print('#' * 80, file = lf)            
-            # hid = j['id']
-        #     for k in soup.find('h4', id = hid).find_previous_siblings():
-        #         print(j, file = lf)
-        #         print(k.previous, file = lf)
-            # h2res = soup2.find('h2', id = j['id'])
-
-            # print('\n', file = lf)
-            # print(j.get_text().lstrip(), file = lf)
-            # print('\n', file = lf)
-#            print(j, file = lf)
-            # print('\n', file = lf)
-#            print(j.next_sibling.next, file = lf)
-            # for k in j.find_previous_siblings():
-            #     print(k, file = lf)
-            # print('\n', file = lf)
-            # print(j.previous_sibling, file = lf)
-        #print(soup2.find('h2', id="ariaid-title3").nextSibling.next)
-#        return
-        
-        # Extract all articles and save in the db
-        tname2 = 'dev_all_html02'
-        values2 = '''(reg varchar,
-                      part numeric,
-                      subpart numeric,
-                      sction numeric,
-                      subsction numeric,
-                      htype varchar,
-                      hlink varchar,
-                      htext varchar
-                      )'''
-        drop_create_tables(conn, tname2, values2)
         # Start adding all text individually based on article classes
-        # GSAM = (see GSAR)
-        # GSAR = could be subsections or sections, search if contains h4, then process
-        # nested4 = supplemental sections
-        # nested3 = subsections
-        # nested2 = sections
-        # 2Col = table with two columns (why?)
-        # TOP = subparts (why?)
-        # TOLP = subparts (why? - must be a typo...)
-        # ANYWHERE = subparts (why?)
-        # nested1 = subparts
-        # TORP = 1.000 part (why?)
-        # nested0 = parts
-        for i in ['nested4',
-                  'nested3',
-                  'nested2',
-                  '2Col',
-                  'TOP',
-                  'TOLP',
-                  'ANYWHERE',
-                  'nested1',
-                  'TORP',
-                  'nested0'
-                  ]:
-            for j in soup.find_all('article', class_ = i):
-                if j is None:
+        for j in ['nested4', 'nested3', 'nested2', 'nested1', 'nested0']:
+            for k in soup.find_all('article', class_ = j):
+                if k is None:
                     continue
                 # Extract the first heading id number for the DB
-                hid = j.find(re.compile('^h[1-6]$'))
+                hid = k.find(re.compile('^h[1-6]$'))
                 # Remove empty paragraphs
-                for k in j.find_all('p'):
-                    if k.find('article') or len(k.get_text()) <= 1:
-                        k.unwrap()
-                insert_htext(conn, tname2, hid['id'], j, url)
+                for p in k.find_all('p'):
+                    if p.find('article') or len(p.get_text()) <= 1:
+                        p.unwrap()
+                insert_htext(conn, tname2, hid['id'], k, url)
                 # Remove so text won't be copied again
-                j.decompose()
+                k.decompose()
 
 
         
@@ -435,6 +382,7 @@ def mod_protocol0(idnum, file_name, file_save):
     # Save to file only if specified
     write_file(file_name, soup, True)
     db_close(conn, cur)
+    end_function(start_time)
 
         
         # for x, j in enumerate(i):
@@ -451,32 +399,81 @@ def mod_protocol0(idnum, file_name, file_save):
 
 
 # Returns the new ID for each header or href; prepends with # if returning href
-def header_ids(reg, part, text, toc_ind):
+def header_ids(reg, part, text, href_ind, log_file):
+    print('%s - %s - %s' % (reg, part, text), file = log_file)
+    if text.count(' ') == 0:
+        text = text.replace('Reserved', ' RESERVED')
     hspl = text.split()
     hs0 = hspl[0]
     hs1 = hspl[1]
+    if hs0.lower() == 'pgi':
+        hs0 = hspl[1]
+        hs1 = hspl[2]
     # Parts
     if hs0.lower() == 'part':
-        id_str = '%s_%s_%s_%s_%s_%s' % (reg, part, 0, 0, 0, 'header')
+        id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
+                                           part,
+                                           0,
+                                           0,
+                                           0,
+                                           0,
+                                           'header'
+                                           )
     # Subparts
     elif hs0.lower() == 'subpart':
         hspl2 = hs1.split('.')
-        id_str = '%s_%s_%s_%s_%s_%s' % (reg, part, hspl2[1], 0, 0, 'header')
+        id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
+                                           part,
+                                           hspl2[1],
+                                           0,
+                                           0,
+                                           0,
+                                           'header'
+                                           )
     # Sections
     elif hs0.find('-') == -1:
         hspl2 = hs0.split('.')
         hsp1 = hspl2[1]
         sp_s = header_link_section(hsp1)
-        id_str = '%s_%s_%s_%s_%s_%s' % (reg, part, sp_s[0], sp_s[1], 0, 'body')
+        id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
+                                           part,
+                                           sp_s[0],
+                                           sp_s[1],
+                                           0,
+                                           0,
+                                           'body'
+                                           )
     # Subsections
-    elif hs0.find('-') != -1:
+    elif hs0.count('-') == 1:
         ss_spl = hs0.split('-')
         hspl2 = ss_spl[0].split('.')
         hsp1 = hspl2[1]
         sp_s = header_link_section(hsp1)   
-        id_str = '%s_%s_%s_%s_%s_%s' % (reg, part, sp_s[0], sp_s[1], ss_spl[1], 'body')
+        id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
+                                           part,
+                                           sp_s[0],
+                                           sp_s[1],
+                                           ss_spl[1],
+                                           0,
+                                           'body'
+                                           )
+    # Supplementals
+    elif hs0.count('-') > 1:
+        ss_spl = hs0.split('-')
+        hspl2 = ss_spl[0].split('.')
+        hsp1 = hspl2[1]
+        sp_s = header_link_section(hsp1)   
+        id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
+                                           part,
+                                           sp_s[0],
+                                           sp_s[1],
+                                           ss_spl[1],
+                                           ss_spl[2],
+                                           'body'
+                                           )
     # print('%s ##### %s' % (text, id_str))
-    if toc_ind:
+    # href's require # in order to go to the link on the page
+    if href_ind:
         return '#' + id_str
     else:
         return id_str
@@ -487,14 +484,14 @@ def header_link_section(text):
     if len(text) == 3:
         subpart = text[0]
         sction = text[1:]
-        if sction == '00':
+        if sction.startswith('0'):
             sction = '0'
         else:
             sction = sction.lstrip('0')
     elif len(text) == 4:
         subpart = text[:2]
         sction = text[2:]
-        if sction == '00':
+        if sction.startswith('0'):
             sction = '0'
         else:
             sction = sction.lstrip('0')
@@ -506,7 +503,7 @@ def header_link_section(text):
 # Insert htext sections in dev_all_html02
 def insert_htext(connection, table_name, header_id, text, url):
     # The header IDs need to be the ones we made, exit function if not
-    if header_id.count('_') < 5:
+    if header_id.count('_') < 6:
         return
     hid_spl = str(header_id).split('_')
     # Start adding values
@@ -519,8 +516,10 @@ def insert_htext(connection, table_name, header_id, text, url):
               hid_spl[3],
               # subsction
               hid_spl[4],
-              # htype
+              # supplemental
               hid_spl[5],
+              # htype
+              hid_spl[6],
               # hlink
               url,
               # htext
@@ -532,9 +531,9 @@ def insert_htext(connection, table_name, header_id, text, url):
 
 
 # go_ind = 1
-# mod_protocol0(754,'html/dev_contents1.html', False)
+# mod_protocol0('html/dev_contents1.html', True)
 # extract_headers(go_ind)
-html_pull(28, 'html/dev_contents2.html')
+html_pull(130, 'html/dev_contents2.html')
 
 
 

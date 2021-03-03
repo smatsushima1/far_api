@@ -163,6 +163,7 @@ def html_pull(idnum, file_name):
 # Used for debugging paragraphs
 # Modify file_name and idnum as appropriate
 def mod_protocol0(idnum, file_name, file_save):
+    start_time = start_function('mod_protocol0')
     # Connect to database
     db = db_init()
     conn = db[0]
@@ -174,16 +175,13 @@ def mod_protocol0(idnum, file_name, file_save):
                                     )
     values1 = (0, )
     res = qry_execute(conn, qry1, values1, True)
-    reg = res[0][1]
-    part = res[0][2] 
-    url = res[0][8]
-    html = res[0][9]
-    soup = bsp(html, 'html.parser')
     # Start parsing html
     lfile = init_write_file('log/log_protocol0.txt')
     with open(lfile, 'w', encoding = 'utf8') as lf:
         # Test to see if all articles are the same
-        article_lst = ['nested4',
+        article_lst = ['GSAM',
+                       'GSAR',
+                       'nested4',
                        'nested3',
                        'nested2',
                        '2Col',
@@ -195,21 +193,83 @@ def mod_protocol0(idnum, file_name, file_save):
                        'nested0'
                        ]
         for i in res:
-            soup2 = bsp(i[9], 'html.parser')
-            for j in soup2.find_all('article', limit = 10):
+            reg = i[1]
+            part = i[2] 
+            url = i[8]
+            html = i[9]
+            soup2 = bsp(html, 'html.parser')
+            
+            # Start converting all texts
+            # GSAM = (see GSAR)
+            # GSAR = could be subsections or sections, search if contains h4, then process
+            # nested4 = supplemental sections
+            # nested3 = subsections
+            # nested2 = sections
+            # 2Col = table with two columns (why?)
+            # TOP = subparts (why?)
+            # TOLP = subparts (why? - must be a typo...)
+            # ANYWHERE = subparts (why?)
+            # nested1 = subparts
+            # TORP = 1.000 part (why?)
+            # nested0 = parts
+            
+            
+            for j in soup2.find_all('article'):
+                # Need to add this in case the articles doesn't have a class
+                try:
+                    for k in j['class']:
+                        # When converting classes, add it as a list, not a string
+                        # Exit searching early
+                        if k in ['topic', 'concept']:
+                            continue
+                        # Replace the following with nested1
+                        elif k == 'TORP':
+                            j['class'] = ['nested1']
+                            continue
+                        # Replace the following classes with nested2
+                        elif k in ['2Col', 'TOP', 'TOLP', 'ANYWHERE']:
+                            j['class'] = ['nested2']
+                            continue
+                        # The following classes may have h3 or h4
+                        elif k in ['GSAM', 'GSAR', 'FAC', 'CHANGE']:
+                            if j.find('h4') is not None:
+                                j['class'] = ['nested3']
+                                continue
+                            elif j.find('h3') is not None:
+                                j['class'] = ['nested2']
+                                continue
+                # Runs if there are no classes for the article
+                except:
+                    continue
+            
+            # for j in soup2.find_all('article'):
+            #     try:
+            #         print(j['class'], file = lf)
+            #     except:
+            #         continue
+            
+            
+            
+            
+            
+            for j in soup2.find_all('article'):
                 # Need to this in case the articles doesn't have a class
                 try:
                     ind = 0
                     for k in j['class']:
-                        # Only list article if its not in the lst
-                        if k in article_lst:
+                        # Exit early
+                        if k in ['topic', 'concept']:
+                            continue
+                        # Only trigger break if class is not in the lst
+                        elif k in article_lst:
                             ind = 1
                             break
+                    # Only list if classes aren't in list
                     if ind == 0:
                         print('%s - %s' % (i[0], j.attrs), file = lf)
                 # Runs if there are no classes for the article
                 except:
-                    print('%s - No classes' % (i[0]), file = lf)
+                    continue
                 
                 
                 
@@ -223,6 +283,7 @@ def mod_protocol0(idnum, file_name, file_save):
                 #             continue
                 # except:
                 #     continue
+        end_function(start_time)
         return
     
         for i in soup.find_all('br'):
@@ -473,7 +534,7 @@ def insert_htext(connection, table_name, header_id, text, url):
 # go_ind = 1
 # mod_protocol0(754,'html/dev_contents1.html', False)
 # extract_headers(go_ind)
-html_pull(949, 'html/dev_contents2.html')
+html_pull(28, 'html/dev_contents2.html')
 
 
 

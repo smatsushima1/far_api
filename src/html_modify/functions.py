@@ -155,6 +155,54 @@ def debug_headers(idnum, file_name, file_save):
                 break
 
 
+# Pull html for id_num for various checks
+def html_pull(idnum, file_name):
+    # Connect to database
+    db = db_init()
+    conn = db[0]
+    cur = db[1]
+    tname1 = 'dev_all_parts05'
+    qry_str1 = 'select * from {table1} where {field1} = %s;'
+    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
+                                    field1 = sql.Identifier('id_num')
+                                    )
+    values1 = (idnum, )
+    res = qry_execute(conn, qry1, values1, True)
+    html = res[0][9]
+    soup = bsp(html, 'html.parser')
+    # Save to file only if specified
+    write_file('html/dev_contents2.html', soup, True)
+    db_close(conn, cur)
+
+
+# Extract all headers to log file
+def extract_headers(protocol, log_file):
+    start_time = start_function('extract_headers')
+    # Connect to database
+    db = db_init()
+    conn = db[0]
+    cur = db[1]
+    qry_str1 = 'select * from {table1} where {field1} = %s;'
+    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier('dev_all_parts05'),
+                                    field1 = sql.Identifier('protocol')
+                                    )
+    values1 = (protocol, )
+    res = qry_execute(conn, qry1, values1, True)
+    # Start parsing html
+    lfile = init_write_file(log_file)
+    with open(lfile, 'w', encoding = 'utf8') as lf:
+        # Start looping through values
+        for i in res:
+            idnum = i[0]
+            html = i[9]
+            soup = bsp(html, 'html.parser')
+            for j in soup.find_all(re.compile('^h[1-6]$')):
+                print('#' * 80, file = lf)
+                print(j, file = lf)
+    db_close(conn, cur)
+    end_function(start_time)
+
+
 ########################## CSS and JavaScript Parsing #########################
 # Only one result found for 'autonumber', but not usable
 def search_css(search_text):

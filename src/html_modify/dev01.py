@@ -138,31 +138,12 @@ def extract_h2(connection, table_name, record, file_name):
                ]
         insert_values(connection, table_name, tuple(lst))
     print(' - +', file = file_name)
-
-
-# Pull html for id_num for various checks
-def html_pull(idnum, file_name):
-    # Connect to database
-    db = db_init()
-    conn = db[0]
-    cur = db[1]
-    tname1 = 'dev_all_parts05'
-    qry_str1 = 'select * from {table1} where {field1} = %s;'
-    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
-                                    field1 = sql.Identifier('id_num')
-                                    )
-    values1 = (idnum, )
-    res = qry_execute(conn, qry1, values1, True)
-    html = res[0][9]
-    soup = bsp(html, 'html.parser')
-    # Save to file only if specified
-    write_file('html/dev_contents2.html', soup, True)
-    db_close(conn, cur)
     
 
 # Used for debugging paragraphs
 # Modify file_name and idnum as appropriate
-def mod_protocol0(file_name, file_save):
+def mod_protocol0():
+# def mod_protocol0(file_name, file_save):
     start_time = start_function('mod_protocol0')
     # Connect to database
     db = db_init()
@@ -241,6 +222,10 @@ def mod_protocol0(file_name, file_save):
             ######################################################################
             # Try using wrap() to wrap all the other content in a new div
             
+            # Also, search in the bsp documentation to find tags directly beneath other tags:
+            
+            
+            ######################################################################
             # Separate each article by section and save this into another table
     #        for j in soup.find_all('h2', limit = 5):
     #            print('#' * 80, file = lf)            
@@ -380,7 +365,7 @@ def mod_protocol0(file_name, file_save):
         # print(lst, file = lf)
         
     # Save to file only if specified
-    write_file(file_name, soup, True)
+    # write_file(file_name, soup, True)
     db_close(conn, cur)
     end_function(start_time)
 
@@ -401,11 +386,17 @@ def mod_protocol0(file_name, file_save):
 # Returns the new ID for each header or href; prepends with # if returning href
 def header_ids(reg, part, text, href_ind, log_file):
     print('%s - %s - %s' % (reg, part, text), file = log_file)
+    # Only to be used for Assignments in DFARS PGI
+    tl = text.lower()
+    if tl.startswith('assignments') or tl.startswith('spare'):
+        id_string = dfarspgi_mod0(text)
+        return id_string
     if text.count(' ') == 0:
         text = text.replace('Reserved', ' RESERVED')
     hspl = text.split()
     hs0 = hspl[0]
     hs1 = hspl[1]
+    # Treat DFARS PGI differently
     if hs0.lower() == 'pgi':
         hs0 = hspl[1]
         hs1 = hspl[2]
@@ -527,13 +518,35 @@ def insert_htext(connection, table_name, header_id, text, url):
               )
     insert_values(connection, table_name, values)
 
-    
+
+# Extract specific headers for dfarspgi
+def dfarspgi_mod0(text):
+    tspl = text.split(' ')[0]
+    sub_sect = tspl[len(tspl) - 1]    
+    if tspl.startswith('assignment'):
+        part = 8
+        subpart = 70
+        sction = 6
+    elif tspl.startswith('spare'):
+        part = 17
+        subpart = 75
+        sction = 6
+    id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
+                                       part,
+                                       subpart,
+                                       sction,
+                                       sub_sect,
+                                       0,
+                                       'body'
+                                       )
+    return id_str
 
 
 # go_ind = 1
+mod_protocol0()
 # mod_protocol0('html/dev_contents1.html', True)
 # extract_headers(go_ind)
-html_pull(130, 'html/dev_contents2.html')
+# html_pull(130, 'html/dev_contents2.html')
 
 
 

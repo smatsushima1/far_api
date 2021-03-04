@@ -176,6 +176,7 @@ def html_pull(idnum, file_name):
 
 
 # Extract all headers to log file
+# Currently no h6 tags
 def extract_headers(protocol, log_file):
     start_time = start_function('extract_headers')
     # Connect to database

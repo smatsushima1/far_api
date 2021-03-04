@@ -4,7 +4,7 @@ from functions import *
 
 # Extracts headers in a separate table
 # Runtime: 100.789 seconds
-def extract_headers(go_ind):
+def extract_headers(id_num):
     if go_ind == 1:
         return
     start_time = start_function('extract_headers')
@@ -30,10 +30,16 @@ def extract_headers(go_ind):
                  AsIs('id_num')
                 ))
     # Run for the real results
-    cur.execute('select * from %s order by %s;',
-                (AsIs(tname_orig),
-                AsIs('id_num')
-                ))
+    if id_num == '':
+        cur.execute('select * from %s order by %s;',
+                    (AsIs(tname_orig),
+                     AsIs('id_num')
+                     ))
+    else:
+        cur.execute('select * from %s where ;',
+                    (AsIs(tname_orig),
+                    AsIs('id_num')
+                    ))
     results = cur.fetchall()
     lfile = init_write_file('log/log_add_headers.txt')    
     with open(lfile, 'w', encoding = 'utf8') as lf:
@@ -142,7 +148,7 @@ def extract_h2(connection, table_name, record, file_name):
 
 # Used for debugging paragraphs
 # Modify file_name and idnum as appropriate
-def mod_protocol0():
+def mod_protocol0(id_num):
 # def mod_protocol0(file_name, file_save):
     start_time = start_function('mod_protocol0')
     # Connect to database
@@ -151,16 +157,24 @@ def mod_protocol0():
     cur = db[1]
     tname1 = 'dev_all_parts05'
     qry_str1 = 'select * from {table1} where {field1} = %s;'
-    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
-                                    field1 = sql.Identifier('protocol')
-                                    )
-    values1 = (0, )
+    # Run for the real results
+    if id_num == '':
+        qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
+                                        field1 = sql.Identifier('protocol')
+                                        )
+        values1 = (0, )
+    else:
+        qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
+                                        field1 = sql.Identifier('id_num')
+                                        )
+        values1 = (id_num, )
     res = qry_execute(conn, qry1, values1, True)
     # Start parsing html
     lfile = init_write_file('log/log_protocol0.txt')
     with open(lfile, 'w', encoding = 'utf8') as lf:
         # Start looping through values
         for i in res:
+            idnum = i[0]
             reg = i[1]
             part = i[2] 
             url = i[8]
@@ -186,7 +200,7 @@ def mod_protocol0():
                 for k in div_toc.find_all('a'):
                     txt = k.get_text().strip()
                     k.string = txt
-                    k['href'] = header_ids(reg, part, txt, True, lf)
+                    k['href'] = header_ids(reg, part, txt, True, lf, idnum)
             else:
                 print('No div body', file = lf)
             # Remove all formatting from tables
@@ -207,7 +221,7 @@ def mod_protocol0():
                 j.string = hstr
                 orig_id = j['id']
                 # Assign new IDs and replace with the old
-                new_id = header_ids(reg, part, hstr, False, lf)
+                new_id = header_ids(reg, part, hstr, False, lf, idnum)
                 j['id'] = new_id
             # Remove all links to the FAR - they won't work anyway in the app
             for j in soup.find_all('a'):
@@ -255,7 +269,7 @@ def mod_protocol0():
                           subpart numeric,
                           sction numeric,
                           subsction numeric,
-                          supplemental numeric,
+                          supplementals_alt varchar,
                           htype varchar,
                           hlink varchar,
                           htext varchar
@@ -384,16 +398,20 @@ def mod_protocol0():
 
 
 # Returns the new ID for each header or href; prepends with # if returning href
-def header_ids(reg, part, text, href_ind, log_file):
-    print('%s - %s - %s' % (reg, part, text), file = log_file)
+def header_ids(reg, part, text, href_ind, log_file, idnum):
+    print('%s - %s - %s - %s' % (idnum, reg, part, text), file = log_file)
     # Only to be used for Assignments in DFARS PGI
-    tl = text.lower()
-    if tl.startswith('assignments') or tl.startswith('spare'):
-        id_string = dfarspgi_mod0(text)
-        return id_string
+    text2 = text.lower().replace('§', '').lstrip()
+    if text2.startswith('assignments') or text2.startswith('spare') or text2[1] == '-':
+        return dfarspgi_idstr(text)
+    # Some titles don't have spaces, which usually have 'reserved' in their title
     if text.count(' ') == 0:
         text = text.replace('Reserved', ' RESERVED')
-    hspl = text.split()
+    # More tests for GSAM/R Appendixes
+    if text2.startswith('appendix'):
+        return appendix_idstr(reg, text)
+    text3 = text.lower().replace('§', '').lstrip()
+    hspl = text3.split()
     hs0 = hspl[0]
     hs1 = hspl[1]
     # Treat DFARS PGI differently
@@ -401,7 +419,7 @@ def header_ids(reg, part, text, href_ind, log_file):
         hs0 = hspl[1]
         hs1 = hspl[2]
     # Parts
-    if hs0.lower() == 'part':
+    if hs0.lower().startswith('part'):
         id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
                                            part,
                                            0,
@@ -411,7 +429,7 @@ def header_ids(reg, part, text, href_ind, log_file):
                                            'header'
                                            )
     # Subparts
-    elif hs0.lower() == 'subpart':
+    elif hs0.lower().startswith('subpart'):
         hspl2 = hs1.split('.')
         id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
                                            part,
@@ -520,30 +538,52 @@ def insert_htext(connection, table_name, header_id, text, url):
 
 
 # Extract specific headers for dfarspgi
-def dfarspgi_mod0(text):
+def dfarspgi_idstr(text):
     tspl = text.split(' ')[0]
-    sub_sect = tspl[len(tspl) - 1]    
-    if tspl.startswith('assignment'):
+    sub_sect = tspl[len(tspl) - 1]
+    supp_alt = tspl.lower().replace('_', '-')
+    # For assignments in part 8
+    if tspl.lower().startswith('assignment'):
         part = 8
         subpart = 70
         sction = 6
-    elif tspl.startswith('spare'):
+    # Spare headers in part 17
+    elif tspl.lower().startswith('spare'):
         part = 17
         subpart = 75
         sction = 6
-    id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
+    # All sections below the spare headers
+    elif text[1] == '-':
+        part = 17
+        subpart = 75
+        sction = 6
+    id_str = '%s_%s_%s_%s_%s_%s_%s' % ('dfarspgi',
                                        part,
                                        subpart,
                                        sction,
                                        sub_sect,
-                                       0,
+                                       supp_alt,
                                        'body'
                                        )
     return id_str
 
 
+# Extract specific headers for appendix sections
+def appendix_idstr(reg, text):
+    tspl = text.split(' ')[0]
+    part = tspl[1:3].lstrip()
+    id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
+                                       part,
+                                       0,
+                                       0,
+                                       0,
+                                       text.lower().replace(' ', '-'),
+                                       'body'
+                                       )
+    return id_str
+
 # go_ind = 1
-mod_protocol0()
+mod_protocol0(947)
 # mod_protocol0('html/dev_contents1.html', True)
 # extract_headers(go_ind)
 # html_pull(130, 'html/dev_contents2.html')

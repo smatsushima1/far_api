@@ -343,21 +343,42 @@ def mod_protocol0(id_num):
             #     # Runs if there are no classes for the article
             #     except:
             #         continue
-                
-        # Start adding all text individually based on article classes
-        for j in ['nested4', 'nested3', 'nested2', 'nested1', 'nested0']:
-            for k in soup.find_all('article', class_ = j):
-                if k is None:
-                    continue
-                # Extract the first heading id number for the DB
-                hid = k.find(re.compile('^h[1-6]$'))
-                # Remove empty paragraphs
-                for p in k.find_all('p'):
-                    if p.find('article') or len(p.get_text()) <= 1:
-                        p.unwrap()
-                insert_htext(conn, tname2, hid['id'], k, url)
-                # Remove so text won't be copied again
-                k.decompose()
+            
+            # For certain articles, the same article classes are nested within them
+            # This will check to see if the same articles classes are within
+            # If they are, then make it the next level nested class
+            nested_class = ['nested4', 'nested3', 'nested2', 'nested1', 'nested0']
+            for j in nested_class:
+                nested_number = int(j[len(j) - 1])
+                for k in soup.find_all('article', class_ = j):
+                    if len(k.find_all('article', class_ = j)):
+                        k['class'] = 'nested' + str(nested_number - 1)
+                        break
+            
+            
+            # for j in nested_class:
+            #     for k in soup.find_all('article', class_ = j):
+            #         print('#' * 80, file = lf)
+            #         print(k, file = lf)
+            # return
+        
+        
+            # Start adding all text individually based on article classes
+            for j in nested_class:
+                for k in soup.find_all('article', class_ = j):
+                    print('#' * 80, file = lf)
+                    print(k, file = lf)
+                    if k is None:
+                        continue
+                    # Extract the first heading id number for the DB
+                    hid = k.find(re.compile('^h[1-6]$'))    
+                    # Remove empty paragraphs
+                    for p in k.find_all('p'):
+                        if p.find('article') or len(p.get_text()) <= 1:
+                            p.unwrap()
+                    #insert_htext(conn, tname2, hid['id'], k, url)
+                    # Remove so text won't be copied again
+                    k.decompose()
 
 
         
@@ -583,7 +604,7 @@ def appendix_idstr(reg, text):
     return id_str
 
 # go_ind = 1
-mod_protocol0(947)
+mod_protocol0('')
 # mod_protocol0('html/dev_contents1.html', True)
 # extract_headers(go_ind)
 # html_pull(130, 'html/dev_contents2.html')

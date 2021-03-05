@@ -17,3 +17,12 @@ from functions import *
 str2 = '501A'
 print(str2[:3])
 print(str2[1:3])
+print(str2[len(str2) - 1])
+
+str2 = ''
+if len(str2):
+    print('yes')
+else:
+    print('no')
+
+

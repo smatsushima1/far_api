@@ -177,7 +177,7 @@ def html_pull(idnum, file_name):
 
 # Extract all headers to log file
 # Currently no h6 tags
-def extract_headers(protocol, log_file):
+def extract_headers(protocol, log_file, get_text_ind):
     start_time = start_function('extract_headers')
     # Connect to database
     db = db_init()
@@ -198,9 +198,33 @@ def extract_headers(protocol, log_file):
             html = i[9]
             soup = bsp(html, 'html.parser')
             for j in soup.find_all(re.compile('^h[1-6]$')):
-                print('#' * 80, file = lf)
-                print(j, file = lf)
+                if get_text_ind:
+                    jprint = j.get_text().strip()
+                else:
+                    jprint = j
+                print('%s (%s)' % (jprint, idnum), file = lf)
     db_close(conn, cur)
+    end_function(start_time)
+
+
+# Test for reading the headers
+def extract_headers_test(read_file, write_file):
+    start_time = start_function('extract_headers_test')
+    rfile = open(read_file, 'r', encoding = 'utf8')
+    lfile = init_write_file(write_file)
+    with open(lfile, 'w', encoding = 'utf8') as lf:
+        for i in rfile.readlines():
+            itext = i.strip().split(' ')[0]
+            if itext.lower().startswith('part'):
+                continue
+            elif itext.lower().startswith('subpart'):
+                continue
+            elif itext.count('.') > 0:
+                continue
+            elif itext.lower() == 'pgi':
+                continue
+            else:
+                print(i, file = lf)
     end_function(start_time)
 
 

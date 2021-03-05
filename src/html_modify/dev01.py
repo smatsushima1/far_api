@@ -219,7 +219,12 @@ def mod_protocol0(id_num):
                 del j['class']
                 hstr = j.get_text().strip()
                 j.string = hstr
-                orig_id = j['id']
+                # If there are empty headers, for whatever reason, unwrap them
+                if hstr == '':
+                    j.unwrap()
+                    continue
+                # Assigned this value but never used; may change later
+                #orig_id = j['id']
                 # Assign new IDs and replace with the old
                 new_id = header_ids(reg, part, hstr, False, lf, idnum)
                 j['id'] = new_id
@@ -366,8 +371,6 @@ def mod_protocol0(id_num):
             # Start adding all text individually based on article classes
             for j in nested_class:
                 for k in soup.find_all('article', class_ = j):
-                    print('#' * 80, file = lf)
-                    print(k, file = lf)
                     if k is None:
                         continue
                     # Extract the first heading id number for the DB

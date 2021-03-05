@@ -4,9 +4,11 @@ from dev01 import *
 
 
 # mod_protocol0(947)
-html_pull(138, 'html/dev_contents2.html')
+# html_pull(961, 'html/dev_contents2.html')
 # extract_headers(0, 'log/log02.txt', True)
 # extract_headers_test('log/log02.txt', 'log/log03.txt')
+
+
 
 
 

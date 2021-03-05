@@ -1,37 +1,80 @@
-961 - gsam - 15 - Subpart 515.2 - Solicitation and Receipt of Proposals and Information
-961 - gsam - 15 - 515.201 Exchanges with industry before receipt of proposals.
-961 - gsam - 15 - 515.204 Contract format.
-961 - gsam - 15 - 515.208 Submission, modification, revision, and withdrawal of proposals.
-961 - gsam - 15 - 515.208-70 Restrictions on disclosure or use of data.
-961 - gsam - 15 - 515.209 Solicitation provisions and contract clauses.
-961 - gsam - 15 - 515.209-70 Examination of records by GSA clause.
-961 - gsam - 15 - 515.210 Forms.
-961 - gsam - 15 - 515.210-70 GSA Form 1602.
-961 - gsam - 15 - Subpart 515.3 - Source Selection
-961 - gsam - 15 - 515.303 Responsibilities.
-961 - gsam - 15 - 515.305 Proposal Evaluation.
-961 - gsam - 15 - 515.305-70 Use of nongovernment evaluators.
-961 - gsam - 15 - 515.305-71 Actions before releasing proposals.
-961 - gsam - 15 - 515.306 Exchanges with offerors after receipt of proposals.
-961 - gsam - 15 - Subpart 515.4 - Contract Pricing
-961 - gsam - 15 - 515.403 Obtaining certified cost or pricing data.
-961 - gsam - 15 - 515.403-4 Requiring certified cost or pricing data (10 U.S.C. 2306a and 41 U.S.C. 254b).
-961 - gsam - 15 - 515.404 [Reserved]
-961 - gsam - 15 - 515.404-2 Information to support proposal analysis.
-961 - gsam - 15 - 515.404-4 Profit.
-961 - gsam - 15 - 515.404-70 Profit Analysis.
-961 - gsam - 15 - 515.408 Solicitation provisions and contract clauses.
-961 - gsam - 15 - Subpart 515.6 - Unsolicited Proposals
-961 - gsam - 15 - 515.601 Definitions.
-961 - gsam - 15 - 515.606 Agency procedures.
-961 - gsam - 15 - 515.606-2 Evaluation.
-961 - gsam - 15 - 515.609 Limited use of data.
-961 - gsam - 15 - Part 515 - Contracting by Negotiation
-961 - gsam - 15 - Subpart 515.2 - Solicitation and Receipt of Proposals and Information
-961 - gsam - 15 - 515.201 Exchanges with industry before receipt of proposals.
-961 - gsam - 15 - 515.204 Contract format.
-961 - gsam - 15 - 515.208 Submission, modification, revision, and withdrawal of proposals.
-961 - gsam - 15 - 515.208-70 Restrictions on disclosure or use of data.
-961 - gsam - 15 - 515.209 Solicitation provisions and contract clauses.
-961 - gsam - 15 - 515.209-70 Examination of records by GSA clause.
-961 - gsam - 15 - Clause for other than multiple award schedules
+947 - gsam - 1 - Part 501 - General Services Administration Acquisition Regulation System
+947 - gsam - 1 - Subpart 501.1 - Purpose, Authority, Issuance
+947 - gsam - 1 - 501.101 Purpose.
+947 - gsam - 1 - 501.103 Authority.
+947 - gsam - 1 - 501.104 Applicability.
+947 - gsam - 1 - 501.105 Issuance.
+947 - gsam - 1 - 501.105-1 Publication and code arrangement.
+947 - gsam - 1 - 501.105-2 Arrangement of regulations.
+947 - gsam - 1 - 501.105-3 Copies.
+947 - gsam - 1 - 501.106 OMB Approval under the Paperwork Reduction Act.
+947 - gsam - 1 - 501.107 Certifications.
+947 - gsam - 1 - 501.170 General Services Administration Acquisition Management System.
+947 - gsam - 1 - Subpart 501.3 - Agency Acquisition Regulations
+947 - gsam - 1 - 501.301 Policy.
+947 - gsam - 1 - 501.304 Agency control and compliance procedures.
+947 - gsam - 1 - 501.370 Other acquisition policies, procedures, and guidance.
+947 - gsam - 1 - 501.371 Regulatory Agenda Reviews.
+947 - gsam - 1 - Subpart 501.4 - Deviations from the FAR and GSAR
+947 - gsam - 1 - 501.401 Definition.
+947 - gsam - 1 - 501.402 Policy.
+947 - gsam - 1 - 501.403 Individual deviations.
+947 - gsam - 1 - 501.404 Class deviations.
+947 - gsam - 1 - 501.470 Content requirements.
+947 - gsam - 1 - Subpart 501.5 - Agency and Public Participation
+947 - gsam - 1 - 501.501 Solicitation of agency and public views.
+947 - gsam - 1 - Subpart 501.6 - Career Development, Contracting Authority, and Responsibilities
+947 - gsam - 1 - 501.601 General.
+947 - gsam - 1 - 501.602 Contracting officers.
+947 - gsam - 1 - 501.602-2 Responsibilities.
+947 - gsam - 1 - 501.602-3 Ratification of unauthorized commitments.
+947 - gsam - 1 - 501.603 Selection, appointment, and termination of appointment for contracting officers.
+947 - gsam - 1 - 501.603-1 General.
+947 - gsam - 1 - 501.603-2 Selection.
+947 - gsam - 1 - 501.603-3 Appointment.
+947 - gsam - 1 - 501.603-4 Termination.
+947 - gsam - 1 - 501.604 Contracting Officer's Representative (COR).
+947 - gsam - 1 - 501.670 Category Managers.
+947 - gsam - 1 - 501.671 Program and Project Managers (P/PM).
+947 - gsam - 1 - Subpart 501.7 - Determinations and Findings
+947 - gsam - 1 - 501.707 Signatory authority.
+947 - gsam - 1 - Subpart 501.1 - Purpose, Authority, Issuance
+947 - gsam - 1 - 501.101 Purpose.
+947 - gsam - 1 - 501.103 Authority.
+947 - gsam - 1 - 501.104 Applicability.
+947 - gsam - 1 - 501.105 Issuance.
+947 - gsam - 1 - 501.105-1 Publication and code arrangement.
+947 - gsam - 1 - 501.105-2 Arrangement of regulations.
+947 - gsam - 1 - 501.105-3 Copies.
+947 - gsam - 1 - 501.106 OMB Approval under the Paperwork Reduction Act.
+947 - gsam - 1 - 501.107 Certifications.
+947 - gsam - 1 - 501.170 General Services Administration Acquisition Management System.
+947 - gsam - 1 - Subpart 501.3 - Agency Acquisition Regulations
+947 - gsam - 1 - 501.301 Policy.
+947 - gsam - 1 - 501.304 Agency control and compliance procedures.
+947 - gsam - 1 - 501.370 Other acquisition policies, procedures, and guidance.
+947 - gsam - 1 - 501.371 Regulatory Agenda Reviews.
+947 - gsam - 1 - Subpart 501.4 - Deviations from the FAR and GSAR
+947 - gsam - 1 - 501.401 Definition.
+947 - gsam - 1 - 501.402 Policy.
+947 - gsam - 1 - 501.403 Individual deviations.
+947 - gsam - 1 - 501.404 Class deviations.
+947 - gsam - 1 - 501.470 Content requirements.
+947 - gsam - 1 - Subpart 501.5 - Agency and Public Participation
+947 - gsam - 1 - 501.501 Solicitation of agency and public views.
+947 - gsam - 1 - Subpart 501.6 - Career Development, Contracting Authority, and Responsibilities
+947 - gsam - 1 - 501.601 General.
+947 - gsam - 1 - 501.602 Contracting officers.
+947 - gsam - 1 - 501.602-2 Responsibilities.
+947 - gsam - 1 - 501.602-3 Ratification of unauthorized commitments.
+947 - gsam - 1 - 501.603 Selection, appointment, and termination of appointment for contracting officers.
+947 - gsam - 1 - 501.603-1 General.
+947 - gsam - 1 - 501.603-2 Selection.
+947 - gsam - 1 - 501.603-3 Appointment.
+947 - gsam - 1 - 501.603-4 Termination.
+947 - gsam - 1 - 501.604 Contracting Officer's Representative (COR).
+947 - gsam - 1 - 501.670 Category Managers.
+947 - gsam - 1 - 501.671 Program and Project Managers (P/PM).
+947 - gsam - 1 - Subpart 501.7 - Determinations and Findings
+947 - gsam - 1 - 501.707 Signatory authority.
+947 - gsam - 1 - Appendix 501A - [Reserved]

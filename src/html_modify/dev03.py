@@ -1,14 +1,21 @@
 
 from functions import *
+from dev01 import *
+
+
+# mod_protocol0(947)
+html_pull(138, 'html/dev_contents2.html')
+# extract_headers(0, 'log/log02.txt', True)
+# extract_headers_test('log/log02.txt', 'log/log03.txt')
+
+
 
 # str1 = 'assignments_part_1 -ugh herp'
 
 # str_spl = str1.split(' ')[0]
 # print(str_spl[len(str_spl) - 1])
 
-# html_pull(961, 'html/dev_contents2.html')
-# extract_headers(0, 'log/log02.txt', True)
-extract_headers_test('log/log02.txt', 'log/log03.txt')
+
 
 # str1 = '§ 1539.2071 Contract clause.'
 # print(str1.lower().replace('§', '').lstrip())

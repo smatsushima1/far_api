@@ -191,6 +191,29 @@ def mod_protocol0(id_num):
             # Remove nav classes
             for j in soup.find_all('nav'):
                 j.extract()
+            # Modify headers
+            for j in soup.find_all(re.compile('^h[1-6]$')):
+                # Remove all classes
+                del j['class']
+                hstr = j.get_text().strip()
+                j.string = hstr
+                # Run function to modify headers
+                hchange = header_change(reg, hstr)
+                if hchange == 1:
+                    ntag = soup.new_tag('b')
+                    ntag.string = j.string
+                    j.insert_after(ntag)
+                    j.unwrap()
+                    print(j)
+                    continue
+                elif hchange == 2:
+                    j.unwrap()
+                    continue
+                # Assigned this value but never used; may change later
+                #orig_id = j['id']
+                # Assign new IDs and replace with the old
+                new_id = header_ids(reg, part, hstr, False, lf, idnum)
+                j['id'] = new_id            
             # Fix the TOC
             div_toc = soup.find('div', class_ = 'body')
             if div_toc is not None:
@@ -213,21 +236,6 @@ def mod_protocol0(id_num):
                     del k['class']
                 for k in j.find_all('p'):
                     k.unwrap()
-            # List all headers
-            for j in soup.find_all(re.compile('^h[1-6]$')):
-                # Remove all classes
-                del j['class']
-                hstr = j.get_text().strip()
-                j.string = hstr
-                # If there are empty headers, for whatever reason, unwrap them
-                if hstr == '':
-                    j.unwrap()
-                    continue
-                # Assigned this value but never used; may change later
-                #orig_id = j['id']
-                # Assign new IDs and replace with the old
-                new_id = header_ids(reg, part, hstr, False, lf, idnum)
-                j['id'] = new_id
             # Remove all links to the FAR - they won't work anyway in the app
             for j in soup.find_all('a'):
                 try:
@@ -379,7 +387,7 @@ def mod_protocol0(id_num):
                     for p in k.find_all('p'):
                         if p.find('article') or len(p.get_text()) <= 1:
                             p.unwrap()
-                    #insert_htext(conn, tname2, hid['id'], k, url)
+                    insert_htext(conn, tname2, hid['id'], k, url)
                     # Remove so text won't be copied again
                     k.decompose()
 
@@ -421,6 +429,32 @@ def mod_protocol0(id_num):
 # 1 for debug, 0 for extract_headers
 
 
+# Return codes based on the types of headers there are
+# 1 = turn to bold
+# 2 = unwrap
+# 3 = do nothing
+def header_change(reg, text_full):
+    text = text_full.strip().split(' ')[0]
+    if text.lower().startswith('part'):
+        return 3
+    elif text.lower().startswith('subpart'):
+        return 3
+    elif text.count('.') > 0:
+        return 3
+    elif text.lower() == 'pgi':
+        return 3
+    elif text.lower().startswith('assignments'):
+        return 3
+    elif text.lower().startswith('spare'):
+        return 3
+    elif text_full == '':
+        return 2
+    elif text == '§':
+        return 3
+    else:
+        return 1
+
+
 # Returns the new ID for each header or href; prepends with # if returning href
 def header_ids(reg, part, text, href_ind, log_file, idnum):
     print('%s - %s - %s - %s' % (idnum, reg, part, text), file = log_file)
@@ -428,13 +462,23 @@ def header_ids(reg, part, text, href_ind, log_file, idnum):
     text2 = text.lower().replace('§', '').lstrip()
     if text2.startswith('assignments') or text2.startswith('spare') or text2[1] == '-':
         return dfarspgi_idstr(text)
-    # Some titles don't have spaces, which usually have 'reserved' in their title
+    # One title doesn't have a space in DFARS PGI
     if text.count(' ') == 0:
         text = text.replace('Reserved', ' RESERVED')
-    # More tests for GSAM/R Appendixes
+    # This is all for just one section in GSAM
     if text2.startswith('appendix'):
-        return appendix_idstr(reg, text)
-    text3 = text.lower().replace('§', '').lstrip()
+        tspl = text.split(' ')[0]
+        part = tspl[1:3].lstrip()
+        id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
+                                           part,
+                                           0,
+                                           0,
+                                           0,
+                                           text.lower().replace(' ', '-'),
+                                           'body'
+                                           )
+        return id_str
+    text3 = text.lower().replace('§ ', '').lstrip()
     hspl = text3.split()
     hs0 = hspl[0]
     hs1 = hspl[1]
@@ -533,7 +577,7 @@ def header_link_section(text):
     return (subpart, sction)
 
 
-# Insert htext sections in dev_all_html02
+# Insert htext sections in dev_all_html02 table
 def insert_htext(connection, table_name, header_id, text, url):
     # The header IDs need to be the ones we made, exit function if not
     if header_id.count('_') < 6:
@@ -592,22 +636,8 @@ def dfarspgi_idstr(text):
     return id_str
 
 
-# Extract specific headers for appendix sections
-def appendix_idstr(reg, text):
-    tspl = text.split(' ')[0]
-    part = tspl[1:3].lstrip()
-    id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
-                                       part,
-                                       0,
-                                       0,
-                                       0,
-                                       text.lower().replace(' ', '-'),
-                                       'body'
-                                       )
-    return id_str
-
 # go_ind = 1
-mod_protocol0('')
+# mod_protocol0(961)
 # mod_protocol0('html/dev_contents1.html', True)
 # extract_headers(go_ind)
 # html_pull(130, 'html/dev_contents2.html')

@@ -175,7 +175,7 @@ def html_pull(idnum, file_name):
     html = res[0][9]
     soup = bsp(html, 'html.parser')
     # Save to file only if specified
-    write_file('html/dev_contents2.html', soup, True)
+    write_file(file_name, soup, True)
     db_close(conn, cur)
 
 
@@ -350,7 +350,7 @@ def mod_protocol0(id_num):
                           htext varchar
                           )'''
             drop_create_tables(conn, tname2, values2)
-            # Start converting all texts
+            # Start converting all article classes
             # GSAM = could be subsections or sections, search if contains h4, then process
             # GSAR = (see GSAM)
             # nested4 = supplemental sections
@@ -472,100 +472,79 @@ def mod_protocol0(id_num):
 # Returns the new ID for each header or href; prepends with # if returning href
 def header_ids(reg, part, text, href_ind, log_file, idnum):
     print('%s - %s - %s - %s' % (idnum, reg, part, text), file = log_file)
+    # Reformat the string to make it lower
+    text2 = reformat_headers(reg, text)
     # Returns id_str if not none
-    res = header_types(reg, text)
+    res = header_types(reg, text2)
     if res is not None:
         return res
-    # Only to be used for Assignments in DFARS PGI
-    text2 = text.lower().replace('§', '').lstrip()
-    if text2.startswith('assignments') or text2.startswith('spare') or text2[1] == '-':
+    elif res == 4:
         return dfarspgi_idstr(text)
-    # One title doesn't have a space in DFARS PGI
-    if text.count(' ') == 0:
-        text = text.replace('Reserved', ' RESERVED')
-    # This is all for just one section in GSAM
-    if text2.startswith('appendix'):
-        tspl = text.split(' ')[0]
-        part = tspl[1:3].lstrip()
-        id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
-                                           part,
-                                           0,
-                                           0,
-                                           0,
-                                           text.lower().replace(' ', '-'),
-                                           'body'
-                                           )
-        return id_str
-    text3 = text.lower().replace('§ ', '').lstrip()
-    hspl = text3.split()
+    # Isolate the citation
+    hspl = text2.split()
     hs0 = hspl[0]
     hs1 = hspl[1]
-    # Treat DFARS PGI differently
-    if hs0.lower() == 'pgi':
-        hs0 = hspl[1]
-        hs1 = hspl[2]
+    # Only do this for one header in GSAM
+    if hs0.startswith('appendix'):
+        tspl = text2.split(' ')[0]
+        part = tspl[1:3].lstrip()
+        subpart = 0
+        sction = 0
+        subsction = 0
+        supp_alt = text.lower().replace(' ', '-')
+        htype = 'body'  
     # Parts
-    if hs0.lower().startswith('part'):
-        id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
-                                           part,
-                                           0,
-                                           0,
-                                           0,
-                                           0,
-                                           'header'
-                                           )
+    elif hs0.startswith('part'):
+        subpart = 0
+        sction = 0
+        subsction = 0
+        supp_alt = 0
+        htype = 'header'
     # Subparts
-    elif hs0.lower().startswith('subpart'):
-        hspl2 = hs1.split('.')
-        id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
-                                           part,
-                                           hspl2[1],
-                                           0,
-                                           0,
-                                           0,
-                                           'header'
-                                           )
+    elif hs0.startswith('subpart'):
+        subpart = hs1.split('.')[1]
+        sction = 0
+        subsction = 0
+        supp_alt = 0
+        htype = 'header'
     # Sections
     elif hs0.find('-') == -1:
-        hspl2 = hs0.split('.')
-        hsp1 = hspl2[1]
-        sp_s = header_link_section(hsp1)
-        id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
-                                           part,
-                                           sp_s[0],
-                                           sp_s[1],
-                                           0,
-                                           0,
-                                           'body'
-                                           )
+        sp_s = header_link_section(hs0.split('.')[1])
+        subpart = sp_s[0]
+        sction = sp_s[1]
+        subsction = 0
+        supp_alt = 0
+        htype = 'body'
     # Subsections
     elif hs0.count('-') == 1:
         ss_spl = hs0.split('-')
         hspl2 = ss_spl[0].split('.')
         hsp1 = hspl2[1]
-        sp_s = header_link_section(hsp1)   
-        id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
-                                           part,
-                                           sp_s[0],
-                                           sp_s[1],
-                                           ss_spl[1],
-                                           0,
-                                           'body'
-                                           )
+        sp_s = header_link_section(hsp1) 
+        subpart = sp_s[0]
+        sction = sp_s[1]
+        subsction = ss_spl[1]
+        supp_alt = 0
+        htype = 'body'
     # Supplementals
     elif hs0.count('-') > 1:
         ss_spl = hs0.split('-')
         hspl2 = ss_spl[0].split('.')
         hsp1 = hspl2[1]
-        sp_s = header_link_section(hsp1)   
-        id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
-                                           part,
-                                           sp_s[0],
-                                           sp_s[1],
-                                           ss_spl[1],
-                                           ss_spl[2],
-                                           'body'
-                                           )
+        sp_s = header_link_section(hsp1)
+        subpart = sp_s[0]
+        sction = sp_s[1]
+        subsction = ss_spl[1]
+        supp_alt = ss_spl[2]
+        htype = 'body'
+    id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
+                                       part,
+                                       subpart,
+                                       sction,
+                                       subsction,
+                                       supp_alt,
+                                       htype
+                                       )    
     # print('%s ##### %s' % (text, id_str))
     # href's require # in order to go to the link on the page
     if href_ind:
@@ -574,8 +553,22 @@ def header_ids(reg, part, text, href_ind, log_file, idnum):
         return id_str
     
 
+# Reformat header text
+def reformat_headers(reg, text):
+    text2 = text.lower().lstrip()
+    # One title doesn't have a space in DFARS PGI
+    if reg == 'dfarspgi' and text2.count(' ') == 0:
+        text2 = text2.replace('reserved', ' reserved')
+    # Replace the special character
+    if text2.count('§') > 0:
+        text2 = text2.replace('§', '').lstrip()
+    if text2.startswith('pgi'):
+        text2.replace('pgi', '').lstrip()
+    return text2
+
+
 # Identify the different types of of headers
-def header_types(reg, text_full):
+def header_typesdev(reg, text_full):
     text = text_full.strip().split(' ')[0]
     if text.lower().startswith('part'):
         return 3

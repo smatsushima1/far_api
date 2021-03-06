@@ -33,7 +33,7 @@ def write_file(file_name, text, html):
 # Start timer for functinos
 def start_function(func_name):
     start_time = time.time()
-    print('\n' + cbl())
+    print('\n' + cb())
     print('Function: %s\nStarting...' % (func_name))
     return start_time
 
@@ -52,7 +52,7 @@ def end_function(start_time):
 
 
 # Comment block headers
-def cbl():
+def cb():
     return str('#' * 80)
 
 ################################### DB Tasks ##################################
@@ -267,6 +267,7 @@ def mod_protocol0(id_num):
             url = i[8]
             html = i[9]
             soup = bsp(html, 'html.parser')
+            # Remove all breaks
             for j in soup.find_all('br'):
                 j.unwrap()
             # Remove all span classes and subsequent autonumbers
@@ -282,30 +283,27 @@ def mod_protocol0(id_num):
             for j in soup.find_all(re.compile('^h[1-6]$')):
                 # Remove all classes
                 del j['class']
+                if j.get_text().strip() is None:
+                    j.unwrap()
+                    continue
                 hstr = j.get_text().strip()
                 j.string = hstr
                 if hstr == '':
                     j.unwrap()
                     continue
-                print(cbl(), file = lf)
-                print(j.parent, file = lf)
                 # Run function to modify headers
-                # hchange = header_change(reg, hstr)
-                # if hchange == 1:
-                #     ntag = soup.new_tag('b')
-                #     ntag.string = j.string
-                #     j.insert_after(ntag)
-                #     j.unwrap()
-                #     print(j)
-                #     continue
-                # elif hchange == 2:
-                #     j.unwrap()
-                #     continue
+                hres = header_ids(reg, part, hstr, False, lf, idnum)
+                if hres == 2:
+                    ntag = soup.new_tag('b')
+                    ntag.string = j.string
+                    j.insert_after(ntag)
+                    j.unwrap()
+                    continue
                 # Assigned this value but never used; may change later
                 #orig_id = j['id']
                 # Assign new IDs and replace with the old
                 new_id = header_ids(reg, part, hstr, False, lf, idnum)
-                j['id'] = new_id            
+                j['id'] = new_id
             # Fix the TOC
             div_toc = soup.find('div', class_ = 'body')
             if div_toc is not None:
@@ -315,7 +313,7 @@ def mod_protocol0(id_num):
                 for k in div_toc.find_all('a'):
                     txt = k.get_text().strip()
                     k.string = txt
-                    k['href'] = header_ids(reg, part, txt, True, lf, idnum)
+                    k['href'] = header_ids(reg, part, txt, True, lf, idnum)             
             else:
                 print('No div body', file = lf)
             # Remove all formatting from tables
@@ -380,18 +378,19 @@ def mod_protocol0(id_num):
                             j['class'] = ['nested2']
                             continue
                         # The following classes have different headers
+                        # Headers start at the largest level and move downoward
                         elif k in ['GSAM', 'GSAR', 'FAC', 'CHANGE']:
-                            if j.find('h5') is not None:
-                                j['class'] = ['nested4']
-                                continue
-                            elif j.find('h4') is not None:
-                                j['class'] = ['nested3']
+                            if j.find('h2') is not None:
+                                j['class'] = ['nested1']
                                 continue
                             elif j.find('h3') is not None:
                                 j['class'] = ['nested2']
                                 continue
-                            elif j.find('h2') is not None:
-                                j['class'] = ['nested1']
+                            elif j.find('h4') is not None:
+                                j['class'] = ['nested3']
+                                continue                            
+                            elif j.find('h5') is not None:
+                                j['class'] = ['nested4']
                                 continue
                 # Runs if there are no classes for the article
                 except:
@@ -418,11 +417,16 @@ def mod_protocol0(id_num):
             #     # Runs if there are no classes for the article
             #     except:
             #         continue
-            
+        
+            nested_class = ['nested4',
+                            'nested3',
+                            'nested2',
+                            'nested1',
+                            'nested0'
+                            ]            
             # For certain articles, the same article classes are nested within them
             # This will check to see if the same articles classes are within
             # If they are, then make it the next level nested class
-            nested_class = ['nested4', 'nested3', 'nested2', 'nested1', 'nested0']
             for j in nested_class:
                 nested_number = int(j[len(j) - 1])
                 for k in soup.find_all('article', class_ = j):
@@ -434,8 +438,13 @@ def mod_protocol0(id_num):
                 for k in soup.find_all('article', class_ = j):
                     if k is None:
                         continue
+                    # Unwrap the article if there are no headers:
+                    if k.find(re.compile('^h[1-6]$')) is None:
+                        print('%s\nMissing header:\n%s\n%s' % (cb(), k, cb()), file = lf)
+                        k.unwrap()
+                        continue                        
                     # Extract the first heading id number for the DB
-                    hid = k.find(re.compile('^h[1-6]$'))    
+                    hid = k.find(re.compile('^h[1-6]$')) 
                     # Remove empty paragraphs
                     for p in k.find_all('p'):
                         if p.find('article') or len(p.get_text()) <= 1:
@@ -471,28 +480,35 @@ def mod_protocol0(id_num):
 
 # Returns the new ID for each header or href; prepends with # if returning href
 def header_ids(reg, part, text, href_ind, log_file, idnum):
-    print('%s - %s - %s - %s' % (idnum, reg, part, text), file = log_file)
+    if href_ind:
+        print('%s - %s - %s - %s' % (idnum, reg, part, text), file = log_file)
     # Reformat the string to make it lower
     text2 = reformat_headers(reg, text)
     # Returns id_str if not none
     res = header_types(reg, text2)
-    if res is not None:
-        return res
-    elif res == 4:
-        return dfarspgi_idstr(text)
+    if res == 1:
+        return dfarspgi_idstr(text2)
+    elif res == 2:
+        return 2
     # Isolate the citation
     hspl = text2.split()
     hs0 = hspl[0]
-    hs1 = hspl[1]
     # Only do this for one header in GSAM
     if hs0.startswith('appendix'):
         tspl = text2.split(' ')[0]
-        part = tspl[1:3].lstrip()
+        part = 1
         subpart = 0
         sction = 0
         subsction = 0
         supp_alt = text.lower().replace(' ', '-')
-        htype = 'body'  
+        htype = 'body'
+    # This one section is for idnum 978
+    elif hs0.startswith('[reserved]'):
+        subpart = 11
+        sction = 0
+        subsction = 0
+        supp_alt = 0
+        htype = 'body'
     # Parts
     elif hs0.startswith('part'):
         subpart = 0
@@ -502,7 +518,7 @@ def header_ids(reg, part, text, href_ind, log_file, idnum):
         htype = 'header'
     # Subparts
     elif hs0.startswith('subpart'):
-        subpart = hs1.split('.')[1]
+        subpart = hspl[1].split('.')[1]
         sction = 0
         subsction = 0
         supp_alt = 0
@@ -553,14 +569,38 @@ def header_ids(reg, part, text, href_ind, log_file, idnum):
         return id_str
     
 
+# Identify the different types of of headers
+# 0: process normally
+# 1: special DFARS cases
+# 2: process all other alternatives
+def header_types(reg, text):
+    # Isolate the first part of the citation
+    text2 = text.strip().split(' ')[0]
+    # Return for DFARS
+    if text2.startswith('assignments') or \
+       text2.startswith('spare') or \
+       text2[1] == '-':
+        return 1
+    # Majority of the other citations
+    elif text2.startswith('part') or \
+         text2.startswith('subpart') or \
+         text2.count('.') > 0 or \
+         text2.startswith('appendix') or \
+         text2.startswith('[reserved]'):
+        return 0
+    # Process alternatives
+    else:
+        return 2
+
+
 # Reformat header text
-def reformat_headers(reg, text):
+def reformat_headers(reg, text):  
     text2 = text.lower().lstrip()
     # One title doesn't have a space in DFARS PGI
     if reg == 'dfarspgi' and text2.count(' ') == 0:
         text2 = text2.replace('reserved', ' reserved')
     # Replace the special character
-    if text2.count('§') > 0:
+    if text2.startswith('§'):
         text2 = text2.replace('§', '').lstrip()
     if text2.startswith('pgi'):
         text2.replace('pgi', '').lstrip()
@@ -596,14 +636,14 @@ def header_link_section(text):
         subpart = text[0]
         sction = text[1:]
         if sction.startswith('0'):
-            sction = '0'
+            sction = text[2]
         else:
             sction = sction.lstrip('0')
     elif len(text) == 4:
         subpart = text[:2]
         sction = text[2:]
         if sction.startswith('0'):
-            sction = '0'
+            sction = text[3]
         else:
             sction = sction.lstrip('0')
     else:

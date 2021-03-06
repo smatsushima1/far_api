@@ -3,30 +3,7 @@ from functions import *
 from dev01 import *
 
 
-# Identify the different types of of headers
 
-def header_types(reg, text):
-    # Turn None type to an empty string
-    if text is None:
-        text = ''
-    # Isolate the first part of the citation
-    text2 = text.strip().split(' ')[0]
-    # Return for DFARS
-    if text2.startswith('assignments') or \
-       text2.startswith('spare') or \
-       text2[1] == '-':
-        return 2
-    # Return an exit code
-    elif text == '':
-        return 1
-    # Majority of the other citations
-    elif text2.startswith('part') or \
-         text2.startswith('subpart') or \
-         text2.count('.') > 0:
-        return
-    # Process alternatives
-    else:
-        return 3
 
 
 def dev_header(id_num):
@@ -49,12 +26,14 @@ def dev_header(id_num):
         url = i[8]
         html = i[9]
         soup = bsp(html, 'html.parser')
-        find_res = soup.find('h2', id = 'ariaid-title39')
-        print(find_res.find_all_next('p'))
+        find_res = soup.find('h2', id = 'ugh-derp')
+        print(find_res)
+        # find_res = soup.find('h2', id = 'ariaid-title39')
+        # print(find_res.find_all_next('p'))
             
 
-run = 2
-idnum = 978
+run = 1
+idnum = ''
 if run == 1:
     mod_protocol0(idnum)
 elif run == 2:
@@ -67,8 +46,9 @@ elif run == 5:
     dev_header(idnum)
 
 
-# str1 = '1474.201Reserved'
-# print(reformat_headers('dfarspgi', str1))
+# str1 = ''
+# if len(str1):
+#     print('yes')
     
 # str2 = ''
 # print(str2.strip())

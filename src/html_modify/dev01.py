@@ -23,6 +23,22 @@ from functions import *
 # Also, search in the bsp documentation to find tags directly beneath other tags:
 
     
+# Could try this:
+    #     res = qry_execute(conn, qry1, values1, True)  
+    # # Start looping through values
+    # for i in res:
+    #     idnum = i[0]
+    #     reg = i[1]
+    #     part = i[2] 
+    #     url = i[8]
+    #     html = i[9]
+    #     soup = bsp(html, 'html.parser')
+    #     find_res = soup.find('h2', id = 'ariaid-title39')
+    #     print(find_res.find_all_next('p'))
+
+
+
+    
 ######################################################################
 # Make all text look pretty
         # for x, j in enumerate(i):

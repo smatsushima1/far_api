@@ -449,7 +449,7 @@ def mod_protocol0(id_num):
                     for p in k.find_all('p'):
                         if p.find('article') or len(p.get_text()) <= 1:
                             p.unwrap()
-                    insert_htext(conn, tname2, hid['id'], k, url)
+                    insert_htext(conn, tname2, hid['id'], k, url, idnum, lf)
                     # Remove so text won't be copied again
                     k.decompose()
 
@@ -480,8 +480,8 @@ def mod_protocol0(id_num):
 
 # Returns the new ID for each header or href; prepends with # if returning href
 def header_ids(reg, part, text, href_ind, log_file, idnum):
-    if href_ind:
-        print('%s - %s - %s - %s' % (idnum, reg, part, text), file = log_file)
+    # if href_ind:
+    #     print('%s - %s - %s - %s' % (idnum, reg, part, text), file = log_file)
     # Reformat the string to make it lower
     text2 = reformat_headers(reg, text)
     # Returns id_str if not none
@@ -603,7 +603,7 @@ def reformat_headers(reg, text):
     if text2.startswith('§'):
         text2 = text2.replace('§', '').lstrip()
     if text2.startswith('pgi'):
-        text2.replace('pgi', '').lstrip()
+        text2 = text2.replace('pgi', '').lstrip()
     return text2
 
 
@@ -652,7 +652,7 @@ def header_link_section(text):
 
 
 # Insert htext sections in dev_all_html02 table
-def insert_htext(connection, table_name, header_id, text, url):
+def insert_htext(connection, table_name, header_id, text, url, id_num, log_file):
     # The header IDs need to be the ones we made, exit function if not
     if header_id.count('_') < 6:
         return
@@ -677,6 +677,21 @@ def insert_htext(connection, table_name, header_id, text, url):
               str(text)
               )
     insert_values(connection, table_name, values)
+    print('%s - %s - %s - %s - %s - %s - %s - %s' % (id_num,
+                                                     hid_spl[0],
+                                                     # part
+                                                     hid_spl[1],
+                                                     # subpart
+                                                     hid_spl[2],
+                                                     # sction
+                                                     hid_spl[3],
+                                                     # subsction
+                                                     hid_spl[4],
+                                                     # supplemental
+                                                     hid_spl[5],
+                                                     # htype
+                                                     hid_spl[6]
+                                                     ), file = log_file)
 
 
 # Extract specific headers for dfarspgi

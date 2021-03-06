@@ -32,6 +32,10 @@ def dev_header(id_num):
         # print(find_res.find_all_next('p'))
             
 
+# Error at 112, 154, 155, 157, 899, 1063, 1070, 1086, 1109, 1124
+
+
+
 run = 1
 idnum = ''
 if run == 1:

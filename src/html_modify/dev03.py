@@ -37,9 +37,9 @@ def dev_header(id_num):
 
 
 run = 1
-idnum = ''
+idnum = 154
 if run == 1:
-    mod_protocol0(idnum)
+    mod_protocol0(idnum, 'log/log_prot0.txt')
 elif run == 2:
     html_pull(idnum, 'html/html_pull01.html')
 elif run == 3:
@@ -50,12 +50,7 @@ elif run == 5:
     dev_header(idnum)
 
 
-# str1 = ''
-# if len(str1):
-#     print('yes')
-    
-# str2 = ''
-# print(str2.strip())
+
 
 
 

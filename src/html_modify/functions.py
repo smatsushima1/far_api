@@ -235,7 +235,7 @@ def extract_headers_test(read_file, write_file):
 ################################# Protocol 0 ##################################
 # Used for debugging paragraphs
 # Modify file_name and idnum as appropriate
-def mod_protocol0(id_num):
+def mod_protocol0(id_num, log_file):
 # def mod_protocol0(file_name, file_save):
     start_time = start_function('mod_protocol0')
     # Connect to database
@@ -257,7 +257,7 @@ def mod_protocol0(id_num):
         values1 = (id_num, )
     res = qry_execute(conn, qry1, values1, True)
     # Start parsing html
-    lfile = init_write_file('log/log_protocol0.txt')
+    lfile = init_write_file(log_file)
     with open(lfile, 'w', encoding = 'utf8') as lf:
         # Start looping through values
         for i in res:
@@ -286,12 +286,18 @@ def mod_protocol0(id_num):
                 if j.get_text().strip() is None:
                     j.unwrap()
                     continue
+                # Extract all the text and clean-up
                 hstr = j.get_text().strip()
+                # Replace special dash character
+                if hstr.count('–'):
+                    hstr = hstr.replace('–', '-')
+                # Save the header text as the new text
                 j.string = hstr
+                # Unwrap empty header tags
                 if hstr == '':
                     j.unwrap()
                     continue
-                # Run function to modify headers
+                # Convert headers to bold if they are within other articles
                 hres = header_ids(reg, part, hstr, False, lf, idnum)
                 if hres == 2:
                     ntag = soup.new_tag('b')
@@ -484,18 +490,24 @@ def header_ids(reg, part, text, href_ind, log_file, idnum):
     #     print('%s - %s - %s - %s' % (idnum, reg, part, text), file = log_file)
     # Reformat the string to make it lower
     text2 = reformat_headers(reg, text)
-    # Returns id_str if not none
+    # Perform special functions if headers are of a certain type
     res = header_types(reg, text2)
     if res == 1:
         return dfarspgi_idstr(text2)
     elif res == 2:
         return 2
     # Isolate the citation
-    hspl = text2.split()
-    hs0 = hspl[0]
+    hsp = text2.split()
+    hs0 = hsp[0]
+    if hs0.startswith('subpart') or \
+       hs0.startswith('pgi'):
+        hs0 = hsp[1]
+    if hs0.count('.'):
+        hs1 = hs0.split('.')[1]
+    else:
+        hs1 = ''
     # Only do this for one header in GSAM
     if hs0.startswith('appendix'):
-        tspl = text2.split(' ')[0]
         part = 1
         subpart = 0
         sction = 0
@@ -517,15 +529,15 @@ def header_ids(reg, part, text, href_ind, log_file, idnum):
         supp_alt = 0
         htype = 'header'
     # Subparts
-    elif hs0.startswith('subpart'):
-        subpart = hspl[1].split('.')[1]
+    elif len(hs1) <= 2:
+        subpart = hs1
         sction = 0
         subsction = 0
         supp_alt = 0
         htype = 'header'
     # Sections
-    elif hs0.find('-') == -1:
-        sp_s = header_link_section(hs0.split('.')[1])
+    elif hs0.count('-') == 0:
+        sp_s = header_link_section(hs1)
         subpart = sp_s[0]
         sction = sp_s[1]
         subsction = 0
@@ -533,25 +545,25 @@ def header_ids(reg, part, text, href_ind, log_file, idnum):
         htype = 'body'
     # Subsections
     elif hs0.count('-') == 1:
-        ss_spl = hs0.split('-')
-        hspl2 = ss_spl[0].split('.')
-        hsp1 = hspl2[1]
+        ss_sp = hs0.split('-')
+        hsp2 = ss_sp[0].split('.')
+        hsp1 = hsp2[1]
         sp_s = header_link_section(hsp1) 
         subpart = sp_s[0]
         sction = sp_s[1]
-        subsction = ss_spl[1]
+        subsction = ss_sp[1]
         supp_alt = 0
         htype = 'body'
     # Supplementals
     elif hs0.count('-') > 1:
-        ss_spl = hs0.split('-')
-        hspl2 = ss_spl[0].split('.')
-        hsp1 = hspl2[1]
+        ss_sp = hs0.split('-')
+        hsp2 = ss_sp[0].split('.')
+        hsp1 = hsp2[1]
         sp_s = header_link_section(hsp1)
         subpart = sp_s[0]
         sction = sp_s[1]
-        subsction = ss_spl[1]
-        supp_alt = ss_spl[2]
+        subsction = ss_sp[1]
+        supp_alt = ss_sp[2]
         htype = 'body'
     id_str = '%s_%s_%s_%s_%s_%s_%s' % (reg,
                                        part,
@@ -560,7 +572,7 @@ def header_ids(reg, part, text, href_ind, log_file, idnum):
                                        subsction,
                                        supp_alt,
                                        htype
-                                       )    
+                                       )
     # print('%s ##### %s' % (text, id_str))
     # href's require # in order to go to the link on the page
     if href_ind:
@@ -568,6 +580,21 @@ def header_ids(reg, part, text, href_ind, log_file, idnum):
     else:
         return id_str
     
+
+# Reformat header text
+def reformat_headers(reg, text):  
+    text2 = text.lower().lstrip()
+    # One title doesn't have a space in DFARS PGI
+    if reg == 'dfarspgi' and text2.count(' ') == 0:
+        text2 = text2.replace('reserved', ' reserved')
+    # Replace special characters
+    if text2.count('§'):
+        text2 = text2.replace('§', '').lstrip()
+    # Add space to 7004Reserved
+    if text2.count('7004reserved'):
+        text2 = text2.replace('reserved', ' reserved')
+    return text2
+
 
 # Identify the different types of of headers
 # 0: process normally
@@ -582,52 +609,19 @@ def header_types(reg, text):
        text2[1] == '-':
         return 1
     # Majority of the other citations
+    # Process normally for the vast majority of the others
+    # appendix and [reserved] are kept here because they are only two sections
     elif text2.startswith('part') or \
          text2.startswith('subpart') or \
-         text2.count('.') > 0 or \
+         text2.count('.') or \
          text2.startswith('appendix') or \
-         text2.startswith('[reserved]'):
+         text2.startswith('[reserved]') or \
+         text2.startswith('pgi'):
         return 0
     # Process alternatives
+    # These are headers that will get converted to bold headings
     else:
         return 2
-
-
-# Reformat header text
-def reformat_headers(reg, text):  
-    text2 = text.lower().lstrip()
-    # One title doesn't have a space in DFARS PGI
-    if reg == 'dfarspgi' and text2.count(' ') == 0:
-        text2 = text2.replace('reserved', ' reserved')
-    # Replace the special character
-    if text2.startswith('§'):
-        text2 = text2.replace('§', '').lstrip()
-    if text2.startswith('pgi'):
-        text2 = text2.replace('pgi', '').lstrip()
-    return text2
-
-
-# Identify the different types of of headers
-def header_typesdev(reg, text_full):
-    text = text_full.strip().split(' ')[0]
-    if text.lower().startswith('part'):
-        return 3
-    elif text.lower().startswith('subpart'):
-        return 3
-    elif text.count('.') > 0:
-        return 3
-    elif text.lower() == 'pgi':
-        return 3
-    elif text.lower().startswith('assignments'):
-        return 3
-    elif text.lower().startswith('spare'):
-        return 3
-    elif text_full == '':
-        return 2
-    elif text == '§':
-        return 3
-    else:
-        return 1
 
 
 # Returns the section and subsectino; used with header_ids
@@ -677,6 +671,7 @@ def insert_htext(connection, table_name, header_id, text, url, id_num, log_file)
               str(text)
               )
     insert_values(connection, table_name, values)
+    print(cb(), file = log_file)
     print('%s - %s - %s - %s - %s - %s - %s - %s' % (id_num,
                                                      hid_spl[0],
                                                      # part
@@ -690,7 +685,8 @@ def insert_htext(connection, table_name, header_id, text, url, id_num, log_file)
                                                      # supplemental
                                                      hid_spl[5],
                                                      # htype
-                                                     hid_spl[6]
+                                                     #hid_spl[6]
+                                                     text
                                                      ), file = log_file)
 
 

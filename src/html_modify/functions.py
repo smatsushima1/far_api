@@ -92,14 +92,14 @@ def insert_values(connection, table_name, values):
     qry_str = 'insert into {table} values (' + values_string + ');'
     # Identifier is required here because there are other values to be inserted
     qry = sql.SQL(qry_str).format(table = sql.Identifier(table_name))
-    qry_execute(connection, qry, values, False)
+    return qry_execute(connection, qry, values, False)
     
     
 # Drop and create table
 def drop_create_tables(connection, table_name, fields):
     qry_str = 'drop table if exists {table}; create table {table} %s;' % fields
     qry = sql.SQL(qry_str).format(table = sql.Identifier(table_name))
-    qry_execute(connection, qry, '', False)
+    return qry_execute(connection, qry, '', False)
 
 
 # Main query execution function; captures errors
@@ -107,13 +107,14 @@ def qry_execute(connection, qry, values, fetch_all):
     cur = connection.cursor()
     try:
         cur.execute(qry, values)
+        connection.commit()
+        if fetch_all:
+            return cur.fetchall()        
     except Exception as err:
         print('Error: ', err)
         print('Error Type: ', type(err))
-        return
-    connection.commit()
-    if fetch_all:
-        return cur.fetchall()
+        connection.commit()
+        return 1
     
 
 ################################# Update Data #################################
@@ -235,7 +236,8 @@ def extract_headers_test(read_file, write_file):
 ################################# Protocol 0 ##################################
 # Used for debugging paragraphs
 # Modify file_name and idnum as appropriate
-def mod_protocol0(id_num, log_file):
+# Runtime: 1' 9.586"
+def mod_protocol0(id_num, reg_name, log_file):
 # def mod_protocol0(file_name, file_save):
     start_time = start_function('mod_protocol0')
     # Connect to database
@@ -245,16 +247,21 @@ def mod_protocol0(id_num, log_file):
     tname1 = 'dev_all_parts05'
     qry_str1 = 'select * from {table1} where {field1} = %s;'
     # Run for the real results
-    if id_num == '':
-        qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
-                                        field1 = sql.Identifier('protocol')
-                                        )
-        values1 = (0, )
-    else:
+    if id_num != '':
         qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
                                         field1 = sql.Identifier('id_num')
                                         )
         values1 = (id_num, )
+    elif reg_name != '':
+        qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
+                                        field1 = sql.Identifier('reg')
+                                        )
+        values1 = (reg_name, )    
+    else:
+        qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
+                                        field1 = sql.Identifier('protocol')
+                                        )
+        values1 = (0, )
     res = qry_execute(conn, qry1, values1, True)
     # Start parsing html
     lfile = init_write_file(log_file)
@@ -295,7 +302,7 @@ def mod_protocol0(id_num, log_file):
                 # Replace special dash characters
                 hstr = hstr.replace('–', '-').replace('—', '-').replace('—', '-')
                 # Regex find and reformat heading titles
-                hstr = regex_headers(hstr)
+                hstr = reformat_headers(hstr)
                 # Save the header text as the new text
                 j.string = hstr
                 # Convert headers to bold if they are within other articles
@@ -448,10 +455,11 @@ def mod_protocol0(id_num, log_file):
                         continue
                     # Unwrap the article if there are no headers:
                     if k.find(re.compile('^h[1-6]$')) is None:
-                        print('%s\nMissing header:\n%s\n%s' % (cb(),
-                                                               k,
-                                                               cb()
-                                                               ), file = lf)
+                        print('%s\n%s\n%s\n%s' % (cb(),
+                                                  'Missing header, unwrapping from tree. Here is the text:',
+                                                  k,
+                                                  cb()
+                                                  ), file = lf)
                         k.unwrap()
                         continue
                     # Extract the first heading id number for the DB
@@ -461,15 +469,22 @@ def mod_protocol0(id_num, log_file):
                     for p in k.find_all('p'):
                         if p.find('article') or len(p.get_text()) <= 1:
                             p.unwrap()
-                    insert_htext(conn,
-                                 tname2,
-                                 hid['id'],
-                                 k,
-                                 htext,
-                                 url,
-                                 idnum,
-                                 lf
-                                 )
+                    res = insert_htext(conn,
+                                       tname2,
+                                       hid['id'],
+                                       k,
+                                       htext,
+                                       url,
+                                       idnum,
+                                       lf
+                                       )
+                    # Exit if error
+                    if res == 1:
+                        print('%s\n%s\n%s' % (cb(),
+                                              'Stopping because of error above.',
+                                              cb()
+                                              ), file = lf)
+                        break
                     # Remove so text won't be copied again
                     k.decompose()
 
@@ -499,25 +514,26 @@ def mod_protocol0(id_num, log_file):
 
 
 # Use regex to identify any matches
-def regex_headers(text):
+def reformat_headers(text):
     # Add spaces for -, in case there aren't any
     text2 = text.replace('- ', ' - ').replace('  ', ' ')
-    text2 = text2.replace(' -', ' - ').replace('  ', ' ')
+    text3 = text2.replace(' -', ' - ').replace('  ', ' ')
+    text4 = text3.replace('--', ' - ')
     # Identifies matches for dashes with no spaces inbetween
-    if re.match('.*[0-9]-[a-z].*', text2, re.I):
-        return text2.replace('-', ' - ')
-    elif re.match('.*[a-z]reserved.*', text2, re.I):
-        return text2.replace('Reserved', ' RESERVED')
+    if re.match('.*[0-9]-[a-z].*', text4, re.I):
+        return text4.replace('-', ' - ')
+    elif re.match('.*[0-9]reserved.*', text4, re.I):
+        return text4.replace('Reserved', ' RESERVED')
+    elif text4.startswith('2426.7001-2426.7002'):
+        return text4.replace('-', ' - ')
     else:
-        return text2
+        return text4
 
 
 # Returns the new ID for each header or href; prepends with # if returning href
 def header_ids(reg, part, text, href_ind, log_file, idnum):
-    # if href_ind:
-    #     print('%s - %s - %s - %s' % (idnum, reg, part, text), file = log_file)
     # Reformat the string to make it lower
-    text2 = reformat_headers(reg, text)
+    text2 = text.lower().lstrip()
     # Perform special functions if headers are of a certain type
     res = header_types(reg, text2)
     if res == 1:
@@ -528,7 +544,8 @@ def header_ids(reg, part, text, href_ind, log_file, idnum):
     hsp = text2.split()
     hs0 = hsp[0]
     if hs0.startswith('subpart') or \
-       hs0.startswith('pgi'):
+       hs0.startswith('pgi') or\
+       hs0.startswith('§'):
         hs0 = hsp[1]
     if hs0.count('.'):
         hs1 = hs0.split('.')[1]
@@ -569,7 +586,7 @@ def header_ids(reg, part, text, href_ind, log_file, idnum):
         fcit = hs0.find('(')
         supp = hs0[fcit:]
         new_cit = hs0.replace(supp, '')
-        sub_sct = header_link_section(hs0.replace(supp, '').split('.')[1])
+        sub_sct = header_link_section(new_cit.split('.')[1])
         subpart = sub_sct[0]
         sction = sub_sct[1]
         subsction = 0
@@ -619,21 +636,6 @@ def header_ids(reg, part, text, href_ind, log_file, idnum):
         return '#' + id_str
     else:
         return id_str
-    
-
-# Reformat header text
-def reformat_headers(reg, text):  
-    text2 = text.lower().lstrip()
-    # One title doesn't have a space in DFARS PGI
-    if reg == 'dfarspgi' and text2.count(' ') == 0:
-        text2 = text2.replace('reserved', ' reserved')
-    # Replace special characters
-    if text2.count('§'):
-        text2 = text2.replace('§', '').lstrip()
-    # Add space to 7004Reserved
-    if text2.count('7004reserved'):
-        text2 = text2.replace('reserved', ' reserved')
-    return text2
 
 
 # Identify the different types of of headers
@@ -642,7 +644,8 @@ def reformat_headers(reg, text):
 # 2: process all other alternatives
 def header_types(reg, text):
     # Isolate the first part of the citation
-    text2 = text.strip().split(' ')[0]
+    # § is replaced brecause if it is still here, then text2[1] won't work
+    text2 = text.replace('§ ', '').split(' ')[0]
     # Return for DFARS
     if text2.startswith('assignments') or \
        text2.startswith('spare') or \
@@ -680,8 +683,14 @@ def header_link_section(text):
             sction = text[3]
         else:
             sction = sction.lstrip('0')
+    # Only found for 3035.70-1 Policy
+    elif len(text) == 2:
+        subpart = text
+        sction = 0
+    # This really won't matter as it won't get inserted in the table anyway
     else:
-        return 'Section is not 3 or 4 characters long...'
+        subpart = 'xxx'
+        sction = 'xxx'
     return (subpart, sction)
 
 
@@ -720,28 +729,26 @@ def insert_htext(connection,
               # htext
               str(text)
               )
-    insert_values(connection, table_name, values)
-    print('%s\n%s - %s - %s - %s - %s - %s - %s - %s - %s' % (cb(),
-                                                              id_num,
-                                                              hid_spl[0],
-                                                              # part
-                                                              hid_spl[1],
-                                                              # subpart
-                                                              hid_spl[2],
-                                                              # sction
-                                                              hid_spl[3],
-                                                              # subsction
-                                                              hid_spl[4],
-                                                              # supplemental
-                                                              hid_spl[5],
-                                                              # htype
-                                                              hid_spl[6],
-                                                              # htitle
-                                                              header_text
-                                                              # htext
-                                                              # text
-                                                              ), file = log_file)
-
+    print('%s - %s - %s - %s - %s - %s - %s - %s - %s' % (id_num,
+                                                          hid_spl[0],
+                                                          # part
+                                                          hid_spl[1],
+                                                          # subpart
+                                                          hid_spl[2],
+                                                          # sction
+                                                          hid_spl[3],
+                                                          # subsction
+                                                          hid_spl[4],
+                                                          # supplemental
+                                                          hid_spl[5],
+                                                          # htype
+                                                          hid_spl[6],
+                                                          # htitle
+                                                          header_text
+                                                          # htext
+                                                          # text
+                                                          ), file = log_file)
+    return insert_values(connection, table_name, values)
 
 # Extract specific headers for dfarspgi
 def dfarspgi_idstr(text):

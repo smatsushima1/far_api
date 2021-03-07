@@ -32,11 +32,22 @@ def dev_header(id_num):
         # print(find_res.find_all_next('p'))
             
 
+# 'far',
+# 'dfars',
+# 'dfarspgi',
+# 'diar',
+# 'gsam',
+# 'epaar',
+# 'hsar',
+# 'hudar'
+
+
 # Error at 112, 154, 155, 157, 899, 1063, 1070, 1086, 1109, 1124
 run = 1
-idnum = 159
+idnum = ''
+reg = ''
 if run == 1:
-    mod_protocol0(idnum, 'log/log_prot0.txt')
+    mod_protocol0(idnum, reg, 'log/log_prot0.txt')
 elif run == 2:
     html_pull(idnum, 'html/html_pull01.html')
 elif run == 3:
@@ -48,12 +59,12 @@ elif run == 5:
 
 
 
-str1 = 'PGI 242.322Reserved'
-fcit = re.match('.*[0-9]reserved.*', str1, re.I)
+# str1 = 'PGI 242.322Reserved'
+# fcit = re.match('.*[0-9]reserved.*', str1, re.I)
 # fcit2 = re.match('.*[a-z]derp.*', str3)
-str2 = str1.replace('—', '-').replace('accounting', 'ugh')
+# str2 = str1.replace('—', '-').replace('accounting', 'ugh')
 # print(re.sub('.*[a-z]derp.*', ' derp', str3, flags = re.I))
-print(str1.lower().replace('reserved', ' reserved'))
+# print(str1.lower().replace('reserved', ' reserved'))
 # print(fcit2)
 
 # lst = ['a', 'b', 'c', 'd']

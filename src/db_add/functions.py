@@ -74,14 +74,14 @@ def insert_values(connection, table_name, values):
     qry_str = 'insert into {table} values (' + values_string + ');'
     # Identifier is required here because there are other values to be inserted
     qry = sql.SQL(qry_str).format(table = sql.Identifier(table_name))
-    qry_execute(connection, qry, values, False)
-
-
+    return qry_execute(connection, qry, values, False)
+    
+    
 # Drop and create table
 def drop_create_tables(connection, table_name, fields):
     qry_str = 'drop table if exists {table}; create table {table} %s;' % fields
     qry = sql.SQL(qry_str).format(table = sql.Identifier(table_name))
-    qry_execute(connection, qry, '', False)
+    return qry_execute(connection, qry, '', False)
 
 
 # Main query execution function; captures errors
@@ -89,13 +89,13 @@ def qry_execute(connection, qry, values, fetch_all):
     cur = connection.cursor()
     try:
         cur.execute(qry, values)
+        connection.commit()
+        if fetch_all:
+            return cur.fetchall() 
     except Exception as err:
         print('Error: ', err)
         print('Error Type: ', type(err))
-        return
-    connection.commit()
-    if fetch_all:
-        return cur.fetchall()
+        return 1
 
 
 ################################## Add Data ##################################

@@ -174,13 +174,13 @@ def html_pull(idnum, file_name):
     res = qry_execute(conn, qry1, values1, True)
     html = res[0][9]
     soup = bsp(html, 'html.parser')
-    # Save to file only if specified
     write_file(file_name, soup, True)
     db_close(conn, cur)
 
 
 # Extract all headers to log file
 # Currently no h6 tags
+# Runtime: 25.965"
 def extract_headers(protocol, log_file, get_text_ind):
     start_time = start_function('extract_headers')
     # Connect to database
@@ -206,12 +206,13 @@ def extract_headers(protocol, log_file, get_text_ind):
                     jprint = j.get_text().strip()
                 else:
                     jprint = j
-                print('%s (%s)' % (jprint, idnum), file = lf)
+                print('%s: %s' % (idnum, jprint), file = lf)
     db_close(conn, cur)
     end_function(start_time)
 
 
-# Test for reading the headers
+# Identify all headers that aren't the norm
+# Runtime: 0.038"
 def extract_headers_test(read_file, write_file):
     start_time = start_function('extract_headers_test')
     rfile = open(read_file, 'r', encoding = 'utf8')
@@ -302,7 +303,7 @@ def article_classes(log_file):
 # epaar
 # hsar
 # hudar
-# Runtime: 1' 9.586"
+# Runtime: 59.802"
 def add_prot0(id_num, reg_name, log_file):
     start_time = start_function('mod_protocol0')
     # Connect to database

@@ -1,0 +1,58 @@
+
+################################### Articles ###################################
+REG: FAR
+CITATION: 1.106
+ARTICLE CLASS: 2Col
+NOTE: Why call it this? this is literally the only class called this out of all the regulations.
+
+REG: FAR
+CITATION: 3.1
+ARTICLE CLASS: TOP
+NOTE: Same with '2Col' - why even call it this? Was this supposed to be 'TORP'? This is the only class name out of all the regulations.
+
+REG: FAR
+CITATION: 37.1
+ARTICLE CLASS: TOLP
+NOTE: Same with '2Col' - why even call it this? Was this supposed to be 'TORP'? This is the only class name out of all the regulations.
+
+REG: FAR
+CITATION: (Various)
+ARTICLE CLASS: TORP, ANYWHERE
+NOTE: The TORP class is only for the X.000 part of each regulation, but why use this if we have 'nested1'? 'ANYWHERE' is the same: it is used for subparts, but why not just use 'nested2'?
+
+- Several articles have the same clases nested within them. I feel these should be 'nested' as their names suggest, and not have the same classes as their nested siblings. The following articles have the same class as their nested counterparts:
+    - Subpart 3.1
+    - Part 4
+    - Subpart 4.21
+    - Subpart 14.1
+    - Subpart 17.1
+    - Subpart 24.1
+    - Subpart 29.1
+    - Subpart 29.4
+    - Part 29
+    - Subpart 37.1
+    - Subpart 38.1
+    - Subpart 43.1
+    - Subpart 44.1
+    - Subpart 45.1
+    - Subpart 46.1
+    - Subpart 50.1
+    - Subpart 51.1
+    - Subpart 52.1
+
+
+#################################### Typos ####################################
+REG: EPAAR
+CITATION: 1519.2
+HEADER TITLE: 1509.203 - 1519.204
+NOTE: Should be 1519.203, not 1509.203.
+
+
+############################## Continuity Issues ##############################
+- 1539.2071 and 2409.470 contains '§' as their first character: is this even required?
+- 2426.7001-2426.7002 and 1509.203-1519.204 are both reserved but they are grouped together: why not just have them separate?
+- The 258.7006 ASSIGNMENTS sections in the DFARS PGI have underscores for spaces and have the numbers next to their parts: why not just spell them out normally?
+
+
+
+

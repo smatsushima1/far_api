@@ -6,17 +6,17 @@ run = 1
 idnum = ''
 reg = ''
 if run == 1:
-    add_prot0(idnum, reg, 'log/log_prot0.txt')
+    add_prot0(idnum, reg, 'log/add_prot0.txt')
 elif run == 2:
-    html_pull(idnum, 'html/html_pull01.html')
+    html_pull(idnum, 'html/html_pull.html')
 elif run == 3:
-    extract_headers(0, 'log/log02.txt', True)
+    extract_headers(0, 'log/extract_headers.txt', True)
 elif run == 4:
-    extract_headers_test('log/log02.txt', 'log/log03.txt')
+    extract_headers_test('log/extract_headers.txt', 'log/extract_headers_test.txt')
 elif run == 5:
     dev_header(idnum)
 elif run == 6:
-    article_classes('log/log_article_classes.txt')
+    article_classes('log/article_classes.txt')
 
 
 

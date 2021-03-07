@@ -392,6 +392,8 @@ def article_classes(log_file):
 
 
 ################################# Protocol 0 ##################################
+# Protocol 0: everything has articles and headers, with no bold or lists
+
 # Adds all data to postgres DB Modify
 # Depending on the parameters, may be dev or prod
 # Runs for:
@@ -900,5 +902,18 @@ def dfarspgi_idstr(text):
 
 
 ################################# Protocol 1 ##################################
+# Protocol 1: no headers, bold and lists for paragraphs
+
+
+################################# Protocol 2 ##################################
+# Protocol 2: vaar specific, strong for everything and h2 = h1
+
+
+################################# Protocol 3 ##################################
+# Protocol 3: nfs specific, only p tags and literally nothing else
+
+
+################################# Protocol 4 ##################################
+# Protocol 4: contains headers, but no articles
 
 

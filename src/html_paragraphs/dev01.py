@@ -15,7 +15,21 @@ from functions import *
 
 
 
-######################################################################
+###############################################################################
+# Use this language when adding all subsections to sections, and sections to subparts
+
+# def dev_append():
+#     html = '''<html><title>Test</title><body><article id="nested0-1"><b id="b1">This is a title</b><p>This is text and stuff.</p><p>This is more text, and stuff.</p></article><article id="nested0-2"><b id="b1">This is a title2</b><p>More and more text.</p><p>The text won't stop.</p></article></body></html>'''
+#     soup = bsp(html, 'html.parser')
+#     # Start looping through values
+#     for i in soup.find_all('article'):
+#         ntag = soup.new_tag('p')
+#         ntag.string = 'Ugh derp maximums.'
+#         i.append(ntag)
+#         print('%s\n%s' % (cb(), i))
+        
+
+###############################################################################
 # Forgot where this applied in the add_prot0 but keeping here just in case
         #     print('%s%s%s%s%s' % ('\n' + ('#' * 80),
         #                         '\n',
@@ -35,7 +49,7 @@ from functions import *
         # print(lst, file = lf)
 
 
-######################################################################
+###############################################################################
 # Try using wrap() to wrap all the other content in a new div
 
 # Also, search in the bsp documentation to find tags directly beneath other tags:
@@ -57,7 +71,7 @@ from functions import *
 
 
     
-######################################################################
+###############################################################################
 # Make all text look pretty
         # for x, j in enumerate(i):
         #     # Make all the text look pretty

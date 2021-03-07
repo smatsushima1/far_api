@@ -324,6 +324,7 @@ def add_prot0(id_num, reg_name, log_file):
                   htext varchar
                   )'''
     drop_create_tables(conn, tname1, values1)
+    # Pull data
     tname2 = 'dev_all_parts05'
     qry_str2 = 'select * from {table1} where {field1} = %s;'
     # Depending on what variables are provided, this can either be prod or dev
@@ -475,7 +476,7 @@ def add_prot0(id_num, reg_name, log_file):
                     continue
             # For certain articles, the same article classes are nested within them
             # This will check to see if the same articles classes are within
-            # If they are, then make it the next level nested class
+            # If they are, then make it the parent-level nested class
             nested_class = ['nested4',
                             'nested3',
                             'nested2',
@@ -554,7 +555,7 @@ def reformat_headers(text):
 # Returns the new ID for each header or href; prepends with # if returning href
 def header_ids(reg, part, text, href_ind, log_file, idnum):
     # Reformat the string to make it lower
-    text2 = text.lower().lstrip()
+    text2 = text.lower()
     # Perform special functions if headers are of a certain type
     res = header_types(reg, text2)
     if res == 1:
@@ -578,7 +579,7 @@ def header_ids(reg, part, text, href_ind, log_file, idnum):
         subpart = 0
         sction = 0
         subsction = 0
-        supp_alt = text.lower().replace(' ', '-')
+        supp_alt = text2.replace(' ', '-')
         htype = 'body'
     # This one section is for idnum 978
     elif hs0.startswith('[reserved]'):

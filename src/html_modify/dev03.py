@@ -1,53 +1,12 @@
 
 from functions import *
-from dev01 import *
+  
 
-
-
-
-
-def dev_header(id_num):
-    db = db_init()
-    conn = db[0]
-    cur = db[1]
-    tname1 = 'dev_all_parts05'
-    qry_str1 = 'select * from {table1} where {field1} = %s;'
-    # Run for the real results
-    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
-                                    field1 = sql.Identifier('id_num')
-                                    )
-    values1 = (id_num, )
-    res = qry_execute(conn, qry1, values1, True)  
-    # Start looping through values
-    for i in res:
-        idnum = i[0]
-        reg = i[1]
-        part = i[2]
-        url = i[8]
-        html = i[9]
-        soup = bsp(html, 'html.parser')
-        find_res = soup.find('h2', id = 'ugh-derp')
-        print(find_res)
-        # find_res = soup.find('h2', id = 'ariaid-title39')
-        # print(find_res.find_all_next('p'))
-            
-
-# 'far',
-# 'dfars',
-# 'dfarspgi',
-# 'diar',
-# 'gsam',
-# 'epaar',
-# 'hsar',
-# 'hudar'
-
-
-# Error at 112, 154, 155, 157, 899, 1063, 1070, 1086, 1109, 1124
 run = 1
 idnum = ''
 reg = ''
 if run == 1:
-    mod_protocol0(idnum, reg, 'log/log_prot0.txt')
+    add_prot0(idnum, reg, 'log/log_prot0.txt')
 elif run == 2:
     html_pull(idnum, 'html/html_pull01.html')
 elif run == 3:
@@ -56,6 +15,8 @@ elif run == 4:
     extract_headers_test('log/log02.txt', 'log/log03.txt')
 elif run == 5:
     dev_header(idnum)
+elif run == 6:
+    article_classes('log/log_article_classes.txt')
 
 
 

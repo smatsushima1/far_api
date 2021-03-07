@@ -15,6 +15,24 @@ from functions import *
 
 
 
+######################################################################
+# Forgot where this applied in the add_prot0 but keeping here just in case
+        #     print('%s%s%s%s%s' % ('\n' + ('#' * 80),
+        #                         '\n',
+        #                         i,
+        #                         '\n\n',
+        #                         i.parent.parent
+        #                         ), file = lf)
+        # return
+        #     #print(i, file = lf)
+        #     para_cit = i.string.split()[0]
+        #     if para_cit[0] == '(':
+        #         lst.append(para_cit[1])
+        #         #print(para_cit, file = lf)
+        #     else:
+        #         lst.append('Skipping')
+        #         #print('%s %s' % ('+' * 40, para_cit), file = lf)
+        # print(lst, file = lf)
 
 
 ######################################################################

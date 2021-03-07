@@ -109,11 +109,10 @@ def qry_execute(connection, qry, values, fetch_all):
         cur.execute(qry, values)
         connection.commit()
         if fetch_all:
-            return cur.fetchall()        
+            return cur.fetchall() 
     except Exception as err:
         print('Error: ', err)
         print('Error Type: ', type(err))
-        connection.commit()
         return 1
     
 
@@ -166,9 +165,9 @@ def html_pull(idnum, file_name):
     db = db_init()
     conn = db[0]
     cur = db[1]
-    tname1 = 'dev_all_parts05'
+    tname2 = 'dev_all_parts05'
     qry_str1 = 'select * from {table1} where {field1} = %s;'
-    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
+    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname2),
                                     field1 = sql.Identifier('id_num')
                                     )
     values1 = (idnum, )
@@ -233,36 +232,116 @@ def extract_headers_test(read_file, write_file):
     end_function(start_time)
 
 
-################################# Protocol 0 ##################################
-# Used for debugging paragraphs
-# Modify file_name and idnum as appropriate
-# Runtime: 1' 9.586"
-def mod_protocol0(id_num, reg_name, log_file):
-# def mod_protocol0(file_name, file_save):
-    start_time = start_function('mod_protocol0')
-    # Connect to database
+# List all article attributes to find their classes
+# Runtime: 23.403"
+def article_classes(log_file):
+    start_time = start_function('article_classes')
     db = db_init()
     conn = db[0]
     cur = db[1]
     tname1 = 'dev_all_parts05'
     qry_str1 = 'select * from {table1} where {field1} = %s;'
     # Run for the real results
+    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
+                                    field1 = sql.Identifier('protocol')
+                                    )
+    values1 = (0, )
+    res = qry_execute(conn, qry1, values1, True)
+    with open(log_file, 'w', encoding = 'utf8') as lf:
+        # Start looping through values
+        for i in res:
+            idnum = i[0]
+            reg = i[1]
+            part = i[2]
+            html = i[9]
+            soup = bsp(html, 'html.parser')
+            classes = ['nested4',
+                       'nested3',
+                       'nested2',
+                       'nested1',
+                       'nested0'
+                       ]
+            for j in soup.find_all('article'):
+                # Need to this in case the articles doesn't have a class
+                try:
+                    ind = 0
+                    for k in j['class']:
+                        # Exit early
+                        if k in ['topic', 'concept']:
+                            continue
+                        # Only trigger break if class is not in the lst
+                        elif k in classes:
+                            ind = 1
+                            break
+                    # Only list if classes aren't in list
+                    if ind == 0:
+                        # if not j.find('h5'):
+                        print('%s\n%s - %s - %s\n%s' % (cb(),
+                                                        idnum,
+                                                        reg,
+                                                        part,
+                                                        j.attrs
+                                                        ), file = lf
+                              )
+                # Runs if there are no classes for the article
+                except:
+                    continue
+    db_close(conn, cur)
+    end_function(start_time)
+
+
+################################# Protocol 0 ##################################
+# Adds all data to postgres DB Modify
+# Depending on the parameters, may be dev or prod
+# Runs for:
+# far
+# dfars
+# dfarspgi
+# diar
+# gsam
+# epaar
+# hsar
+# hudar
+# Runtime: 1' 9.586"
+def add_prot0(id_num, reg_name, log_file):
+    start_time = start_function('mod_protocol0')
+    # Connect to database
+    db = db_init()
+    conn = db[0]
+    cur = db[1]
+    # Create initial table
+    tname1 = 'dev_all_html02'
+    values1 = '''(reg varchar,
+                  part numeric,
+                  subpart numeric,
+                  sction numeric,
+                  subsction numeric,
+                  supplementals_alt varchar,
+                  htype varchar,
+                  htitle varchar,
+                  hlink varchar,
+                  htext varchar
+                  )'''
+    drop_create_tables(conn, tname1, values1)
+    tname2 = 'dev_all_parts05'
+    qry_str2 = 'select * from {table1} where {field1} = %s;'
+    # Depending on what variables are provided, this can either be prod or dev
     if id_num != '':
-        qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
+        qry2 = sql.SQL(qry_str2).format(table1 = sql.Identifier(tname2),
                                         field1 = sql.Identifier('id_num')
                                         )
-        values1 = (id_num, )
+        values2 = (id_num, )
     elif reg_name != '':
-        qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
+        qry2 = sql.SQL(qry_str2).format(table1 = sql.Identifier(tname2),
                                         field1 = sql.Identifier('reg')
                                         )
-        values1 = (reg_name, )    
+        values2 = (reg_name, )    
     else:
-        qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
+        qry2 = sql.SQL(qry_str2).format(table1 = sql.Identifier(tname2),
                                         field1 = sql.Identifier('protocol')
                                         )
-        values1 = (0, )
-    res = qry_execute(conn, qry1, values1, True)
+        values2 = (0, )
+    res = qry_execute(conn, qry2, values2, True)
     # Start parsing html
     lfile = init_write_file(log_file)
     with open(lfile, 'w', encoding = 'utf8') as lf:
@@ -313,8 +392,6 @@ def mod_protocol0(id_num, reg_name, log_file):
                     j.insert_after(ntag)
                     j.unwrap()
                     continue
-                # Assigned this value but never used; may change later
-                #orig_id = j['id']
                 # Assign new IDs and replace with the old
                 new_id = header_ids(reg, part, hstr, False, lf, idnum)
                 j['id'] = new_id
@@ -348,21 +425,6 @@ def mod_protocol0(id_num, reg_name, log_file):
                         j.unwrap()
                 except:
                     continue
-                    #print('Unwrapping - %s' % ih, file = lf)
-            # Extract all articles and save in the db
-            tname2 = 'dev_all_html02'
-            values2 = '''(reg varchar,
-                          part numeric,
-                          subpart numeric,
-                          sction numeric,
-                          subsction numeric,
-                          supplementals_alt varchar,
-                          htype varchar,
-                          htitle varchar,
-                          hlink varchar,
-                          htext varchar
-                          )'''
-            drop_create_tables(conn, tname2, values2)
             # Start converting all article classes
             # GSAM = could be subsections or sections, search if contains h4, then process
             # GSAR = (see GSAM)
@@ -377,7 +439,7 @@ def mod_protocol0(id_num, reg_name, log_file):
             # TORP = 1.000 part (why?)
             # nested0 = parts
             for j in soup.find_all('article'):
-                # Need to add this in case the articles doesn't have a class
+                # Need to add this in case the articles don't have a class
                 try:
                     for k in j['class']:
                         # When converting classes, add it as a list, not a string
@@ -410,38 +472,15 @@ def mod_protocol0(id_num, reg_name, log_file):
                 # Runs if there are no classes for the article
                 except:
                     continue
-            
-            # for j in soup2.find_all('article'):
-            #     # Need to this in case the articles doesn't have a class
-            #     try:
-            #         ind = 0
-            #         for k in j['class']:
-            #             # Exit early
-            #             if k in ['topic', 'concept']:
-            #                 continue
-            #             # Only trigger break if class is not in the lst
-            #             elif k in article_lst:
-            #                 ind = 1
-            #                 break
-            #         # Only list if classes aren't in list
-            #         if ind == 0:
-            #             if not j.find('h5'):
-            #                 print('#' * 80, file = lf)
-            #                 print(j, file = lf)
-            #             # print('%s - %s' % (i[0], j.attrs), file = lf)
-            #     # Runs if there are no classes for the article
-            #     except:
-            #         continue
-        
+            # For certain articles, the same article classes are nested within them
+            # This will check to see if the same articles classes are within
+            # If they are, then make it the next level nested class
             nested_class = ['nested4',
                             'nested3',
                             'nested2',
                             'nested1',
                             'nested0'
-                            ]            
-            # For certain articles, the same article classes are nested within them
-            # This will check to see if the same articles classes are within
-            # If they are, then make it the next level nested class
+                            ]
             for j in nested_class:
                 nested_number = int(j[len(j) - 1])
                 for k in soup.find_all('article', class_ = j):
@@ -459,7 +498,8 @@ def mod_protocol0(id_num, reg_name, log_file):
                                                   'Missing header, unwrapping from tree. Here is the text:',
                                                   k,
                                                   cb()
-                                                  ), file = lf)
+                                                  ), file = lf
+                              )
                         k.unwrap()
                         continue
                     # Extract the first heading id number for the DB
@@ -469,8 +509,9 @@ def mod_protocol0(id_num, reg_name, log_file):
                     for p in k.find_all('p'):
                         if p.find('article') or len(p.get_text()) <= 1:
                             p.unwrap()
+                    # Insert data
                     res = insert_htext(conn,
-                                       tname2,
+                                       tname1,
                                        hid['id'],
                                        k,
                                        htext,
@@ -483,32 +524,11 @@ def mod_protocol0(id_num, reg_name, log_file):
                         print('%s\n%s\n%s' % (cb(),
                                               'Stopping because of error above.',
                                               cb()
-                                              ), file = lf)
+                                              ), file = lf
+                              )
                         break
                     # Remove so text won't be copied again
-                    k.decompose()
-
-
-        
-        #     print('%s%s%s%s%s' % ('\n' + ('#' * 80),
-        #                         '\n',
-        #                         i,
-        #                         '\n\n',
-        #                         i.parent.parent
-        #                         ), file = lf)
-        # return
-        #     #print(i, file = lf)
-        #     para_cit = i.string.split()[0]
-        #     if para_cit[0] == '(':
-        #         lst.append(para_cit[1])
-        #         #print(para_cit, file = lf)
-        #     else:
-        #         lst.append('Skipping')
-        #         #print('%s %s' % ('+' * 40, para_cit), file = lf)
-        # print(lst, file = lf)
-        
-    # Save to file only if specified
-    # write_file(file_name, soup, True)
+                    k.decompose()        
     db_close(conn, cur)
     end_function(start_time)
 

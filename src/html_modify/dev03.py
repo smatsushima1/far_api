@@ -22,7 +22,7 @@ def dev_header(id_num):
     for i in res:
         idnum = i[0]
         reg = i[1]
-        part = i[2] 
+        part = i[2]
         url = i[8]
         html = i[9]
         soup = bsp(html, 'html.parser')
@@ -33,11 +33,8 @@ def dev_header(id_num):
             
 
 # Error at 112, 154, 155, 157, 899, 1063, 1070, 1086, 1109, 1124
-
-
-
 run = 1
-idnum = 154
+idnum = 159
 if run == 1:
     mod_protocol0(idnum, 'log/log_prot0.txt')
 elif run == 2:
@@ -51,13 +48,22 @@ elif run == 5:
 
 
 
+str1 = 'PGI 242.322Reserved'
+fcit = re.match('.*[0-9]reserved.*', str1, re.I)
+# fcit2 = re.match('.*[a-z]derp.*', str3)
+str2 = str1.replace('—', '-').replace('accounting', 'ugh')
+# print(re.sub('.*[a-z]derp.*', ' derp', str3, flags = re.I))
+print(str1.lower().replace('reserved', ' reserved'))
+# print(fcit2)
+
+# lst = ['a', 'b', 'c', 'd']
+# print(' '.join(lst[1:]))
+
+# str2a = 'ugh derp - maximus'
+# str2 = ''
+# print(str2.replace('- ', ' - ').replace('  ', ' '))
 
 
-
-
-
-
-# str1 = 'assignments_part_1 -ugh herp'
 
 # str_spl = str1.split(' ')[0]
 # print(str_spl[len(str_spl) - 1])

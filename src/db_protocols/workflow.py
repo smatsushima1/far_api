@@ -2,7 +2,23 @@
 from functions import *
 
 
-run = 1
+# Protocol types:
+# Protocol 0: everything has articles and headers, with no bold or lists
+# Protocol 1: no headers, bold and lists for paragraphs
+# Protocol 2: vaar specific, strong for everything and h2 = h1
+# Protocol 3: nfs specific, only p tags and literally nothing else
+# Protocol 4: contains headers, but no articles
+
+
+# Total amount of records:
+# Protocol 0: 366
+# Protocol 1: 526
+# Protocol 2: 47
+# Protocol 3: 49
+# Protocol 4: 294
+
+
+run = 8
 idnum = ''
 reg = ''
 if run == 1:
@@ -20,7 +36,7 @@ elif run == 6:
 elif run == 7:
     dev_article_text(idnum, 'log/dev_article_text.txt')
 elif run == 8:
-    dev_linebreak()
+    dev_next()
 
 
 

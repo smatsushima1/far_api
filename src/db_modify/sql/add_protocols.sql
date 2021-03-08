@@ -123,7 +123,7 @@ order by id_num;
 --select * from dev_all_prot01;
 
 
--- Lastly, update the dev_all_parts table to mirror the used id_nums
+-- Update the dev_all_parts table to mirror the used id_nums
 drop table if exists dev_all_parts05;
 create table dev_all_parts05 as
 select t1.*,
@@ -131,6 +131,16 @@ select t1.*,
 from dev_all_parts04 t1
 join dev_all_prot01 t2 on t1.id_num = t2.id_num;
 --select * from dev_all_parts05
+
+
+-- Lastly, include all the tags with their protocols
+drop table if exists dev_tag_counts04;
+create table dev_tag_counts04 as
+select t1.*,
+       t2.protocol as protocol
+from dev_tag_counts02 t1
+join dev_all_prot01 t2 on t1.id_num = t2.id_num;
+-- select * from dev_all_counts04;
 
 
 -- Unit test to see if counts are equal

@@ -11,45 +11,6 @@ import time
 
 
 #################################### Dev Functions ###################################
-def dev_article_text(idnum, log_file):
-    # Connect to database
-    db = db_init()
-    conn = db[0]
-    cur = db[1]
-    # Pull data
-    tname1 = 'dev_all_parts05'
-    qry_str1 = 'select * from {table1} where {field1} = %s;'
-    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
-                                    field1 = sql.Identifier('id_num')
-                                    )
-    values1 = (idnum, )
-    res = qry_execute(conn, qry1, values1, True)
-    # Start parsing html
-    lfile = init_write_file(log_file)
-    with open(lfile, 'w', encoding = 'utf8') as lf:
-        # Start looping through values
-        for i in res:
-            idnum = i[0]
-            reg = i[1]
-            part = i[2] 
-            url = i[8]
-            html = i[9]
-            soup = bsp(html, 'html.parser')
-            for j in soup.find_all('article'):
-                print('%s\n%s\n%s' % (cb(),
-                                      j.attrs,
-                                      j.find_all_next('p')
-                                      ), file = lf
-                      )
-
-
-def dev_linebreak():
-    html = '''ugh
-              derp
-              maximus
-              '''
-    soup = bsp(html, 'html.parser')
-    print([i.replace('\n', '').replace(' ', ' ').strip() for i in soup])
 
 
 
@@ -391,6 +352,39 @@ def article_classes(log_file):
     end_function(start_time)
 
 
+# This lists all the article classes
+def article_text(idnum, log_file):
+    start_time = start_function('article_text')
+    # Connect to database
+    db = db_init()
+    conn = db[0]
+    cur = db[1]
+    # Pull data
+    tname1 = 'dev_all_parts05'
+    qry_str1 = 'select * from {table1} where {field1} = %s;'
+    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
+                                    field1 = sql.Identifier('id_num')
+                                    )
+    values1 = (idnum, )
+    res = qry_execute(conn, qry1, values1, True)
+    # Start parsing html
+    lfile = init_write_file(log_file)
+    with open(lfile, 'w', encoding = 'utf8') as lf:
+        # Start looping through values
+        for i in res:
+            idnum = i[0]
+            html = i[9]
+            soup = bsp(html, 'html.parser')
+            for j in soup.find_all('article'):
+                print('%s\n%s\n%s' % (cb(),
+                                      j.attrs,
+                                      j.find_all_next('p')
+                                      ), file = lf
+                      )
+    db_close(conn, cur)
+    end_function(start_time)
+
+
 ################################# Protocol 0 ##################################
 # Protocol 0: everything has articles and headers, with no bold or lists
 
@@ -461,7 +455,8 @@ def add_prot0(id_num, reg_name, log_file):
             tag_list = ['br',
                         'span',
                         'em',
-                        'nav'
+                        'nav',
+                        'strong'
                         ]
             for j in tag_list:
                 [k.unwrap() for k in soup.find_all(j)]

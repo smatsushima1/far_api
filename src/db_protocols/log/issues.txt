@@ -47,13 +47,18 @@ CITATION: 1519.2
 HEADER TITLE: 1509.203 - 1519.204
 NOTE: Should be 1519.203, not 1509.203.
 
+- SOFARS 5602 title has no space between the citation and Definitions
 
 #################################### SOFARS ###################################
-- SOFARS regulations don't even show thte citations, despite being there in the html: they list ordered lists but the citations don't show
+- SOFARS regulations don't even show thte citations, despite being there in the html: they list ordered lists but the citations don't show - isn't this pretty drastic? In order to cite properly, we need to at least know the citation...
 
-- TOC items are concatenated together; why not just separate each one on each line?
+- TOC items:
+    - Many are concatenated together; why not just separate each one on each line?
+    - The other sections have a real TOC nested between two hr's, but then everything is concatenated together underneat it: why on Earth is this even here?
 
-- There are no headings at all
+- There are no headings at all for the text - many are just plain text
+
+- 5602 title has no space between the citation and Definition
 
 
 ############################## Continuity Issues ##############################

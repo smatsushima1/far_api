@@ -2,7 +2,7 @@
 from functions import *
 
 
-# Test to see if find_next_sibling will work
+# Works! Use this as a way to combine all into articles
 def dev_next():
     # Connect to database
     db = db_init()
@@ -31,6 +31,7 @@ def dev_next():
         i.replace_with(ntag)
     print('%s\n%s' % (cb(), soup.prettify()))
     
+
 
 dev_next()
 

@@ -118,7 +118,48 @@ def qry_execute(connection, qry, values, fetch_all):
         print('Error: ', err)
         print('Error Type: ', type(err))
         return 1
-    
+
+
+# Depending on the values provided, return specific results
+def db_protocols(connection,
+                 create_table_name,
+                 id_num,
+                 reg_name,
+                 protocol
+                 ):
+    # Create initial table
+    values1 = '''(reg varchar,
+                  part numeric,
+                  subpart numeric,
+                  sction numeric,
+                  subsction numeric,
+                  supplementals_alt varchar,
+                  htype varchar,
+                  htitle varchar,
+                  hlink varchar,
+                  htext varchar
+                  )'''
+    drop_create_tables(connection, create_table_name, values1)
+    # Pull data
+    tname2 = 'dev_all_parts05'
+    qry_str2 = 'select * from {table1} where {field1} = %s;'
+    if id_num != '':
+        qry2 = sql.SQL(qry_str2).format(table1 = sql.Identifier(tname2),
+                                        field1 = sql.Identifier('id_num')
+                                        )
+        values2 = (id_num, )
+    elif reg_name != '':
+        qry2 = sql.SQL(qry_str2).format(table1 = sql.Identifier(tname2),
+                                        field1 = sql.Identifier('reg')
+                                        )
+        values2 = (reg_name, ) 
+    else:
+        qry2 = sql.SQL(qry_str2).format(table1 = sql.Identifier(tname2),
+                                        field1 = sql.Identifier('protocol')
+                                        )
+        values2 = (protocol, )
+    return qry_execute(connection, qry2, values2, True)
+
 
 ########################## CSS and JavaScript Parsing #########################
 # Only one result found for 'autonumber', but not usable
@@ -386,9 +427,8 @@ def article_text(idnum, log_file):
 
 
 ################################# Protocol 0 ##################################
-# Protocol 0: everything has articles and headers, with no bold or lists
-
-# Adds all data to postgres DB Modify
+# Protocol 0: everything has articles and headers, with no bold or lists (366)
+# Adds all data for protocol 0
 # Depending on the parameters, may be dev or prod
 # Runs for:
 # far
@@ -406,40 +446,9 @@ def add_prot0(id_num, reg_name, log_file):
     db = db_init()
     conn = db[0]
     cur = db[1]
-    # Create initial table
-    tname1 = 'dev_all_html02'
-    values1 = '''(reg varchar,
-                  part numeric,
-                  subpart numeric,
-                  sction numeric,
-                  subsction numeric,
-                  supplementals_alt varchar,
-                  htype varchar,
-                  htitle varchar,
-                  hlink varchar,
-                  htext varchar
-                  )'''
-    drop_create_tables(conn, tname1, values1)
-    # Pull data
-    tname2 = 'dev_all_parts05'
-    qry_str2 = 'select * from {table1} where {field1} = %s;'
-    # Depending on what variables are provided, this can either be prod or dev
-    if id_num != '':
-        qry2 = sql.SQL(qry_str2).format(table1 = sql.Identifier(tname2),
-                                        field1 = sql.Identifier('id_num')
-                                        )
-        values2 = (id_num, )
-    elif reg_name != '':
-        qry2 = sql.SQL(qry_str2).format(table1 = sql.Identifier(tname2),
-                                        field1 = sql.Identifier('reg')
-                                        )
-        values2 = (reg_name, )    
-    else:
-        qry2 = sql.SQL(qry_str2).format(table1 = sql.Identifier(tname2),
-                                        field1 = sql.Identifier('protocol')
-                                        )
-        values2 = (0, )
-    res = qry_execute(conn, qry2, values2, True)
+    tname1 = 'dev_all_html_prot0'
+    # Depending on what variables are provided, this can either be prod or dev    
+    res = db_protocols(conn, tname1, id_num, reg_name, 0)
     # Start parsing html
     lfile = init_write_file(log_file)
     with open(lfile, 'w', encoding = 'utf8') as lf:
@@ -897,18 +906,98 @@ def dfarspgi_idstr(text):
 
 
 ################################# Protocol 1 ##################################
-# Protocol 1: no headers, bold and lists for paragraphs
+# Protocol 1: no headers, bold and lists for paragraphs (526)
+# Add values for protocol 1
+# Regs affected:
+# sofars
+# agar
+# aidar
+# car
+# dears
+# dolar
+# dosar
+# dtar
+# edar
+# fehbar
+# hhsar
+# iaar
+# jar
+# lifar
+# nrcar
+# tar
+def add_prot1(id_num, reg_name, log_file):
+    start_time = start_function('mod_protocol1')
+    # Connect to database
+    db = db_init()
+    conn = db[0]
+    cur = db[1]
+    tname1 = 'dev_all_html_prot1'
+    # Depending on what variables are provided, this can either be prod or dev    
+    res = db_protocols(conn, tname1, id_num, reg_name, 1)
+    # Start parsing html
+    lfile = init_write_file(log_file)
+    with open(lfile, 'w', encoding = 'utf8') as lf:
+        # Start looping through values
+        for i in res:
+            idnum = i[0]
+            reg = i[1]
+            part = i[2] 
+            url = i[8]
+            html = i[9]
+            soup = bsp(html, 'html.parser')
+            ugh = soup.find('hr')
+            if len(soup.find_all('hr')) == 0:
+                add_prot1_a(soup, idnum, reg, part, url, html, log_file)
+    db_close(conn, cur)
+    end_function(start_time)
+
+
+# Process code for three idnums that don't have horizontal rules
+def add_prot1_a(soup, id_num, reg, part, url, html, log_file):
+    print('ugh')
+    pass
+
+
+
+
+# Get letter in alphabet list
+def convert_letter_para(val):
+    letters = 'abcdefghijklmnopqrstuvwxyz'
+    return letters[val-1]
+
+
+# Convert number to roman numeral
+def convert_rom_num_para(val):
+    # Right-most value of val
+    rnum = int(val[len(val) - 1])
+    if rnum <= 3:
+        rval = 'i' * int(rnum)
+    elif rnum == 4:
+        rval = 'iv'
+    elif rnum == 5:
+        rval = 'v'
+    elif rnum >= 6 and rnum <= 8:
+        rval = 'v' + ('i' * (int(rnum) - 5))
+    elif rnum == 9:
+        rval  = 'ix'
+    # Left-most value of val
+    x_qty = 0
+    if len(val) > 1:
+        x_qty = int(val[0])
+    lval = 'x' * x_qty
+    # Return final value
+    return (lval + rval)
 
 
 ################################# Protocol 2 ##################################
-# Protocol 2: vaar specific, strong for everything and h2 = h1
+# Protocol 2: vaar specific, strong for everything and h2 = h1 (47)
 
 
 ################################# Protocol 3 ##################################
-# Protocol 3: nfs specific, only p tags and literally nothing else
+# Protocol 3: nfs specific, only p tags and literally nothing else (49)
 
 
 ################################# Protocol 4 ##################################
-# Protocol 4: contains headers, but no articles
+# Protocol 4: contains headers, but no articles (294)
 
 

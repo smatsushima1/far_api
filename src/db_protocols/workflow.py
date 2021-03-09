@@ -3,23 +3,15 @@ from functions import *
 
 
 # Protocol types:
-# Protocol 0: everything has articles and headers, with no bold or lists
-# Protocol 1: no headers, bold and lists for paragraphs
-# Protocol 2: vaar specific, strong for everything and h2 = h1
-# Protocol 3: nfs specific, only p tags and literally nothing else
-# Protocol 4: contains headers, but no articles
+# Protocol 0: everything has articles and headers, with no bold or lists (366)
+# Protocol 1: no headers, bold and lists for paragraphs (526)
+# Protocol 2: vaar specific, strong for everything and h2 = h1 (47)
+# Protocol 3: nfs specific, only p tags and literally nothing else (49)
+# Protocol 4: contains headers, but no articles (294)
 
 
-# Total amount of records:
-# Protocol 0: 366
-# Protocol 1: 526
-# Protocol 2: 47
-# Protocol 3: 49
-# Protocol 4: 294
-
-
-run = 8
-idnum = ''
+run = 9
+idnum = 503
 reg = ''
 if run == 1:
     add_prot0(idnum, reg, 'log/add_prot0.txt')
@@ -37,6 +29,8 @@ elif run == 7:
     dev_article_text(idnum, 'log/dev_article_text.txt')
 elif run == 8:
     dev_next()
+elif run == 9:
+    add_prot1(idnum, reg, 'log/add_prot1.txt')
 
 
 

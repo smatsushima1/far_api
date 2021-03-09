@@ -954,8 +954,71 @@ def add_prot1(id_num, reg_name, log_file):
 
 # Process code for three idnums that don't have horizontal rules
 def add_prot1_a(soup, id_num, reg, part, url, html, log_file):
-    print('ugh')
-    pass
+    # Unwrap the initial div tags
+    soup.find('div', class_ = 'field-item even').decompose()
+    # First convert all strongs to headers
+    res = soup.find('p')
+    hstr = str(res)
+    for i in res.find_next_siblings():
+        # The target tag is a strong class
+        if i.find('strong'):
+            htext = i.get_text().strip()
+            # Stop at the next Part header
+            if re.match('.*(\s)part(\s)[1-9].*', htext, re.I):
+                break
+            else:
+                hstr += str(i) + ''
+                i.decompose()
+        else:
+            hstr += str(i) + ''
+            i.decompose()
+    # Add div to encompass all the text
+    ntag = soup.new_tag('div')
+    ntag['id'] = 'toc'
+    # htext is currently a string - it needs to be converted to html       
+    ntag.append(bsp(hstr, 'html.parser'))
+    # Replace the current paragraph to the new tag
+    res.replace_with(ntag)
+    # Convert the rest to div text tags
+    res2 = soup.find('div', id = 'toc').find_next_sibling()
+    hstr2 = str(res2)
+    for i in res2.find_next_siblings():
+        hstr2 += str(i) + ''
+        i.decompose()
+    # Add div to encompass all the text
+    ntag2 = soup.new_tag('div')
+    ntag2['id'] = 'text'
+    # htext is currently a string - it needs to be converted to html       
+    ntag2.append(bsp(hstr2, 'html.parser'))
+    # Replace the current paragraph to the new tag
+    res2.replace_with(ntag2)
+    fname = init_write_file('html/dev_all_prot1.html')
+    write_file(fname, soup, True)    
+    
+
+            
+        # hlist = str(i)
+        # for j in i.find_next_siblings():
+        #     txt = j.get_text().split().lower()
+
+            
+        #     ntag_text = i.get_text().strip()
+        #     print(ntag_text)
+        #     continue
+        #     ntt_sp = ntag_text.split()[0]
+        #     if ntag_text.lower().count(' part '):
+        #         ntag = soup.new_tag('h1')
+        #     elif ntag_text.lower().count('subpart'):
+        #         ntag = soup.new_tag('h2')
+        #     elif not ntt_sp[0].isalpha():
+        #         if ntt_sp.count('-'):
+        #             ntag = soup.new_tag('h4')
+        #         else:
+        #             ntag = soup.new_tag('h3')
+        #     ntag.string = ntag_text
+        #     i.append(ntag)
+        #     i.decompose()
+    #print(soup, file = log_file)
 
 
 

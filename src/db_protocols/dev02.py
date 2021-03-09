@@ -31,8 +31,11 @@ def dev_next():
         i.replace_with(ntag)
     print('%s\n%s' % (cb(), soup.prettify()))
     
+    
 
 
-
+str1 = 'SUBPART 5601.1 - PURPOSE, AUTHORITY, ISSUANCE'
+if re.match('.*(\s)part(\s)[1-9].*', str1, re.I):
+    print('yay')
 
 

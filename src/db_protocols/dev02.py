@@ -32,10 +32,13 @@ def dev_next():
     print('%s\n%s' % (cb(), soup.prettify()))
     
     
-
-
 str1 = 'SUBPART 5601.1 - PURPOSE, AUTHORITY, ISSUANCE'
 if re.match('.*(\s)part(\s)[1-9].*', str1, re.I):
     print('yay')
+
+
+lst = ['a', 'b', 'c']
+
+
 
 

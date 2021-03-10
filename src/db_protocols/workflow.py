@@ -16,7 +16,7 @@ reg = ''
 if run == 1:
     add_prot0(idnum, reg, 'log/add_prot0.txt')
 elif run == 2:
-    html_pull(idnum, 'html/html_pull.html')
+    html_pull(idnum, 'html/html_pull03.html')
 elif run == 3:
     extract_headers(0, 'log/extract_headers.txt', True)
 elif run == 4:

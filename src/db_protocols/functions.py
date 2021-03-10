@@ -956,6 +956,7 @@ def add_prot1(id_num, reg_name, log_file):
 def add_prot1_a(soup, id_num, reg, part, url, html, log_file):
     # Unwrap the initial div tags
     soup.find('div', class_ = 'field-item even').decompose()
+    soup.find('div', class_ = 'field-items').unwrap()
     # First convert all strongs to headers
     res = soup.find('p')
     hstr = str(res)
@@ -973,29 +974,77 @@ def add_prot1_a(soup, id_num, reg, part, url, html, log_file):
             hstr += str(i) + ''
             i.decompose()
     # Add div to encompass all the text
-    ntag = soup.new_tag('div')
-    ntag['id'] = 'toc'
+    ntag1 = soup.new_tag('nav')
     # htext is currently a string - it needs to be converted to html       
-    ntag.append(bsp(hstr, 'html.parser'))
+    ntag1.append(bsp(hstr, 'html.parser'))
     # Replace the current paragraph to the new tag
-    res.replace_with(ntag)
-    # Convert the rest to div text tags
-    res2 = soup.find('div', id = 'toc').find_next_sibling()
+    res.replace_with(ntag1)
+    # Wrap everything else in div text tag
+    res2 = soup.find('nav').find_next_sibling()
     hstr2 = str(res2)
     for i in res2.find_next_siblings():
         hstr2 += str(i) + ''
         i.decompose()
     # Add div to encompass all the text
-    ntag2 = soup.new_tag('div')
-    ntag2['id'] = 'text'
+    ntag2 = soup.new_tag('main')
     # htext is currently a string - it needs to be converted to html       
     ntag2.append(bsp(hstr2, 'html.parser'))
     # Replace the current paragraph to the new tag
-    res2.replace_with(ntag2)
+    res2.replace_with(ntag2)  
+    # Fix tags in the toc
+    # Wrap nav tags with headers
+    soup.find('nav').wrap(soup.new_tag('header'))    
+    # Convert h1 headers
+    for i in soup.find_all('p'):
+        htext = i.get_text().strip()
+        if re.match('.*(\s)part(\s)[1-9].*', htext, re.I):
+            ntag = soup.new_tag('h1')
+            ntag.string = htext
+            soup.find('nav').insert_before(ntag)
+            i.decompose()
+            break
+    # Fix linebreaks in the toc listings
+    for i in soup.find('header').find_all('p'):
+        if i.find('strong'):
+            strong = i.find('strong')
+            ntag = soup.new_tag('p')
+            ntag.string = strong.get_text().strip()
+            i.insert_before(ntag)
+            strong.decompose()
+            continue
+    # Fix linebreaks in the toc listings
+    for i in soup.find('header').find_all('p'):
+        print(i.get_text().strip())
+    for i in soup.find('header').find_all('p'):
+        htext = i.get_text().strip()      
+        if not htext:
+            i.decompose()
+            continue
+        htsp = htext.split()
+        if not htsp[0][0].isalpha() and \
+           not htsp[0].startswith('(') and \
+           not htsp[0].lower().startswith('subpart') and \
+           not htsp[0].lower().startswith('attachment'):
+            jstr = []
+            for x, j in reversed(list(enumerate(htsp[:len(htsp)]))):
+                jstr.insert(0, j)
+                print(jstr)
+                if not j[0].isalpha() and \
+                   not j.lower().startswith('(removed') and \
+                   not j.startswith('-') and \
+                   not j.count(')'):
+                    ntag = soup.new_tag('p')
+                    ntag.string = ' '.join(jstr)
+                    i.insert_after(ntag)
+                    i.decompose()
+                    jstr = []
+        else:
+            continue
+        
+        
     fname = init_write_file('html/dev_all_prot1.html')
-    write_file(fname, soup, True)    
+    write_file(fname, soup, True)  
     
-
             
         # hlist = str(i)
         # for j in i.find_next_siblings():

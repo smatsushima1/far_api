@@ -38,7 +38,8 @@ if re.match('.*(\s)part(\s)[1-9].*', str1, re.I):
 
 
 lst = ['a', 'b', 'c']
-
+str2 = '312'
+print(str2[1:])
 
 
 

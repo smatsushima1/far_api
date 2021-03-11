@@ -12,8 +12,11 @@ from functions import *
 # html_pull(130, 'html/dev_contents2.html')
 
 
-
-
+###############################################################################
+# Find all next siblings within same level of the tree
+    # res = soup.find('p')
+    # hstr = str(res)
+    # for i in res.find_next_siblings():
 
 ###############################################################################
 # Use this language when adding all subsections to sections, and sections to subparts

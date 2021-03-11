@@ -1012,10 +1012,8 @@ def add_prot1_a(soup, id_num, reg, part, url, html, log_file):
             i.insert_before(ntag)
             strong.decompose()
             continue
-    # Fix linebreaks in the toc listings
-    for i in soup.find('header').find_all('p'):
-        print(i.get_text().strip())
-    for i in soup.find('header').find_all('p'):
+    # Clean-up text in the nav section
+    for i in soup.find('nav').find_all('p'):
         htext = i.get_text().strip()      
         if not htext:
             i.decompose()
@@ -1028,7 +1026,6 @@ def add_prot1_a(soup, id_num, reg, part, url, html, log_file):
             jstr = []
             for x, j in reversed(list(enumerate(htsp[:len(htsp)]))):
                 jstr.insert(0, j)
-                print(jstr)
                 if not j[0].isalpha() and \
                    not j.lower().startswith('(removed') and \
                    not j.startswith('-') and \
@@ -1036,10 +1033,22 @@ def add_prot1_a(soup, id_num, reg, part, url, html, log_file):
                     ntag = soup.new_tag('p')
                     ntag.string = ' '.join(jstr)
                     i.insert_after(ntag)
-                    i.decompose()
                     jstr = []
+            i.decompose()
         else:
             continue
+    # Add href to toc listing
+    for i in soup.find('nav').find_all('p'):
+        htext = i.get_text().strip()
+        if not htext.startswith('('):
+            hrf = header_ids(reg, part, htext, True, log_file, id_num)
+            if i.find('a'):
+                hrf = i.find('a')['href']
+            i.clear()
+            ntag = soup.new_tag('a')
+            ntag.string = htext
+            ntag['href'] = hrf
+            i.append(ntag)
         
         
     fname = init_write_file('html/dev_all_prot1.html')

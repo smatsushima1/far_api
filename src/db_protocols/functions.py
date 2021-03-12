@@ -945,7 +945,6 @@ def add_prot1(id_num, reg_name, log_file):
             url = i[8]
             html = i[9]
             soup = bsp(html, 'html.parser')
-            ugh = soup.find('hr')
             if len(soup.find_all('hr')) == 0:
                 add_prot1_a(soup, idnum, reg, part, url, html, log_file)
     db_close(conn, cur)
@@ -1154,31 +1153,36 @@ def add_prot1_main(soup, id_num, reg, part, log_file):
         # Only need to unwrap the tags if theyre in a normal paragraph
         else:
             i.unwrap()
-    # Separate all text into sections
-    for x, i in enumerate(soup.find_all('h2')):
-        hstr = str(i)
-        xlist = len(soup.find_all('h2'))
-        ylist = len(i.find_next_siblings())
-        for y, j in enumerate(i.find_next_siblings()):
-            # Stop when you find another header of the same type
-            if j.name == i.name:
-                ntag = soup.new_tag('section', class_ = 'subparts')
-                ntag.append(bsp(hstr, 'html.parser'))
-                i.replace_with(ntag)
-                break
-            # Stop when at the very end of the html
-            elif x == (xlist - 1) and \
-                y == (ylist - 1):
-                hstr += str(j) + ''
-                j.decompose()   
-                ntag = soup.new_tag('section', class_ = 'subparts')
-                ntag.append(bsp(hstr, 'html.parser'))
-                i.replace_with(ntag)
-                break
-            # After everything, append strings
-            else:
-                hstr += str(j) + ''
-                j.decompose()
+    # Wrap headers in tags
+    htags = ['h2', 'h3', 'h4', 'h5']
+    for i in htags:
+        if i == 'h2':
+            tg = 'section'
+            clss = 'subparts'
+        elif i == 'h3':
+            tg = 'article'
+            clss = 'sections'
+        elif i == 'h4':
+            tg = 'article'
+            clss = 'subsections'
+        else:
+            tg = 'article'
+            clss = 'supplementals'
+        # Separate all subparts into sections
+        for j in soup.find_all(i):
+            jstr = str(j)
+            for k in j.find_next_siblings():
+                # Stop when you find another header of the same type
+                if k.name == j.name:
+                    break
+                # After everything, append strings
+                else:
+                    jstr += str(k) + ''
+                    k.decompose()
+            ntag = soup.new_tag(tg, class_ = clss)
+            ntag.append(bsp(jstr, 'html.parser'))
+            j.replace_with(ntag)
+
                 
             
     

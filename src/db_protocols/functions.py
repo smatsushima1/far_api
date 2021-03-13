@@ -946,7 +946,7 @@ def add_prot1(id_num, reg_name, log_file):
             html = i[9]
             soup = bsp(html, 'html.parser')
             if len(soup.find_all('hr')) == 0:
-                add_prot1_a(soup, idnum, reg, part, url, html, log_file)
+                add_prot1_a(soup, idnum, reg, part, url, html, lf)
     db_close(conn, cur)
     end_function(start_time)
 
@@ -957,6 +957,9 @@ def add_prot1_a(soup, id_num, reg, part, url, html, log_file):
     soup.find('div', class_ = 'field-item even').decompose()
     soup.find('div', class_ = 'regnavigation').decompose()
     soup.find('div', class_ = 'field-items').unwrap()
+    # Unwrap all blockqoute tags
+    for i in soup.find_all('blockquote'):
+        i.unwrap()
     # Create the initial header with nav section, and main section
     add_prot1_header(soup, id_num, reg, part, log_file)
     add_prot1_main(soup, id_num, reg, part, log_file)
@@ -1182,6 +1185,28 @@ def add_prot1_main(soup, id_num, reg, part, log_file):
             ntag = soup.new_tag(tg, class_ = clss)
             ntag.append(bsp(jstr, 'html.parser'))
             j.replace_with(ntag)
+    # Fix ordered lists, if present
+    for i in soup.find_all('ol'):
+        for j in i.find_all('li'):
+            #print('%s\n%s' % (cb(), j), file = log_file)
+            j.unwrap()
+        ptype = i['type']
+        try:
+            pstart = i['start']
+        except:
+            pstart = 1
+        for x, j in enumerate(i.find_all('p')):
+            pcit = return_para(ptype, int(pstart) + x)
+            j.contents.insert(0, pcit)
+            kstr = ''
+            for k in j.contents:
+                kstr += str(k) + ''
+            # ''.join(j.contents)
+            # print(pfin)
+            ntag = soup.new_tag('p')
+            ntag.append(bsp(kstr, 'html.parser'))
+            j.replace_with(ntag)
+        i.unwrap()
 
                 
             
@@ -1205,33 +1230,39 @@ def return_header(first, full_text):
         return ''
 
 
-# Get letter in alphabet list
-def convert_letter_para(val):
-    letters = 'abcdefghijklmnopqrstuvwxyz'
-    return letters[val-1]
-
-
 # Convert number to roman numeral
-def convert_rom_num_para(val):
-    # Right-most value of val
-    rnum = int(val[len(val) - 1])
-    if rnum <= 3:
-        rval = 'i' * int(rnum)
-    elif rnum == 4:
-        rval = 'iv'
-    elif rnum == 5:
-        rval = 'v'
-    elif rnum >= 6 and rnum <= 8:
-        rval = 'v' + ('i' * (int(rnum) - 5))
-    elif rnum == 9:
-        rval  = 'ix'
-    # Left-most value of val
-    x_qty = 0
-    if len(val) > 1:
-        x_qty = int(val[0])
-    lval = 'x' * x_qty
-    # Return final value
-    return (lval + rval)
+def return_para(val, num):
+    # For regular letters
+    if val.isalpha() and \
+        val != 'i':
+        letters = 'abcdefghijklmnopqrstuvwxyz'
+        return '(%s) ' % letters[num - 1]
+    # For numbers
+    if not val.isalpha():
+        return '(%s) ' % (str(int(val) + num))
+    # For roman numerals
+    else:
+        nstr = str(num)
+        nlen = len(nstr)
+        # Right-most value of val
+        rnum = int(nstr[nlen - 1])
+        if rnum <= 3:
+            rval = 'i' * int(rnum)
+        elif rnum == 4:
+            rval = 'iv'
+        elif rnum == 5:
+            rval = 'v'
+        elif rnum >= 6 and rnum <= 8:
+            rval = 'v' + ('i' * (int(rnum) - 5))
+        elif rnum == 9:
+            rval  = 'ix'
+        # Left-most value of val
+        x_qty = 0
+        if nlen > 1:
+            x_qty = int(nstr[0])
+        lval = 'x' * x_qty
+        # Return final value
+        return '(%s) ' % (lval + rval)
 
 
 ################################# Protocol 2 ##################################

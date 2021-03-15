@@ -143,16 +143,17 @@ def db_protocols(connection,
     # Pull data
     tname2 = 'dev_all_parts05'
     qry_str2 = 'select * from {table1} where {field1} = %s;'
-    if id_num != '':
+    # Defaults to reg_name checks first
+    if reg_name != '':
+        qry2 = sql.SQL(qry_str2).format(table1 = sql.Identifier(tname2),
+                                        field1 = sql.Identifier('reg')
+                                        )
+        values2 = (reg_name, )
+    elif id_num != '':
         qry2 = sql.SQL(qry_str2).format(table1 = sql.Identifier(tname2),
                                         field1 = sql.Identifier('id_num')
                                         )
         values2 = (id_num, )
-    elif reg_name != '':
-        qry2 = sql.SQL(qry_str2).format(table1 = sql.Identifier(tname2),
-                                        field1 = sql.Identifier('reg')
-                                        )
-        values2 = (reg_name, ) 
     else:
         qry2 = sql.SQL(qry_str2).format(table1 = sql.Identifier(tname2),
                                         field1 = sql.Identifier('protocol')
@@ -463,7 +464,6 @@ def add_prot0(id_num, reg_name, log_file):
             # Unwrap the following tags
             tag_list = ['br',
                         'span',
-                        'em',
                         'nav',
                         'strong'
                         ]
@@ -854,6 +854,7 @@ def insert_htext(connection,
               str(text)
               )
     print('%s - %s - %s - %s - %s - %s - %s - %s - %s' % (id_num,
+                                                          # reg
                                                           hid_spl[0],
                                                           # part
                                                           hid_spl[1],
@@ -926,7 +927,7 @@ def dfarspgi_idstr(text):
 # nrcar
 # tar
 def add_prot1(id_num, reg_name, log_file):
-    start_time = start_function('mod_protocol1')
+    start_time = start_function('add_prot1')
     # Connect to database
     db = db_init()
     conn = db[0]
@@ -945,27 +946,55 @@ def add_prot1(id_num, reg_name, log_file):
             url = i[8]
             html = i[9]
             soup = bsp(html, 'html.parser')
+            print(idnum)
             if len(soup.find_all('hr')) == 0:
-                add_prot1_a(soup, idnum, reg, part, url, html, lf)
+                add_prot1_sofars(conn,
+                                 soup,
+                                 idnum,
+                                 reg,
+                                 part,
+                                 url,
+                                 html,
+                                 tname1,
+                                 lf
+                                 )
     db_close(conn, cur)
     end_function(start_time)
 
 
 # Process code for three idnums that don't have horizontal rules
-def add_prot1_a(soup, id_num, reg, part, url, html, log_file):
+def add_prot1_sofars(connection,
+                     soup,
+                     id_num,
+                     reg,
+                     part,
+                     url,
+                     html,
+                     table_name,
+                     log_file
+                     ):
     # Unwrap the initial div tags
     soup.find('div', class_ = 'field-item even').decompose()
-    soup.find('div', class_ = 'regnavigation').decompose()
     soup.find('div', class_ = 'field-items').unwrap()
+    try:
+        soup.find('div', class_ = 'regnavigation').decompose()
+    except:
+        pass
     # Unwrap all blockqoute tags
-    for i in soup.find_all('blockquote'):
-        i.unwrap()
-    # Create the initial header with nav section, and main section
+    try:
+        [i.unwrap() for i in soup.find_all('blockquote')]
+    except:
+        pass
+    # Create the initial header with nav section
     add_prot1_header(soup, id_num, reg, part, log_file)
+    # Modify the main section
     add_prot1_main(soup, id_num, reg, part, log_file)
-        
+    # Insert all values in the table
+    insert_prot1(connection, soup, id_num, url, table_name, log_file)
+    print(soup)
+    # Save the html of the current url to the file
     fname = init_write_file('html/dev_all_prot1.html')
-    write_file(fname, soup, True)  
+    write_file(fname, soup, True)
     
 
         # hlist = str(i)
@@ -1021,13 +1050,16 @@ def add_prot1_header(soup, id_num, reg, part, log_file):
     # Replace the first h1 paragraph to the new tag
     res.replace_with(ntag1)
     # Wrap nav tags with headers
-    soup.find('nav').wrap(soup.new_tag('header')) 
+    ntag2 = soup.new_tag('header')
+    ntag2['class'] = 'toc'
+    soup.find('nav').wrap(ntag2) 
     # Fix tags in the toc
     # Convert h1 headers
     for i in soup.find_all('p'):
         htext = i.get_text().strip()
         if re.match('.*(\s)part(\s)[1-9].*', htext, re.I):
             ntag = soup.new_tag('h1')
+            ntag['id'] = '%s_1_0_0_0_0_header' % reg
             ntag.string = htext
             soup.find('nav').insert_before(ntag)
             i.decompose()
@@ -1041,10 +1073,10 @@ def add_prot1_header(soup, id_num, reg, part, log_file):
             i.insert_before(ntag)
             strong.decompose()
             continue
-    # Clean-up text in the nav section
-    # Only to be performed for SOFARS Part 1
+    # Clean-up text in the nav section, but only for SOFARS Part 1
     if reg == 'sofars' and \
         part == '1':
+        # Fix the nav section
         for i in soup.find('nav').find_all('p'):
             htext = i.get_text().strip()
             # Remove all empty paragraph tags
@@ -1092,6 +1124,15 @@ def add_prot1_header(soup, id_num, reg, part, log_file):
             ntag.string = htext
             ntag['href'] = hrf
             i.append(ntag)
+    # Add in hr after h1 and at the very end
+    try:
+        [i.unwrap() for i in soup.find_all('hr')]
+    except:
+        pass
+    ntag1 = soup.new_tag('hr')
+    soup.find('h1').insert_after(ntag1)    
+    ntag2 = soup.new_tag('hr')
+    soup.find('header').append(ntag2)
 
 
 # Modify main section
@@ -1182,34 +1223,81 @@ def add_prot1_main(soup, id_num, reg, part, log_file):
                 else:
                     jstr += str(k) + ''
                     k.decompose()
-            ntag = soup.new_tag(tg, class_ = clss)
+            ntag = soup.new_tag(tg)
+            ntag['class'] = clss
             ntag.append(bsp(jstr, 'html.parser'))
             j.replace_with(ntag)
     # Fix ordered lists, if present
-    for i in soup.find_all('ol'):
-        for j in i.find_all('li'):
-            #print('%s\n%s' % (cb(), j), file = log_file)
-            j.unwrap()
-        ptype = i['type']
+    ptype = para_type(soup)
+    if ptype == 'ol':
+        for i in soup.find_all('ol'):
+            for j in i.find_all('li'):
+                #print('%s\n%s' % (cb(), j), file = log_file)
+                j.unwrap()
+            ptype = i['type']
+            try:
+                pstart = i['start']
+            except:
+                pstart = 1
+            for x, j in enumerate(i.find_all('p')):
+                pcit = return_para(ptype, int(pstart) + x)
+                j.contents.insert(0, pcit)
+                kstr = ''
+                for k in j.contents:
+                    kstr += str(k) + ''
+                # ''.join(j.contents)
+                # print(pfin)
+                ntag = soup.new_tag('p')
+                ntag.append(bsp(kstr, 'html.parser'))
+                j.replace_with(ntag)
+            i.unwrap()
+    elif ptype == 'ul':
+        print('ul type: skipped for now...')
+    # Remove all links except those that I've created - they won't work anyway in the app
+    for j in soup.find_all('a'):
         try:
-            pstart = i['start']
+            jh = j['href']
+            if not jh.startswith('http') and \
+                not jh.startswith('#' + reg):
+                j.unwrap()
         except:
-            pstart = 1
-        for x, j in enumerate(i.find_all('p')):
-            pcit = return_para(ptype, int(pstart) + x)
-            j.contents.insert(0, pcit)
-            kstr = ''
-            for k in j.contents:
-                kstr += str(k) + ''
-            # ''.join(j.contents)
-            # print(pfin)
-            ntag = soup.new_tag('p')
-            ntag.append(bsp(kstr, 'html.parser'))
-            j.replace_with(ntag)
-        i.unwrap()
+            continue
 
-                
-            
+        
+def insert_prot1(connection, soup, id_num, url, table_name, log_file):
+    # First add in supplementals
+    alst = [('article', 'supplementals'),
+            ('article', 'subsections'),
+            ('article', 'sections'),
+            ('section', 'subparts'),
+            ('header', 'toc')
+            ]
+    for i in alst:
+        for j in soup.find_all(i[0], class_ = i[1]):
+            print(j.attrs)
+            if j:
+                hid = j.find(re.compile('^h[1-6]$'))
+                htext = hid.get_text().strip()
+                # Insert data
+                res = insert_htext(connection,
+                                   table_name,
+                                   hid['id'],
+                                   j,
+                                   htext,
+                                   url,
+                                   id_num,
+                                   log_file
+                                   )
+                # Exit if error
+                if res == 1:
+                    print('%s\n%s\n%s' % (cb(),
+                                          'Stopping because of error above.',
+                                          cb()
+                                          ), file = log_file
+                          )
+                    break
+                # Remove so text won't be copied again
+                j.decompose()    
     
 
 
@@ -1230,6 +1318,25 @@ def return_header(first, full_text):
         return ''
 
 
+# Define how to process the paragraph types:
+# ol = ol type with types and start with no citations in the text
+# ol2 = ol type with no types or starts
+# ul = unordered lists with citations already in the text
+def para_type(soup):
+    ol_res = soup.find_all('ol')
+    if ol_res:
+        try:
+            for i in ol_res:
+                if i['type'] == 'a' or \
+                    i['type'] == '1' or \
+                    i['type'] == 'i':
+                    return 'ol'
+        except:
+            return 'ol2'
+    else:
+        return 'ul'
+
+
 # Convert number to roman numeral
 def return_para(val, num):
     # For regular letters
@@ -1239,7 +1346,7 @@ def return_para(val, num):
         return '(%s) ' % letters[num - 1]
     # For numbers
     if not val.isalpha():
-        return '(%s) ' % (str(int(val) + num))
+        return '(%s) ' % (str(int(val) + num - 1))
     # For roman numerals
     else:
         nstr = str(num)

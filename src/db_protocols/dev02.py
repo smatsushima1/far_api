@@ -31,15 +31,22 @@ def dev_next():
         i.replace_with(ntag)
     print('%s\n%s' % (cb(), soup.prettify()))
     
-    
-str1 = 'SUBPART 5601.1 - PURPOSE, AUTHORITY, ISSUANCE'
-if re.match('.*(\s)part(\s)[1-9].*', str1, re.I):
-    print('yay')
+
+def dev_next2():
+    # Connect to database
+    db = db_init()
+    conn = db[0]
+    cur = db[1]
+    html = '''<html><title>Test Title</title><b>This is supposed to be a title</b><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><b>This is supposed to be another title</b><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p></htnl>'''
+    soup = bsp(html, 'html.parser')
+    res = soup.find_all('ol')
+    if res:
+        print('yay')
+    else:
+        print('nopw')
 
 
-lst = ['a', 'b', 'c']
-str2 = '312'
-print(str2[1:])
+dev_next2()
 
 
 

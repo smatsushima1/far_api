@@ -1011,9 +1011,14 @@ def add_prot1(id_num, reg_name, log_file):
             for x, i in enumerate(soup.find_all('p')):
                 # The first iteration will be the h1 heading
                 if x == 0:
-                    res = i
-                    hstr = str(i)
-                    continue
+                    if soup.find('h1'):
+                        res = soup.find('h1')
+                        hstr = str(res)
+                        continue
+                    else:
+                        res = i
+                        hstr = str(i)
+                        continue
                 # If the paragraphs contain strong tags, then those are headers
                 # Each time we find a strong tag, we want to decompose the tag
                 elif i.find('strong'):
@@ -1040,15 +1045,22 @@ def add_prot1(id_num, reg_name, log_file):
             soup.find('nav').wrap(ntag2) 
             # Fix tags in the toc
             # Convert h1 headers
-            for i in soup.find_all('p'):
-                htext = i.get_text().strip()
-                if re.match('.*(\s)part(\s)[1-9].*', htext, re.I):
-                    ntag = soup.new_tag('h1')
-                    ntag['id'] = '%s_1_0_0_0_0_header' % reg
-                    ntag.string = htext
-                    soup.find('nav').insert_before(ntag)
+            if soup.find('h1'):
+                for i in soup.find_all('h1'):
+                    i['id'] = '%s_1_0_0_0_0_header' % reg
+                    i.string = htext
+                    soup.find('nav').insert_before(i)
                     i.decompose()
-                    break
+            else:
+                for i in soup.find_all('p'):
+                    htext = i.get_text().strip()
+                    if re.match('.*(\s)part(\s)[1-9].*', htext, re.I):
+                        ntag = soup.new_tag('h1')
+                        ntag['id'] = '%s_1_0_0_0_0_header' % reg
+                        ntag.string = htext
+                        soup.find('nav').insert_before(ntag)
+                        i.decompose()
+                        break
             # Remove all strong headers to plain paragraph
             for i in soup.find('header').find_all('p'):
                 if i.find('strong'):
@@ -1115,7 +1127,7 @@ def add_prot1(id_num, reg_name, log_file):
             except:
                 pass
             ntag1 = soup.new_tag('hr')
-            soup.find('h1').insert_after(ntag1)    
+            soup.find('h1').insert_after(ntag1)
             ntag2 = soup.new_tag('hr')
             soup.find('header').append(ntag2)
             ############################ Main Text ############################

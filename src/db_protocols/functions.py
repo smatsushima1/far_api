@@ -222,7 +222,7 @@ def search_jscripts(srch_text):
 ############################ Debugging and Testing ############################
 # Used for debugging specific sections
 # Modify file_name and idnum as appropriate
-def debug_headers(idnum, file_name, file_save):
+def debug_headers(id_num, file_name, file_save):
     jname = init_write_file(file_name)
     # Connect to database
     db = db_init()
@@ -234,7 +234,7 @@ def debug_headers(idnum, file_name, file_save):
                                     field1 = sql.Identifier('htext'),
                                     field2 = sql.Identifier('id_num')
                                     )
-    values1 = (idnum, )
+    values1 = (id_num, )
     res = qry_execute(conn, qry1, values1, True)
     soup = bsp(res[0][0], 'html.parser')
     db_close(conn, cur)
@@ -395,7 +395,7 @@ def article_classes(log_file):
 
 
 # This lists all the article classes
-def article_text(idnum, log_file):
+def article_text(id_num, log_file):
     start_time = start_function('article_text')
     # Connect to database
     db = db_init()
@@ -407,14 +407,13 @@ def article_text(idnum, log_file):
     qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier(tname1),
                                     field1 = sql.Identifier('id_num')
                                     )
-    values1 = (idnum, )
+    values1 = (id_num, )
     res = qry_execute(conn, qry1, values1, True)
     # Start parsing html
     lfile = init_write_file(log_file)
     with open(lfile, 'w', encoding = 'utf8') as lf:
         # Start looping through values
         for i in res:
-            idnum = i[0]
             html = i[9]
             soup = bsp(html, 'html.parser')
             for j in soup.find_all('article'):
@@ -461,6 +460,7 @@ def add_prot0(id_num, reg_name, log_file):
             url = i[8]
             html = i[9]
             soup = bsp(html, 'html.parser')
+            ######################### General Clean-Up ########################
             # Unwrap the following tags
             tag_list = ['br',
                         'span',
@@ -469,11 +469,52 @@ def add_prot0(id_num, reg_name, log_file):
                         ]
             for j in tag_list:
                 [k.unwrap() for k in soup.find_all(j)]
+            # Fix the TOC
+            # Wrap nested0 article class with header tags
+            for j in soup.find_all('article', class_ = 'nested0'):
+                if not j:
+                    break
+                ntag = soup.new_tag('header')
+                ntag['class'] = 'toc'
+                j.wrap(ntag)
+                j.unwrap()
+            # Convert the div body tag to nav, but only on the first iteration
+            for j in soup.find_all('div', class_ = 'body', limit = 1):
+                if not j:
+                    break
+                # Change the class name to toc
+                ntag = soup.new_tag('nav')
+                ntag['class'] = 'toc'
+                j.wrap(ntag)
+                j.unwrap()
+            # Reformat the text in the a tags and modify the href's
+            for j in soup.find('nav', class_ = 'toc').find_all('a'):
+                txt = j.get_text().strip()
+                j.string = txt
+                j['href'] = header_ids(reg, part, txt, True, lf)             
+            # Remove all formatting from tables
+            for j in soup.find_all('table'):
+                del j['class']
+                for k in j.find_all('th'):
+                    del k['class']
+                    del k['id']
+                for k in j.find_all('td'):
+                    del k['class']
+                for k in j.find_all('p'):
+                    k.unwrap()
+            # Remove all links to the FAR - they won't work anyway in the app
+            for j in soup.find_all('a'):
+                try:
+                    if not j['href'].startswith('http'):
+                        j.unwrap()
+                except:
+                    continue
+            ######################## Table of Contents ########################
             # Modify headers
             for j in soup.find_all(re.compile('^h[1-6]$')):
                 # Remove all classes
                 del j['class']
-                if j.get_text().strip() is None:
+                if not j.get_text().strip():
                     j.unwrap()
                     continue
                 # Extract all the text and clean-up
@@ -489,7 +530,7 @@ def add_prot0(id_num, reg_name, log_file):
                 # Save the header text as the new text
                 j.string = hstr
                 # Convert headers to bold if they are within other articles
-                hres = header_ids(reg, part, hstr, False, lf, idnum)
+                hres = header_ids(reg, part, hstr, False, lf)
                 if hres == 2:
                     ntag = soup.new_tag('b')
                     ntag.string = j.string
@@ -497,38 +538,9 @@ def add_prot0(id_num, reg_name, log_file):
                     j.unwrap()
                     continue
                 # Assign new IDs and replace with the old
-                new_id = header_ids(reg, part, hstr, False, lf, idnum)
+                new_id = header_ids(reg, part, hstr, False, lf)
                 j['id'] = new_id
-            # Fix the TOC
-            div_toc = soup.find('div', class_ = 'body')
-            if div_toc is not None:
-                # Change the class name to toc
-                div_toc['id'] = 'toc'
-                # Reformat the text in the a tags and modify the href's
-                for k in div_toc.find_all('a'):
-                    txt = k.get_text().strip()
-                    k.string = txt
-                    k['href'] = header_ids(reg, part, txt, True, lf, idnum)             
-            else:
-                print('No div body', file = lf)
-            # Remove all formatting from tables
-            for j in soup.find_all('table'):
-                del j['class']
-                for k in j.find_all('th'):
-                    del k['class']
-                    del k['id']
-                for k in j.find_all('td'):
-                    del k['class']
-                for k in j.find_all('p'):
-                    k.unwrap()
-            # Remove all links to the FAR - they won't work anyway in the app
-            for j in soup.find_all('a'):
-                try:
-                    jh = j['href']
-                    if not jh.startswith('http') and not jh.startswith('#' + reg):
-                        j.unwrap()
-                except:
-                    continue
+            ############################ Main Text ############################
             # Start converting all article classes
             # GSAM = could be subsections or sections, search if contains h4, then process
             # GSAR = (see GSAM)
@@ -579,22 +591,50 @@ def add_prot0(id_num, reg_name, log_file):
             # For certain articles, the same article classes are nested within them
             # This will check to see if the same articles classes are within
             # If they are, then make it the parent-level nested class
-            nested_class = ['nested4',
-                            'nested3',
-                            'nested2',
-                            'nested1',
-                            'nested0'
-                            ]
-            for j in nested_class:
+            nested_class1 = ['nested4',
+                             'nested3',
+                             'nested2',
+                             'nested1'
+                             ]
+            for j in nested_class1:
                 nested_number = int(j[len(j) - 1])
                 for k in soup.find_all('article', class_ = j):
                     if len(k.find_all('article', class_ = j)):
                         k['class'] = 'nested' + str(nested_number - 1)
                         break
-            # Start adding all text individually based on article classes
-            for j in nested_class:
+            # Convert all subparts to sections
+            for j in soup.find_all('article', class_ = 'nested1'):
+                ntag = soup.new_tag('section')
+                ntag['class'] = 'subparts'
+                j.wrap(ntag)
+                j.unwrap()
+            # Rename articles to semantic class names
+            nested_class2 = ['nested4',
+                             'nested3',
+                             'nested2'
+                             ]
+            for j in nested_class2:
                 for k in soup.find_all('article', class_ = j):
-                    if k is None:
+                    k.attrs = {}
+                    if j == 'nested4':
+                        k['class'] = 'supplementals'
+                    elif j == 'nested3':
+                        k['class'] = 'subsections'
+                    else:
+                        k['class'] = 'sections'
+            # Remove all div tags only now since we won't need them anymore
+            [j.unwrap() for j in soup.find_all('div')]
+            # Start adding all text individually based on article classes
+            alst = [('article', 'supplementals'),
+                    ('article', 'subsections'),
+                    ('article', 'sections'),
+                    ('section', 'subparts'),
+                    ('header', 'toc')
+                    ]
+            for j in alst:
+                for k in soup.find_all(j[0], class_ = j[1]):
+                    # Skip if nothing
+                    if not k:
                         continue
                     # Unwrap the article if there are no headers:
                     if k.find(re.compile('^h[1-6]$')) is None:
@@ -609,8 +649,9 @@ def add_prot0(id_num, reg_name, log_file):
                     # Extract the first heading id number for the DB
                     hid = k.find(re.compile('^h[1-6]$'))
                     htext = hid.get_text().strip()
-                    # Remove empty paragraphs
+                    # Remove empty paragraphs, delete all attributes
                     for p in k.find_all('p'):
+                        p.attrs = {}
                         if p.find('article') or len(p.get_text()) <= 1:
                             p.unwrap()
                     # Insert data
@@ -632,7 +673,10 @@ def add_prot0(id_num, reg_name, log_file):
                               )
                         break
                     # Remove so text won't be copied again
-                    k.decompose()        
+                    k.decompose()
+    # Save the html of the current url to the file
+    # fname = init_write_file('html/dev_all_prot0.html')
+    # write_file(fname, soup, True)
     db_close(conn, cur)
     end_function(start_time)
 
@@ -655,7 +699,7 @@ def reformat_headers(text):
 
 
 # Returns the new ID for each header or href; prepends with # if returning href
-def header_ids(reg, part, text, href_ind, log_file, idnum):
+def header_ids(reg, part, text, href_ind, log_file):
     # Reformat the string to make it lower
     text2 = text.lower()
     # Perform special functions if headers are of a certain type
@@ -1165,7 +1209,7 @@ def add_prot1_main(soup, id_num, reg, part, log_file):
                 continue
             ntag = soup.new_tag(hdr)
             ntag.string = htext
-            ntag['id'] = header_ids(reg, part, htext, False, log_file, id_num)
+            ntag['id'] = header_ids(reg, part, htext, False, log_file)
             i.insert_after(ntag)
             i.decompose()
     # Convert other p tags to headers based on their first text
@@ -1184,7 +1228,7 @@ def add_prot1_main(soup, id_num, reg, part, log_file):
                 continue
             ntag = soup.new_tag(hdr)
             ntag.string = htext
-            ntag['id'] = header_ids(reg, part, htext, False, log_file, id_num)
+            ntag['id'] = header_ids(reg, part, htext, False, log_file)
             i.insert_after(ntag)
             i.decompose()
     # Remove all strong tags; conver to bold if in a table

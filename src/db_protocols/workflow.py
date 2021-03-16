@@ -2,7 +2,7 @@
 from functions import *
 
 
-# Protocol types:
+# Protocol types (number of records):
 # Protocol 0: everything has articles and headers, with no bold or lists (366)
 # Protocol 1: no headers, bold and lists for paragraphs (526)
 # Protocol 2: vaar specific, strong for everything and h2 = h1 (47)
@@ -10,8 +10,8 @@ from functions import *
 # Protocol 4: contains headers, but no articles (294)
 
 
-run = 9
-idnum = 503
+run = 1
+idnum = ''
 reg = ''
 if run == 1:
     add_prot0(idnum, reg, 'log/add_prot0.txt')

@@ -1016,7 +1016,6 @@ def add_prot1(id_num, reg_name, log_file):
             else:
                 bold_toc(soup, idnum, reg, part, lf)
                 bold_main(soup, idnum, reg, part, lf)
-                break
             ######################### Add to Database #########################
             # First add in supplementals
             alst = [('article', 'supplementals'),
@@ -1257,6 +1256,7 @@ def strong_main(soup, id_num, reg, part, log_file):
             htext = i.get_text().strip()
             hfirst = htext.lower().split()[0]
             hdr = return_header(hfirst, htext)
+            # Empty tags have empty span classes
             if hdr == '':
                 i.find('span').unwrap()
                 continue
@@ -1363,6 +1363,10 @@ def strong_main(soup, id_num, reg, part, log_file):
 
 # Modify the main content for all other regs
 def bold_main(soup, id_num, reg, part, log_file):
+    # First remove all empty p tags
+    for i in soup.find_all('p'):
+        if not i.get_text().strip():
+            i.unwrap()
     # Wrap everything outside the header tag in main tag
     res = soup.find('header').find_next_sibling()
     hstr = str(res)
@@ -1374,6 +1378,8 @@ def bold_main(soup, id_num, reg, part, log_file):
     res.replace_with(ntag)
     main = soup.find('main').find_all('p')
     # Remove secondary TOC, because why on Earth is it there anyway?
+    # Count how many part-like headers are in the document
+    # Only process if there are 2 or more, which should be there
     h1_count = 0
     for i in main:
         if re.match('.*(\s)part(\s)[1-9].*', i.get_text(), re.I):
@@ -1389,12 +1395,51 @@ def bold_main(soup, id_num, reg, part, log_file):
                 if h1_count == 2:
                     break
             i.decompose()
-
-    # res = soup.find('header').find_next_sibling():
-    # h1_count = 0
-    # for i in res.find_next_siblings():
-    #     pass
-    
+    # Convert all p tags that contain supposed headers, which are bold tags
+    for i in main:
+        if i.find('b'):
+            htext = i.get_text().strip()
+            hfirst = htext.lower().split()[0]
+            hdr = return_header(hfirst, htext)
+            # Empty tags have empty span classes
+            if hdr == '':
+                i.find('span').unwrap()
+                continue
+            ntag = soup.new_tag(hdr)
+            ntag.string = htext
+            ntag['id'] = header_ids(reg, part, htext, False, log_file)
+            i.insert_after(ntag)
+            i.decompose()
+    # Wrap headers in tags
+    htags = ['h2', 'h3', 'h4', 'h5']
+    for i in htags:
+        if i == 'h2':
+            tg = 'section'
+            clss = 'subparts'
+        elif i == 'h3':
+            tg = 'article'
+            clss = 'sections'
+        elif i == 'h4':
+            tg = 'article'
+            clss = 'subsections'
+        else:
+            tg = 'article'
+            clss = 'supplementals'
+        # Separate all subparts into sections
+        for j in soup.find_all(i):
+            jstr = str(j)
+            for k in j.find_next_siblings():
+                # Stop when you find another header of the same type
+                if k.name == j.name:
+                    break
+                # After everything, append strings
+                else:
+                    jstr += str(k) + ''
+                    k.decompose()
+            ntag = soup.new_tag(tg)
+            ntag['class'] = clss
+            ntag.append(bsp(jstr, 'html.parser'))
+            j.replace_with(ntag)    
 
 
 

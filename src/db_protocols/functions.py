@@ -800,6 +800,7 @@ def header_ids(reg, part, text, href_ind, log_file):
                                        supp_alt,
                                        htype
                                        )
+    #print(id_str)
     # print('%s ##### %s' % (text, id_str))
     # href's require # in order to go to the link on the page
     if href_ind:
@@ -854,8 +855,8 @@ def header_link_section(text):
         else:
             sction = sction.lstrip('0')
     # Only found for 3035.70-1 Policy
-    elif len(text) == 2:
-        subpart = text
+    elif len(text) <= 2:
+        subpart = text.split('-')[0]
         sction = 0
     # This really won't matter as it won't get inserted in the table anyway
     else:
@@ -985,17 +986,16 @@ def add_prot1(id_num, reg_name, log_file):
     lfile = init_write_file(log_file)
     with open(lfile, 'w', encoding = 'utf8') as lf:
         # Start looping through values
-        for i in res:
-            idnum = i[0]
-            reg = i[1]
-            part = i[2] 
-            url = i[8]
-            html = i[9]
+        for r in res:
+            idnum = r[0]
+            reg = r[1]
+            part = r[2] 
+            url = r[8]
+            html = r[9]
             soup = bsp(html, 'html.parser')
             print(idnum)
             ######################### General Clean-Up #########################
             # Unwrap the initial div tags
-            soup.find('div', class_ = 'field-item even').decompose()
             soup.find('div', class_ = 'field-items').unwrap()
             try:
                 soup.find('div', class_ = 'regnavigation').decompose()
@@ -1007,255 +1007,16 @@ def add_prot1(id_num, reg_name, log_file):
             except:
                 pass
             #################### Header - Table of Contents ####################
-            # First remove all the strong tags
-            for x, i in enumerate(soup.find_all('p')):
-                # The first iteration will be the h1 heading
-                if x == 0:
-                    if soup.find('h1'):
-                        res = soup.find('h1')
-                        hstr = str(res)
-                        continue
-                    else:
-                        res = i
-                        hstr = str(i)
-                        continue
-                # If the paragraphs contain strong tags, then those are headers
-                # Each time we find a strong tag, we want to decompose the tag
-                elif i.find('strong'):
-                    htext = i.get_text().strip()
-                    # Stop the for loop when you find the Part after the TOC
-                    if re.match('.*(\s)part(\s)[1-9].*', htext, re.I):
-                        break
-                    # In either case, add the text to the main string to be added later
-                    else:
-                        hstr += str(i) + ''
-                        i.decompose()
-                else:
-                    hstr += str(i) + ''
-                    i.decompose()
-            # Add nav to encompass all the text
-            ntag1 = soup.new_tag('nav')
-            # htext is currently a string - it needs to be converted to html       
-            ntag1.append(bsp(hstr, 'html.parser'))
-            # Replace the first h1 paragraph to the new tag
-            res.replace_with(ntag1)
-            # Wrap nav tags with headers
-            ntag2 = soup.new_tag('header')
-            ntag2['class'] = 'toc'
-            soup.find('nav').wrap(ntag2) 
-            # Fix tags in the toc
-            # Convert h1 headers
-            if soup.find('h1'):
-                for i in soup.find_all('h1'):
-                    i['id'] = '%s_1_0_0_0_0_header' % reg
-                    i.string = htext
-                    soup.find('nav').insert_before(i)
-                    i.decompose()
+            # Either the html as bold or strong tags
+            # Strong tags are in three SOFARS regs: Part 1, 15, and 52
+            # Bold tags are everywhere else
+            if len(soup.find_all('strong')):
+                strong_toc(soup, idnum, reg, part, lf)
+                strong_main(soup, idnum, reg, part, lf)
             else:
-                for i in soup.find_all('p'):
-                    htext = i.get_text().strip()
-                    if re.match('.*(\s)part(\s)[1-9].*', htext, re.I):
-                        ntag = soup.new_tag('h1')
-                        ntag['id'] = '%s_1_0_0_0_0_header' % reg
-                        ntag.string = htext
-                        soup.find('nav').insert_before(ntag)
-                        i.decompose()
-                        break
-            # Remove all strong headers to plain paragraph
-            for i in soup.find('header').find_all('p'):
-                if i.find('strong'):
-                    strong = i.find('strong')
-                    ntag = soup.new_tag('p')
-                    ntag.string = strong.get_text().strip()
-                    i.insert_before(ntag)
-                    strong.decompose()
-                    continue
-            # Clean-up text in the nav section, but only for SOFARS Part 1
-            if reg == 'sofars' and \
-                part == '1':
-                # Fix the nav section
-                for i in soup.find('nav').find_all('p'):
-                    htext = i.get_text().strip()
-                    # Remove all empty paragraph tags
-                    if not htext:
-                        i.decompose()
-                        continue
-                    # Check the first elements in each list of title strings
-                    htsp = htext.split()
-                    if not htsp[0][0].isalpha() and \
-                        not htsp[0].startswith('(') and \
-                        not htsp[0].lower().startswith('subpart') and \
-                        not htsp[0].lower().startswith('attachment'):
-                        jstr = []
-                        # Search through the list backwards in order to add in the later
-                        #     citations first, since inserting tags first will end up
-                        #     showing up last
-                        for x, j in reversed(list(enumerate(htsp[:len(htsp)]))):
-                            jstr.insert(0, j)
-                            # Stop iterating through lists as soon as you come across a citation
-                            # Lists get cleared and reset once you come across a citation
-                            if not j[0].isalpha() and \
-                                not j.lower().startswith('(removed') and \
-                                not j.startswith('-') and \
-                                not j.count(')'):
-                                ntag = soup.new_tag('p')
-                                ntag.string = ' '.join(jstr)
-                                i.insert_after(ntag)
-                                jstr = []
-                        # All paragraph tags get decomposed, since they're all inserted anyway
-                        i.decompose()
-                    else:
-                        continue
-            # Add href to toc listing
-            for i in soup.find('nav').find_all('p'):
-                htext = i.get_text().strip()
-                # Don't run for paragraph text that starts with '(', which are typically
-                #     for removed and added notes
-                if not htext.startswith('('):
-                    hrf = header_ids(reg, part, htext, True, lf)
-                    # The only a tags already present already have href
-                    if i.find('a'):
-                        hrf = i.find('a')['href']
-                    i.clear()
-                    ntag = soup.new_tag('a')
-                    ntag.string = htext
-                    ntag['href'] = hrf
-                    i.append(ntag)
-            # Add in hr after h1 and at the very end
-            try:
-                [i.unwrap() for i in soup.find_all('hr')]
-            except:
-                pass
-            ntag1 = soup.new_tag('hr')
-            soup.find('h1').insert_after(ntag1)
-            ntag2 = soup.new_tag('hr')
-            soup.find('header').append(ntag2)
-            ############################ Main Text ############################
-            # Wrap everything outside the header tag in main tag
-            res = soup.find('header').find_next_sibling()
-            hstr = str(res)
-            for i in res.find_next_siblings():
-                hstr += str(i) + ''
-                i.decompose()
-            ntag = soup.new_tag('main')
-            ntag.append(bsp(hstr, 'html.parser'))
-            res.replace_with(ntag)
-            main = soup.find('main')
-            main_p = main.find_all('p')
-            # Remove the main part paragraph - it's already h1
-            for i in main_p:
-                htext = i.get_text().strip()
-                if re.match('.*(\s)part(\s)[1-9].*', htext, re.I):
-                    i.decompose()
-                    break
-            # Convert all p tags that contain supposed headers, which have span anchor class
-            for i in main_p:
-                if i.find('span', class_ = 'anchor'):
-                    htext = i.get_text().strip()
-                    hfirst = htext.lower().split()[0]
-                    hdr = return_header(hfirst, htext)
-                    if hdr == '':
-                        i.find('span').unwrap()
-                        continue
-                    ntag = soup.new_tag(hdr)
-                    ntag.string = htext
-                    ntag['id'] = header_ids(reg, part, htext, False, lf)
-                    i.insert_after(ntag)
-                    i.decompose()
-            # Convert other p tags to headers based on their first text
-            for i in main_p:
-                htext = i.get_text().strip()
-                if not len(htext):
-                    i.decompose()
-                    continue
-                hfirst = htext.lower().split()[0]
-                # Can't start with '(' and must start with subpart or number
-                if not hfirst.startswith('(') and \
-                    (hfirst.startswith('subpart') or \
-                    not hfirst[0].isalpha()):
-                    hdr = return_header(hfirst, htext)
-                    if hdr == '':
-                        continue
-                    ntag = soup.new_tag(hdr)
-                    ntag.string = htext
-                    ntag['id'] = header_ids(reg, part, htext, False, lf)
-                    i.insert_after(ntag)
-                    i.decompose()
-            # Remove all strong tags; conver to bold if in a table
-            for i in soup.find_all('strong'):
-                if i.parent.name == 'th' or \
-                    i.parent.name == 'td':
-                    ntag = soup.new_tag('b')
-                    ntag.string = i.get_text().strip()
-                    i.replace_with(ntag)
-                # Only need to unwrap the tags if theyre in a normal paragraph
-                else:
-                    i.unwrap()
-            # Wrap headers in tags
-            htags = ['h2', 'h3', 'h4', 'h5']
-            for i in htags:
-                if i == 'h2':
-                    tg = 'section'
-                    clss = 'subparts'
-                elif i == 'h3':
-                    tg = 'article'
-                    clss = 'sections'
-                elif i == 'h4':
-                    tg = 'article'
-                    clss = 'subsections'
-                else:
-                    tg = 'article'
-                    clss = 'supplementals'
-                # Separate all subparts into sections
-                for j in soup.find_all(i):
-                    jstr = str(j)
-                    for k in j.find_next_siblings():
-                        # Stop when you find another header of the same type
-                        if k.name == j.name:
-                            break
-                        # After everything, append strings
-                        else:
-                            jstr += str(k) + ''
-                            k.decompose()
-                    ntag = soup.new_tag(tg)
-                    ntag['class'] = clss
-                    ntag.append(bsp(jstr, 'html.parser'))
-                    j.replace_with(ntag)
-            # Fix ordered lists, if present
-            ptype = para_type(soup)
-            if ptype == 'ol':
-                for i in soup.find_all('ol'):
-                    for j in i.find_all('li'):
-                        #print('%s\n%s' % (cb(), j), file = log_file)
-                        j.unwrap()
-                    ptype = i['type']
-                    try:
-                        pstart = i['start']
-                    except:
-                        pstart = 1
-                    for x, j in enumerate(i.find_all('p')):
-                        pcit = return_para(ptype, int(pstart) + x)
-                        j.contents.insert(0, pcit)
-                        kstr = ''
-                        for k in j.contents:
-                            kstr += str(k) + ''
-                        # ''.join(j.contents)
-                        # print(pfin)
-                        ntag = soup.new_tag('p')
-                        ntag.append(bsp(kstr, 'html.parser'))
-                        j.replace_with(ntag)
-                    i.unwrap()
-            elif ptype == 'ul':
-                print('ul type: skipped for now...')
-            # Remove all links except those that were created by header_ids
-            for j in soup.find_all('a'):
-                try:
-                    jh = j['href']
-                    if not jh.startswith('http') and \
-                        not jh.startswith('#' + reg):
-                        j.unwrap()
-                except:
-                    continue
+                bold_toc(soup, idnum, reg, part, lf)
+                break
+                bold_main(soup, idnum, reg, part, lf)
             ######################### Add to Database #########################
             # First add in supplementals
             alst = [('article', 'supplementals'),
@@ -1288,13 +1049,324 @@ def add_prot1(id_num, reg_name, log_file):
                                   )
                             break
                         # Remove so text won't be copied again
-                        j.decompose()    
+                        j.decompose()
     ################################## Finish #################################
     # Save the html of the current url to the file
     fname = init_write_file('html/dev_all_prot1.html')
     write_file(fname, soup, True)
     db_close(conn, cur)
     end_function(start_time)
+            
+
+# Modify table of contents for three SOFARS regs: 1, 15, 52
+def strong_toc(soup, id_num, reg, part, log_file):
+    # Remove initial section
+    soup.find('div', class_ = 'field-item even').decompose()
+    # Extract h1 and add links
+    for x, i in enumerate(soup.find_all('p')):
+        # The first iteration will be the h1 heading
+        if x == 0:
+            res = i
+            hstr = str(i)
+            continue
+        # If the paragraphs contain strong tags, then those are headers
+        # Each time we find a strong tag, we want to decompose the tag
+        elif i.find('strong'):
+            htext = i.get_text().strip()
+            # Stop the for loop when you find the Part after the TOC
+            if re.match('.*(\s)part(\s)[1-9].*', htext, re.I):
+                break
+            # In either case, add the text to the main string to be added later
+            else:
+                hstr += str(i) + ''
+                i.decompose()
+        else:
+            hstr += str(i) + ''
+            i.decompose()    
+    # Add nav to encompass all the text
+    ntag1 = soup.new_tag('nav')
+    # htext is currently a string - it needs to be converted to html       
+    ntag1.append(bsp(hstr, 'html.parser'))
+    # Replace the first h1 paragraph to the new tag
+    res.replace_with(ntag1)
+    # Wrap nav tags with headers
+    ntag2 = soup.new_tag('header')
+    ntag2['class'] = 'toc'
+    soup.find('nav').wrap(ntag2) 
+    # Fix tags in the toc
+    # Convert h1 headers
+    for i in soup.find_all('p'):
+        htext = i.get_text().strip()
+        if re.match('.*(\s)part(\s)[1-9].*', htext, re.I):
+            ntag = soup.new_tag('h1')
+            ntag['id'] = '%s_1_0_0_0_0_header' % reg
+            ntag.string = htext
+            soup.find('nav').insert_before(ntag)
+            i.decompose()
+            break
+    # Remove all strong headers to plain paragraph
+    for i in soup.find('header').find_all('p'):
+        if i.find('strong'):
+            strong = i.find('strong')
+            ntag = soup.new_tag('p')
+            ntag.string = strong.get_text().strip()
+            i.insert_before(ntag)
+            strong.decompose()
+            continue
+    # Fix the nav section
+    for i in soup.find('nav').find_all('p'):
+        htext = i.get_text().strip()
+        # Remove all empty paragraph tags
+        if not htext:
+            i.decompose()
+            continue
+        # Check the first elements in each list of title strings
+        htsp = htext.split()
+        if not htsp[0][0].isalpha() and \
+            not htsp[0].startswith('(') and \
+            not htsp[0].lower().startswith('subpart') and \
+            not htsp[0].lower().startswith('attachment'):
+            jstr = []
+            # Search through the list backwards to add later citations first
+            # Inserting tags first will end up showing up last
+            for x, j in reversed(list(enumerate(htsp[:len(htsp)]))):
+                jstr.insert(0, j)
+                # Stop iterating through lists as soon as you come across a citation
+                # Lists get cleared and reset once you come across a citation
+                if not j[0].isalpha() and \
+                    not j.lower().startswith('(removed') and \
+                    not j.startswith('-') and \
+                    not j.count(')'):
+                    ntag = soup.new_tag('p')
+                    ntag.string = ' '.join(jstr)
+                    i.insert_after(ntag)
+                    jstr = []
+            # All paragraph tags get decomposed, since they're all inserted anyway
+            i.decompose()
+        else:
+            continue    
+    # Add href to toc listing
+    for i in soup.find('nav').find_all('p'):
+        htext = i.get_text().strip()
+        # Don't run for paragraph text that starts with '(', which are typically
+        #     for removed and added notes
+        if not htext.startswith('('):
+            hrf = header_ids(reg, part, htext, True, log_file)
+            # The only a tags already present already have href
+            if i.find('a'):
+                hrf = i.find('a')['href']
+            i.clear()
+            ntag = soup.new_tag('a')
+            ntag.string = htext
+            ntag['href'] = hrf
+            i.append(ntag)
+    # Add in hr after h1 and at the very end
+    ntag1 = soup.new_tag('hr')
+    soup.find('h1').insert_after(ntag1)
+    ntag2 = soup.new_tag('hr')
+    soup.find('header').append(ntag2)
+
+
+# Modify toc for all other regs
+def bold_toc(soup, id_num, reg, part, log_file):
+    for i in soup.find_all('h1', limit = 1):
+        res = i
+        hstr = str(i)
+        # Find all other tags along the same tree
+        for j in i.find_next_siblings():
+            # Unwrap hr tags if present within this area
+            if j.name == 'hr':
+                j.unwrap()
+                continue
+            htext = j.get_text().strip()
+            # Stop searching when you find the part after this
+            if re.match('.*(\s)part(\s)[1-9].*', htext, re.I):
+                break
+            else:
+                hstr += str(j) + ''
+                j.decompose()
+    # Add nav to encompass all the text
+    ntag1 = soup.new_tag('nav')
+    # htext is currently a string - it needs to be converted to html
+    ntag1.append(bsp(hstr, 'html.parser'))
+    # Replace the first h1 paragraph to the new tag
+    res.replace_with(ntag1)
+    # Wrap nav tags with headers
+    ntag2 = soup.new_tag('header')
+    ntag2['class'] = 'toc'
+    soup.find('nav').wrap(ntag2)
+    # Fix tags in the toc
+    # Convert h1 headers
+    for i in soup.find_all('h1', limit = 1):
+        i['id'] = '%s_1_0_0_0_0_header' % reg
+        soup.find('nav').insert_before(i)          
+    # Unwrap the ul and li tags into p
+    for i in soup.find('nav').find_all('ul'):
+        # This assumes the children are ul and li elements
+        for j in i.find_all('li'):
+            ntag = soup.new_tag('p')
+            ntag.string = j.get_text().strip()
+            i.insert_before(ntag)
+            j.decompose()
+        i.unwrap()    
+    # Add href to toc listing
+    for i in soup.find('nav').find_all('p'):
+        htext = i.get_text().strip()
+        # Don't run for paragraph text that starts with '(', which are typically
+        #     for removed and added notes
+        if not htext.startswith('('):
+            hrf = header_ids(reg, part, htext, True, log_file)
+            # The only a tags already present already have href
+            if i.find('a'):
+                hrf = i.find('a')['href']
+            i.clear()
+            ntag = soup.new_tag('a')
+            ntag.string = htext
+            ntag['href'] = hrf
+            i.append(ntag)
+    # Add in hr after h1 and at the very end
+    [i.unwrap() for i in soup.find_all('hr')]
+    ntag1 = soup.new_tag('hr')
+    soup.find('h1').insert_after(ntag1)
+    ntag2 = soup.new_tag('hr')
+    soup.find('header').append(ntag2)
+
+
+# Modify the main tag for three SOFARS parts: 1, 15, and 52
+def strong_main(soup, id_num, reg, part, log_file):
+    # Wrap everything outside the header tag in main tag
+    res = soup.find('header').find_next_sibling()
+    hstr = str(res)
+    for i in res.find_next_siblings():
+        hstr += str(i) + ''
+        i.decompose()
+    ntag = soup.new_tag('main')
+    ntag.append(bsp(hstr, 'html.parser'))
+    res.replace_with(ntag)
+    main = soup.find('main')
+    main_p = main.find_all('p')
+    # Remove the main part paragraph - it's already h1
+    for i in main_p:
+        htext = i.get_text().strip()
+        if re.match('.*(\s)part(\s)[1-9].*', htext, re.I):
+            i.decompose()
+            break
+    # Convert all p tags that contain supposed headers, which have span anchor class
+    for i in main_p:
+        if i.find('span', class_ = 'anchor'):
+            htext = i.get_text().strip()
+            hfirst = htext.lower().split()[0]
+            hdr = return_header(hfirst, htext)
+            if hdr == '':
+                i.find('span').unwrap()
+                continue
+            ntag = soup.new_tag(hdr)
+            ntag.string = htext
+            ntag['id'] = header_ids(reg, part, htext, False, log_file)
+            i.insert_after(ntag)
+            i.decompose()
+    # Convert other p tags to headers based on their first text
+    for i in main_p:
+        htext = i.get_text().strip()
+        if not len(htext):
+            i.decompose()
+            continue
+        hfirst = htext.lower().split()[0]
+        # Can't start with '(' and must start with subpart or number
+        if not hfirst.startswith('(') and \
+            (hfirst.startswith('subpart') or \
+            not hfirst[0].isalpha()):
+            hdr = return_header(hfirst, htext)
+            if hdr == '':
+                continue
+            ntag = soup.new_tag(hdr)
+            ntag.string = htext
+            ntag['id'] = header_ids(reg, part, htext, False, log_file)
+            i.insert_after(ntag)
+            i.decompose()
+    # Remove all strong tags; conver to bold if in a table
+    for i in soup.find_all('strong'):
+        if i.parent.name == 'th' or \
+            i.parent.name == 'td':
+            ntag = soup.new_tag('b')
+            ntag.string = i.get_text().strip()
+            i.replace_with(ntag)
+        # Only need to unwrap the tags if theyre in a normal paragraph
+        else:
+            i.unwrap()
+    # Wrap headers in tags
+    htags = ['h2', 'h3', 'h4', 'h5']
+    for i in htags:
+        if i == 'h2':
+            tg = 'section'
+            clss = 'subparts'
+        elif i == 'h3':
+            tg = 'article'
+            clss = 'sections'
+        elif i == 'h4':
+            tg = 'article'
+            clss = 'subsections'
+        else:
+            tg = 'article'
+            clss = 'supplementals'
+        # Separate all subparts into sections
+        for j in soup.find_all(i):
+            jstr = str(j)
+            for k in j.find_next_siblings():
+                # Stop when you find another header of the same type
+                if k.name == j.name:
+                    break
+                # After everything, append strings
+                else:
+                    jstr += str(k) + ''
+                    k.decompose()
+            ntag = soup.new_tag(tg)
+            ntag['class'] = clss
+            ntag.append(bsp(jstr, 'html.parser'))
+            j.replace_with(ntag)
+    # Fix ordered lists, if present
+    ptype = para_type(soup)
+    if ptype == 'ol':
+        for i in soup.find_all('ol'):
+            for j in i.find_all('li'):
+                #print('%s\n%s' % (cb(), j), file = log_file)
+                j.unwrap()
+            ptype = i['type']
+            try:
+                pstart = i['start']
+            except:
+                pstart = 1
+            for x, j in enumerate(i.find_all('p')):
+                pcit = return_para(ptype, int(pstart) + x)
+                j.contents.insert(0, pcit)
+                kstr = ''
+                for k in j.contents:
+                    kstr += str(k) + ''
+                # ''.join(j.contents)
+                # print(pfin)
+                ntag = soup.new_tag('p')
+                ntag.append(bsp(kstr, 'html.parser'))
+                j.replace_with(ntag)
+            i.unwrap()
+    elif ptype == 'ul':
+        print('ul type: skipped for now...')
+    # Remove all links except those that were created by header_ids
+    for j in soup.find_all('a'):
+        try:
+            jh = j['href']
+            if not jh.startswith('http') and \
+                not jh.startswith('#' + reg):
+                j.unwrap()
+        except:
+            continue    
+
+
+# Modify the main content for all other regs
+def bold_main(soup, id_num, reg, part, log_file):
+    pass
+    
+
+
 
 
 def return_header(first, full_text):

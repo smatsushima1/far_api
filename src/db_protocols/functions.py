@@ -1015,8 +1015,8 @@ def add_prot1(id_num, reg_name, log_file):
                 strong_main(soup, idnum, reg, part, lf)
             else:
                 bold_toc(soup, idnum, reg, part, lf)
-                break
                 bold_main(soup, idnum, reg, part, lf)
+                break
             ######################### Add to Database #########################
             # First add in supplementals
             alst = [('article', 'supplementals'),
@@ -1196,9 +1196,11 @@ def bold_toc(soup, id_num, reg, part, log_file):
     ntag2['class'] = 'toc'
     soup.find('nav').wrap(ntag2)
     # Fix tags in the toc
-    # Convert h1 headers
+    # Add in id for the h1 header
     for i in soup.find_all('h1', limit = 1):
-        i['id'] = '%s_1_0_0_0_0_header' % reg
+        i['id'] = '%s_%s_0_0_0_0_header' % (reg, part)
+        # SOFARS Part 2 h1 has no space
+        i.string = i.get_text().replace('5602DEF', '5602 DEF')
         soup.find('nav').insert_before(i)          
     # Unwrap the ul and li tags into p
     for i in soup.find('nav').find_all('ul'):
@@ -1208,12 +1210,11 @@ def bold_toc(soup, id_num, reg, part, log_file):
             ntag.string = j.get_text().strip()
             i.insert_before(ntag)
             j.decompose()
-        i.unwrap()    
+        i.unwrap()
     # Add href to toc listing
     for i in soup.find('nav').find_all('p'):
         htext = i.get_text().strip()
-        # Don't run for paragraph text that starts with '(', which are typically
-        #     for removed and added notes
+        # Don't run if text starts with '(', typically for removed and added notes
         if not htext.startswith('('):
             hrf = header_ids(reg, part, htext, True, log_file)
             # The only a tags already present already have href
@@ -1225,7 +1226,6 @@ def bold_toc(soup, id_num, reg, part, log_file):
             ntag['href'] = hrf
             i.append(ntag)
     # Add in hr after h1 and at the very end
-    [i.unwrap() for i in soup.find_all('hr')]
     ntag1 = soup.new_tag('hr')
     soup.find('h1').insert_after(ntag1)
     ntag2 = soup.new_tag('hr')
@@ -1363,7 +1363,37 @@ def strong_main(soup, id_num, reg, part, log_file):
 
 # Modify the main content for all other regs
 def bold_main(soup, id_num, reg, part, log_file):
-    pass
+    # Wrap everything outside the header tag in main tag
+    res = soup.find('header').find_next_sibling()
+    hstr = str(res)
+    for i in res.find_next_siblings():
+        hstr += str(i) + ''
+        i.decompose()
+    ntag = soup.new_tag('main')
+    ntag.append(bsp(hstr, 'html.parser'))
+    res.replace_with(ntag)
+    main = soup.find('main').find_all('p')
+    # Remove secondary TOC, because why on Earth is it there anyway?
+    h1_count = 0
+    for i in main:
+        if re.match('.*(\s)part(\s)[1-9].*', i.get_text(), re.I):
+            h1_count += 1
+            if h1_count == 2:
+                break
+    if h1_count >= 2:
+        h1_count = 0
+        for i in main:
+            if re.match('.*(\s)part(\s)[1-9].*', i.get_text(), re.I):
+                i.decompose()
+                h1_count += 1
+                if h1_count == 2:
+                    break
+            i.decompose()
+
+    # res = soup.find('header').find_next_sibling():
+    # h1_count = 0
+    # for i in res.find_next_siblings():
+    #     pass
     
 
 

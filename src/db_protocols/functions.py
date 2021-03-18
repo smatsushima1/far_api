@@ -1016,6 +1016,7 @@ def add_prot1(id_num, reg_name, log_file):
             else:
                 bold_toc(soup, idnum, reg, part, lf)
                 bold_main(soup, idnum, reg, part, lf)
+                break
             ######################### Add to Database #########################
             # First add in supplementals
             alst = [('article', 'supplementals'),
@@ -1439,7 +1440,16 @@ def bold_main(soup, id_num, reg, part, log_file):
             ntag = soup.new_tag(tg)
             ntag['class'] = clss
             ntag.append(bsp(jstr, 'html.parser'))
-            j.replace_with(ntag)    
+            j.replace_with(ntag)
+        # Remove all links except those that were created by header_ids
+    for j in soup.find_all('a'):
+        try:
+            jh = j['href']
+            if not jh.startswith('http') and \
+                not jh.startswith('#' + reg):
+                j.unwrap()
+        except:
+            continue 
 
 
 

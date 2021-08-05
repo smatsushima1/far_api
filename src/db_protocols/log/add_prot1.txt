@@ -1,0 +1,79 @@
+ - sofars - 1 - 6 - 2 - 2 - 70 - body - 5601.602-2-70 Contract Clauses.
+ - sofars - 1 - 6 - 2 - 2 - 90 - body - 5601.602-2-90 Ordering Officers. DCG
+ - sofars - 1 - 6 - 2 - 3 - 90 - body - 5601.602-3-90 Procedures. (Removed November 2018)
+ - sofars - 1 - 6 - 3 - 3 - 90 - body - 5601.603-3-90 Appointment of Contingency Contracting Officers.
+ - sofars - 1 - 2 - 1 - 1 - 0 - body - 5601.201-1 The Two Councils.
+ - sofars - 1 - 6 - 2 - 1 - 0 - body - 5601.602-1 Authority. DCG
+ - sofars - 1 - 6 - 2 - 2 - 0 - body - 5601.602-2 Responsibilities.
+ - sofars - 1 - 6 - 2 - 3 - 0 - body - 5601.602-3 Ratification of Unauthorized Commitments. See DCG for required procedures.
+ - sofars - 1 - 6 - 3 - 3 - 0 - body - 5601.603-3 Appointment. DCG
+ - sofars - 1 - 1 - 1 - 0 - 0 - body - 5601.101 Purpose.
+ - sofars - 1 - 1 - 4 - 0 - 0 - body - 5601.104 Applicability.
+ - sofars - 1 - 1 - 70 - 0 - 0 - body - 5601.170 Peer Reviews.
+ - sofars - 1 - 2 - 1 - 0 - 0 - body - 5601.201 Maintenance of the FAR.
+ - sofars - 1 - 3 - 1 - 0 - 0 - body - 5601.301 Policy.
+ - sofars - 1 - 3 - 4 - 0 - 0 - body - 5601.304 Agency Control and Compliance Procedures.
+ - sofars - 1 - 4 - 3 - 0 - 0 - body - 5601.403 Individual Deviations. DCG
+ - sofars - 1 - 6 - 1 - 0 - 0 - body - 5601.601 General.
+ - sofars - 1 - 6 - 2 - 0 - 0 - body - 5601.602 Contracting Officers. DCG
+ - sofars - 1 - 6 - 3 - 0 - 0 - body - 5601.603 Selection, Appointment, and Termination of Appointment.
+ - sofars - 1 - 6 - 4 - 0 - 0 - body - 5601.604 Contracting Officer s Representative. DCG
+ - sofars - 1 - 7 - 4 - 0 - 0 - body - 5601.704 Content.
+ - sofars - 1 - 1 - 0 - 0 - 0 - header - SUBPART 5601.1 - PURPOSE, AUTHORITY, ISSUANCE
+ - sofars - 1 - 2 - 0 - 0 - 0 - header - SUBPART 5601.2 - ADMINISTRATION
+ - sofars - 1 - 3 - 0 - 0 - 0 - header - SUBPART 5601.3 - AGENCY ACQUISITION REGULATION
+ - sofars - 1 - 4 - 0 - 0 - 0 - header - SUBPART 5601.4 - DEVIATIONS FROM THE FAR
+ - sofars - 1 - 6 - 0 - 0 - 0 - header - SUBPART 5601.6 - CAREER DEVELOPMENT, CONTRACTING AUTHORITY AND RESPONSIBILITIES
+ - sofars - 1 - 7 - 0 - 0 - 0 - header - SUBPART 5601.7 - DETERMINATIONS AND FINDINGS
+ - sofars - 1 - 0 - 0 - 0 - 0 - header - SOFARS PART 5601 - FEDERAL ACQUISITION REGULATIONS SYSTEM
+ - sofars - 2 - 1 - 0 - 0 - 0 - header - SUBPART 5602.1 - DEFINITIONS
+ - sofars - 2 - 1 - 0 - 90 - 0 - body - SUBPART 5602.1-90 ACRONYMS
+ - sofars - 2 - 0 - 0 - 0 - 0 - header - SOFARS PART 5602 DEFINITIONS OF WORDS AND TERMS
+ - sofars - 3 - 1 - 4 - 4 - 90 - body - 5603.104-4-90 Ombudsman for Procurement Integrity  (Revised June 2018) Recognizing the contracting officer has the primary responsibility for Procurement Integrity, the Ombudsman will provide a neutral, informal, confidential and independent alternative for employees, managers, and customers to seek assistance in resolving procurement integrity issues. The primary function of the Ombudsman is to support acquisition personnel by acting as an independent sounding board to hear concerns about specific procurement integrity issues and to assist in the resolution of the concerns. The Special Operations Forces Acquisition, Technology, & Logistics (SOF AT&L) Military Deputy to the Acquisition Executive (MDAE) is designated as the USSOCOM Ombudsman for Procurement Integrity and can be contacted at
+ - sofars - 3 - 1 - 1 - 3 - 0 - body - 5603.101-3 Agency Regulations.  (Revised November 2007) (a) USSOCOM contracting offices shall adhere to the Standards of Conduct used by the host base.  The base servicing legal office will provide advice and counsel on standards of conduct, conflicts of interest, related laws, rules, and regulations pertaining to the procurement mission.  (b) The servicing legal office will review the OGE 450, Confidential Statement of Affiliations and Financial Interest, and provide advice on any areas of concern or possible conflicts. 5603.104 Procurement Integrity.
+ - sofars - 3 - 1 - 4 - 4 - 0 - body - 5603.104-4 Disclosure, Protection, and Marking of Contractor Bid or Proposal Information and Source Selection Information.  (Revised July 2014) (a) Contracting officers shall require individuals participating personally and substantially in a Federal agency procurement within the meaning of
+ - sofars - 3 - 1 - 4 - 7 - 0 - body - 5603.104-7 Processing Violations or Possible Violations.  (a)
+ - sofars - 3 - 5 - 70 - 2 - 0 - body - 5603.570-2 Prohibition period. Contracting officer shall insure that all Prohibition period requirements comply with
+ - sofars - 3 - 5 - 70 - 3 - 0 - body - 5603.570-3 Contract clause. In accordance with
+ - sofars - 3 - 1 - 1 - 0 - 0 - body - 5603.101 Standards of Conduct.
+ - sofars - 3 - 1 - 70 - 0 - 0 - body - 5603.170 Business Practices. (Removed April 2015)
+ - sofars - 3 - 8 - 4 - 0 - 0 - body - 5603.804 Policy. (Revised November 2009) (a) Contracting officers shall send the OMB SF LLL, Disclosure of Lobbying Activities, to SOF AT&L-KM immediately upon receipt from the contractor.  5603.806 Processing Suspected Violations. Refer to the procedures at 5603.104-7.
+ - sofars - 3 - 1 - 0 - 0 - 0 - header - SUBPART 5603.1 - SAFEGUARDS
+ - sofars - 3 - 5 - 0 - 0 - 0 - header - SUBPART 5603.5 – OTHER IMPROPER BUSINESS PRACTICES
+ - sofars - 3 - 8 - 0 - 0 - 0 - header - SUBPART 5603.8 - LIMITATIONS ON THE PAYMENT OF FUNDS TO INFLUENCE FEDERAL TRANSACTIONS
+ - sofars - 3 - 0 - 0 - 0 - 0 - header - SOFARS PART 5603IMPROPER BUSINESS PRACTICES AND PERSONAL CONFLICTS OF INTEREST
+ - sofars - 4 - 6 - 70 - 2 - 90 - body - 5604.670-2-90 Reporting Rerepresentation Actions. (Revised January 2018) Follow the instructions at DCG chapter 4, item 2, Instructions for Reporting Rerepresentation Actions in FPDS-NG.
+ - sofars - 4 - 6 - 70 - 2 - 91 - body - 5604.670-2-91 Reporting Inherently Governmental Functions Indicators. (Removed January 2018)
+ - sofars - 4 - 6 - 70 - 2 - 92 - body - 5604.670-2-92 Reporting National Interest Actions (NIA) in FPDS-NG (Added January 2018) Follow the instructions at DCG chapter 4, item 4, Instructions for Reporting Rerepresentation Actions in FPDS-NG.
+ - sofars - 4 - 4 - 4 - 80 - 0 - body - 5604.404-80 Foreign Persons. Contracting officers must insert the clause at
+ - sofars - 4 - 6 - 70 - 2 - 0 - body - 5604.670-2 Reportable Contracting Actions. (Revised August 2012) (a) A Contract Reporting Action (CAR) or DD350 (for ECITS submittals), should be completed for the following, regardless of dollar value:
+ - sofars - 4 - 6 - 70 - 3 - 0 - body - 5604.670-3 Contracting Officer Responsibilities.   (Revised April 2011) (a)(4)
+ - sofars - 4 - 6 - 70 - 5 - 0 - body - 5604.670-5 Departmental data collection point responsibilities. (1)   Special or unique reporting requirements may be coordinated with SOF AT&L-K liaison officers. 5604.680 Removed (2014)
+ - sofars - 4 - 8 - 4 - 1 - 0 - body - 5604.804-1 Closeout by the Office Administering the Contract. (Revised October 2014) (1)
+ - sofars - 4 - 8 - 4 - 2 - 0 - body - 5604.804-2 Closeout of the Contracting Office Files if another Office Administers the Contract. (Revised October 2014) Contracting officers must obtain all the proper closeout documentation from both the administering and paying offices per
+ - sofars - 4 - 1 - 3 - 0 - 0 - body - 5604.103 Contract Clause. (Removed August 2017).
+ - sofars - 4 - 2 - 2 - 0 - 0 - body - 5604.202 Agency Distribution Requirements.   (Revised November 2018) Follow the procedures in Part 4, Item 1 of the DCG for the distribution of contracts and modifications. Contracting Officers shall obtain OPSEC review from the local OPSEC manager/coordinator for all documents or information that will be posted or distributed to the public.
+ - sofars - 4 - 4 - 2 - 0 - 0 - body - 5604.402 General.  All procedures involving safeguarding both classified
+ - sofars - 4 - 5 - 2 - 0 - 0 - body - 5604.502 Policy. (Removed December 2015)
+ - sofars - 4 - 8 - 3 - 0 - 0 - body - 5604.803 Contents of Contract Files. DCG (Revised June 2017) (a) The use of electronic contract files is mandatory, unless otherwise approved in writing by the Deputy Director of Procurement (DDOP). If there is a classified document(s) to an otherwise unclassified contract file, the document electronic file shall be stored in a folder on the appropriate secure network, and the hardcopy documents shall be stored in the appropriate secure container. A cross-reference annotation will be made on the file index specifying where the document is located. (b) Electronic contract files must contain all appropriate contract documents or references to the location of the document if maintained in an official system of record (Electronic Document Access (EDA), Wide Area Workflow (WAWF), or Contracting Officer’s Representative Tool (CORT) only).  (c) Additionally, 6 part folders shall be used when hardcopy files have been approved in accordance with paragraph (a) above. Numbered tabs must be at the side of a page, which act as a divider between each category of documents (i.e. A-1, B-1, B-2, B-3). (d) The contract file content index templates in the DCG Chapter 4, Item 5(a) may be used. Use of a checklist is recommended for all contracts exceeding the simplified acquisition threshold.  (e) Filing conventions for contract files are specified in DCG chapter 4, item 5(b). (f) Follow DCG chapter 4, Item 6 for specific mandatory contract files assurance actions. (g) A Critical Documents Checklist is provided to alert contracting officers of the 15 critical documents that will be surveyed during all policy reviews, regardless of scope of the required review.  The list includes their review point and the file tab in which the documents are expected to be located. 5604.804 Closeout of Contract Files. DCG
+ - sofars - 4 - 70 - 3 - 0 - 0 - body - 5604.7003 Basic PII number. (Revised October 2012) (a)(1) DoDAAC codes for USSOCOM offices can be found in the DCG. 5604.7004 Supplementary PII Numbers. (Revised October 2012) (a)(3) The order numbers that must be utilized by USSOCOM contracting offices can be found in the DCG.
+ - sofars - 4 - 71 - 7 - 0 - 0 - body - 5604.7107 Contract Accounting Classification Reference Number (ACRN). (a)
+ - sofars - 4 - 1 - 0 - 0 - 0 - header - SUBPART 5604.1 - CONTRACT EXECUTION
+ - sofars - 4 - 2 - 0 - 0 - 0 - header - SUBPART 5604.2 - CONTRACT DISTRIBUTION
+ - sofars - 4 - 4 - 0 - 0 - 0 - header - SUBPART 5604.4 - SAFEGUARDING CLASSIFIED INFORMATION WITHIN INDUSTRY
+ - sofars - 4 - 5 - 0 - 0 - 0 - header - SUBPART 5604.5 ELECTRONIC COMMERCE IN CONTRACTING
+ - sofars - 4 - 6 - 0 - 0 - 0 - header - SUBPART 5604.6 - CONTRACT REPORTING
+ - sofars - 4 - 8 - 0 - 0 - 0 - header - SUBPART 5604.8 – GOVERNMENT CONTRACT FILES
+ - sofars - 4 - 70 - 0 - 0 - 0 - header - SUBPART 5604.70 - UNIFORM PROCUREMENT INSTRUMENT IDENTIFICATION NUMBERING SYSTEM
+ - sofars - 4 - 71 - 0 - 0 - 0 - header - SUBPART 5604.71 - UNIFORM CONTRACT LINE ITEM NUMBERING SYSTEM
+ - sofars - 4 - 0 - 0 - 0 - 0 - header - SOFARS PART 5604ADMINISTRATIVE MATTERS
+ - sofars - 5 - 3 - 3 - 90 - 0 - body - 5605.303-90 Announcement of Contract Awards under $5.5 million.
+ - sofars - 5 - 3 - 3 - 91 - 0 - body - 5605.303-91 Agency Requirements for Announcement of Contract Awards.   (REMOVED August 2015. Paragraph moved to 5605.303(a)(iii)(D).)
+ - sofars - 5 - 1 - 2 - 0 - 0 - body - 5605.102 Availability of Solicitations. DCG
+ - sofars - 5 - 2 - 7 - 0 - 0 - body - 5605.207 Preparation and Transmittal of Synopses.  (a)
+ - sofars - 5 - 3 - 2 - 0 - 0 - body - 5605.302 Preparation and Transmittal of Synopses of Awards. (Revised November 2018)
+ - sofars - 5 - 1 - 0 - 0 - 0 - header - SUBPART 5605.1 - DISSEMINATION OF INFORMATION
+ - sofars - 5 - 2 - 0 - 0 - 0 - header - SUBPART 5605.2 - SYNOPSES OF PROPOSED CONTRACT ACTIONS
+ - sofars - 5 - 3 - 0 - 0 - 0 - header - SUBPART 5605.3 - SYNOPSES OF CONTRACT AWARDS
+ - sofars - 5 - 4 - 0 - 0 - 0 - header - SUBPART 5605.4 – RELEASE OF INFORMATION
+ - sofars - 5 - 0 - 0 - 0 - 0 - header - SOFARS PART 5605PUBLICIZING CONTRACT ACTIONS

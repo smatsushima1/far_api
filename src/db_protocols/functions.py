@@ -1016,7 +1016,8 @@ def add_prot1(id_num, reg_name, log_file):
             else:
                 bold_toc(soup, idnum, reg, part, lf)
                 bold_main(soup, idnum, reg, part, lf)
-                break
+                # Why was this here \/
+                #break
             ######################### Add to Database #########################
             # First add in supplementals
             alst = [('article', 'supplementals'),
@@ -1144,7 +1145,7 @@ def strong_toc(soup, id_num, reg, part, log_file):
             # All paragraph tags get decomposed, since they're all inserted anyway
             i.decompose()
         else:
-            continue    
+            continue
     # Add href to toc listing
     for i in soup.find('nav').find_all('p'):
         htext = i.get_text().strip()

@@ -46,7 +46,41 @@ def dev_next2():
         print('nopw')
 
 
-dev_next2()
+#dev_next2()
 
+# Extract bold headers
+# Runtime: 0.094"
+def extract_bheaders(id_num, log_file, get_text_ind):
+    start_time = start_function('extract_bheaders')
+    # Connect to database
+    db = db_init()
+    conn = db[0]
+    cur = db[1]
+    qry_str1 = 'select * from {table1} where {field1} = %s;'
+    qry1 = sql.SQL(qry_str1).format(table1 = sql.Identifier('dev_all_parts05'),
+                                    field1 = sql.Identifier('id_num')
+                                    )
+    values1 = (id_num, )
+    res = qry_execute(conn, qry1, values1, True)
+    # Start parsing html
+    lfile = init_write_file(log_file)
+    with open(lfile, 'w', encoding = 'utf8') as lf:
+        # Start looping through values
+        for i in res:
+            idnum = i[0]
+            html = i[9]
+            soup = bsp(html, 'html.parser')
+            for j in soup.find_all('b'):
+                if get_text_ind:
+                    jprint = j.get_text().strip()
+                else:
+                    jprint = j
+                print('%s: %s' % (idnum, jprint), file = lf)
+    db_close(conn, cur)
+    end_function(start_time)
+    
+extract_bheaders(506, 'log/extract_bheaders.txt', True)
+    
+    
 
 

@@ -10,8 +10,8 @@ from functions import *
 # Protocol 4: contains headers, but no articles (294)
 
 
-run = 9
-idnum = '504'
+run = 2
+idnum = '508'
 reg = ''
 if run == 1:
     add_prot0(idnum, reg, 'log/add_prot0.txt')
